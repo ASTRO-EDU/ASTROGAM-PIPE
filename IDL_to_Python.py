@@ -9,27 +9,27 @@ import os
 ##############################
 
 astrogam_version = 'V1.0'   # Enter eASTROGAM release (e.g. V1.0):
-bogemms_tag = 211         # Enter BoGEMMS release (e.g. 211):
-sim_type = 0            # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 4: G400]:
-py_list = 400          # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
-N_in = 100000                # Enter the number of emitted particles:
-part_type = "ph"           # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
-n_fits = 2              # Enter number of FITS files:
-ene_range = 3          # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
-ene_min = .5             # Enter miminum energy [MeV]:
-ene_max = 100            # Enter maximum energy [MeV]:
-ang_type = "UNI"           # Enter the angular distribution [e.g. UNI, ISO]:
-theta_type = 30         # Enter theta:
-phi_type = 225           # Enter phi:
-pol_type = 1           # Is the source polarized? [0 = false, 1 = true]: 
-pol_angle = 20          # Enter Polarization angle:
-source_g = 0           # Enter source geometry [0 = Point, 1 = Plane]:
-isStrip = 1            # Strip/Pixels activated?:
-repli = 1              # Strips/Pixels replicated?:
-cal_flag = 1           # Is Cal present? [0 = false, 1 = true]:
-ac_flag = 0            # Is AC present? [0 = false, 1 = true]:
-passive_flag = 0       # Is Passive present? [0 = false, 1 = true]:
-energy_thresh = 15      # Enter energy threshold [keV]:
+bogemms_tag = 211           # Enter BoGEMMS release (e.g. 211):
+sim_type = 0                # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 4: G400]:
+py_list = 400               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
+N_in = 100000               # Enter the number of emitted particles:
+part_type = "ph"            # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
+n_fits = 1                  # Enter number of FITS files:
+ene_range = 0               # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
+ene_min = 100               # Enter miminum energy [MeV]:
+ene_max = 100               # Enter maximum energy [MeV]:
+ang_type = "UNI"            # Enter the angular distribution [e.g. UNI, ISO]:
+theta_type = 30             # Enter theta:
+phi_type = 225              # Enter phi:
+pol_type = 0                # Is the source polarized? [0 = false, 1 = true]:
+pol_angle = 20              # Enter Polarization angle:
+source_g = 0                # Enter source geometry [0 = Point, 1 = Plane]:
+isStrip = 1                 # Strip/Pixels activated?:
+repli = 1                   # Strips/Pixels replicated?:
+cal_flag = 1                # Is Cal present? [0 = false, 1 = true]:
+ac_flag = 0                 # Is AC present? [0 = false, 1 = true]:
+passive_flag = 0            # Is Passive present? [0 = false, 1 = true]:
+energy_thresh = 15          # Enter energy threshold [keV]:
 
 if astrogam_version=='V1.0':
 	astrogam_tag = '01'
@@ -295,11 +295,17 @@ if astrogam_version=='V1.0':
 
 #parte lettura file fits
 
-n_fits = os.listdir("/home/gianni/eASTROGAMSimAnalysis_STUDENT")
+n_fits = os.listdir("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph")
+#n_fits = os.listdir("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/")
+
+outdir = os.makedirs(('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV'),0777)
+
+
 ifile = 0
-print(n_fits)
 while ifile < len(n_fits):
-	t = fits.open(n_fits[ifile])
+	t = fits.open("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
+    #t = fits.open("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
+	tbdata = t[1].data
 
 	evt_id = tbdata.field('EVT_ID')
 	trk_id = tbdata.field('TRK_ID')
@@ -331,96 +337,89 @@ while ifile < len(n_fits):
 
 	i = 0
 	max_dim = len(tbdata)
-
+	
 	while i < max_dim:
 		
 		vol_id = volume_id[i]
-        	moth_id = mother_id[i]
-		energy_dep = e_dep[i]
-		#  Reading the tracker (events with E > 0)
+		moth_id = mother_id[i]
+	        energy_dep = e_dep[i]
+	        cos_x_angle_ent = mdx_ent[i]
+	        cos_y_angle_ent = mdy_ent[i]
+	        cos_z_angle_ent = mdz_ent[i]
+	        cos_x_angle_exit = mdx_exit[i]
+	        cos_y_angle_exit = mdy_exit[i]
+	        cos_z_angle_exit = mdz_exit[i]
+	        gtime_en = gtime_ent[i]
+	        gtime_ex = gtime_exit[i]
+	        part_id = particle_id[i]
+	        part_name = particle_name[i]
+	        proc_name = process_name[i]
+
+#  Reading the tracker (events with E > 0)
        		        
 		if vol_id >= tracker_bottom_vol_start or moth_id >= tracker_bottom_vol_start:
-
 			event_id = evt_id[i]
-        		track_id = trk_id[i]
-       			vol_name = volume_name[i]
+			track_id = trk_id[i]
+			vol_name = volume_name[i]
 			en_dep = e_dep[i]
 			x_en = x_ent[i]
-	        	y_en = y_ent[i]
-	        	z_en = z_ent[i]
-	        	x_ex = x_exit[i]
-	        	y_ex = y_exit[i]
-	        	z_ex = z_exit[i]
-	        	e_kin_en = e_kin_ent[i]
-	        	e_kin_ex = e_kin_exit[i]
-	        	cos_x_angle_ent = mdx_ent[i]
-	        	cos_y_angle_ent = mdy_ent[i]
-	        	cos_z_angle_ent = mdz_ent[i]
-	        	cos_x_angle_exit = mdx_exit[i]
-	        	cos_y_angle_exit = mdy_exit[i]
-	        	cos_z_angle_exit = mdz_exit[i]
-	        	gtime_en = gtime_ent[i]
-	        	gtime_ex = gtime_exit[i]
-	        	part_id = particle_id[i]
-	        	part_name = particle_name[i]
-	        	proc_name = process_name[i]
+			y_en = y_ent[i]
+			z_en = z_ent[i]
+			x_ex = x_exit[i]
+			y_ex = y_exit[i]
+			z_ex = z_exit[i]
+			e_kin_en = e_kin_ent[i]
+			e_kin_ex = e_kin_exit[i]
+
 			
 			if part_type == 'g':
 				e_dep = 100.
 				en_dep = e_dep[i]
 			elif energy_dep > 0.:
-				continue
+				pass
 
 			theta_ent = (180./math.pi)*math.acos(-(cos_x_angle_ent))
-          		phi_ent = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
+			phi_ent = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
 
-          		theta_exit = (180./math.pi)*math.acos(-(cos_z_angle_exit))
-          		phi_exit = (180./math.pi)*math.atan((cos__angle_exit)/(cos_x_angle_exit))
+			theta_exit = (180./math.pi)*math.acos(-(cos_z_angle_exit))
+			phi_exit = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
 
-          		child_id = parent_trk_id[i]
-          		proc_id = process_id[i]
-
+			child_id = parent_trk_id[i]
+			proc_id = process_id[i]
+			
+			#print(phi_exit)
 
 		# Reading the Calorimeter (controllare separazione geantino e altro)
-
 		if cal_flag == 1:
+            #print(i,'a', energy_dep)
 			if vol_id >= cal_vol_start and vol_id <= cal_vol_end:
-				if part_type == 'g' or energy_dep > 0.:
-				event_id_cal = evt_id[i]
-	        		track_id_cal = trk_id[i]
-				vol_id_cal = vol_id[i]	       			
-				vol_name_cal = volume_name[i]
-				en_dep_cal = e_dep[i]
-				x_en_cal = x_ent[i]
-		        	y_en_cal = y_ent[i]
-		        	z_en_cal = z_ent[i]
-		        	x_ex_cal = x_exit[i]
-		        	y_ex_cal = y_exit[i]
-		        	z_ex_cal = z_exit[i]
-		        	e_kin_en_cal = e_kin_ent[i]
-		        	e_kin_ex_cal = e_kin_exit[i]
-		        	cos_x_angle_ent_cal = mdx_ent[i]
-		        	cos_y_angle_ent_cal = mdy_ent[i]
-		        	cos_z_angle_ent_cal = mdz_ent[i]
-		        	cos_x_angle_exit_cal = mdx_exit[i]
-		        	cos_y_angle_exit_cal = mdy_exit[i]
-		        	cos_z_angle_exit_cal = mdz_exit[i]
-		        	gtime_en_cal = gtime_ent[i]
-		        	gtime_ex_cal = gtime_exit[i]
-		        	part_id_cal = particle_id[i]
-		        	part_name_cal = particle_name[i]
-		        	proc_name_cal = process_name[i]
-				en_dep_cal = e_dep[i]
+                #print('b', energy_dep)
+	                	if part_type == 'g' or energy_dep > 0.:
+                    #print('c')
+	                    		event_id_cal = evt_id[i]
+	                    		track_id_cal = trk_id[i]
+	                    		vol_id_cal = volume_id[i]
+	                    		vol_name_cal = volume_name[i]
+		                  	en_dep_cal = e_dep[i]
+	                    		x_en_cal = x_ent[i]
+	                    		y_en_cal = y_ent[i]
+	                    		z_en_cal = z_ent[i]
+	                    		x_ex_cal = x_exit[i]
+	                    		y_ex_cal = y_exit[i]
+	                    		z_ex_cal = z_exit[i]
+	                    		e_kin_en_cal = e_kin_ent[i]
+	                    		e_kin_ex_cal = e_kin_exit[i]
+	                    		en_dep_cal = e_dep[i]
 				
-				theta_ent_cal = (180./math.pi)*math.acos(-(cos_x_angle_ent))
-	          		phi_ent_cal = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
-	
-	          		theta_exit_cal = (180./math.pi)*math.acos(-(cos_z_angle_exit))
-	          		phi_exit_cal = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
+	                    		theta_ent_cal = (180./math.pi)*math.acos(-(cos_x_angle_ent))
+	                    		phi_ent_cal = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
+		
+	                    		theta_exit_cal = (180./math.pi)*math.acos(-(cos_z_angle_exit))
+	                    		phi_exit_cal = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
 
-	          		child_id_cal = parent_trk_id[i]
-	          		proc_id_cal = process_id[i]
-
+	                    		child_id_cal = parent_trk_id[i]
+	                    		proc_id_cal = process_id[i]
+	                    		#print(phi_exit_cal)
 
 		# Reading the AC
 
@@ -433,38 +432,33 @@ while ifile < len(n_fits):
 					energy_dep_ac = e_dep[i]
 
 					ent_x_ac = x_ent[i]
-        				ent_y_ac = y_ent[i]
-        				ent_z_ac = z_ent[i]
-        				exit_x_ac = x_exit[i]
-        				exit_y_ac = y_exit[i]
+					ent_y_ac = y_ent[i]
+					ent_z_ac = z_ent[i]
+					exit_x_ac = x_exit[i]
+					exit_y_ac = y_exit[i]
 					exit_z_ac = z_exit[i]
 
 					theta_ent_ac = (180./math.pi)*math.acos(-(cos_x_angle_ent))
-	          			phi_ent_ac = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
+					phi_ent_ac = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
 	
-	          			theta_exit_ac = (180./math.pi)*math.acos(-(cos_z_angle_exit))
-	          			phi_exit_ac = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
+					theta_exit_ac = (180./math.pi)*math.acos(-(cos_z_angle_exit))
+					phi_exit_ac = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
 
-	          			child_id_ac = parent_trk_id[i]
-	          			proc_id_ac = process_id[i]
+					child_id_ac = parent_trk_id[i]
+					proc_id_ac = process_id[i]
 
-						if isStrip == 1:
-							moth_id_ac = mother_id[i]
-						else:
-							moth_id_ac = 0
-
-
+					if isStrip == 1:
+						moth_id_ac = mother_id[i]
+					else:
+						moth_id_ac = 0
 
 
-
-
-
-		i = i + 1	
+					
 
 
 
 
-
+		i = i + 1
 
 
 
