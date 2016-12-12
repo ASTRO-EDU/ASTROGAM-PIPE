@@ -298,12 +298,13 @@ if astrogam_version=='V1.0':
 n_fits = os.listdir("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph")
 #n_fits = os.listdir("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/")
 
-outdir = os.makedirs(('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV'),0777)
+if not os.path.exists('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV'):
+	outdir = os.makedirs(('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV'),0777)
 
 
 ifile = 0
 while ifile < len(n_fits):
-	t = fits.open("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
+	t = fits.open("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits")
     #t = fits.open("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
 	tbdata = t[1].data
 
@@ -338,11 +339,13 @@ while ifile < len(n_fits):
 	i = 0
 	max_dim = len(tbdata)
 	
+	vol_id_track = []	
+	moth_id_track = []
 	while i < max_dim:
 		
-		vol_id = volume_id[i]
+		vol_id = volume_id[i]         #volume per condizioni
 		moth_id = mother_id[i]
-	        energy_dep = e_dep[i]
+	        energy_dep = e_dep[i]         #energia per condizioni
 	        cos_x_angle_ent = mdx_ent[i]
 	        cos_y_angle_ent = mdy_ent[i]
 	        cos_z_angle_ent = mdz_ent[i]
@@ -370,7 +373,8 @@ while ifile < len(n_fits):
 			z_ex = z_exit[i]
 			e_kin_en = e_kin_ent[i]
 			e_kin_ex = e_kin_exit[i]
-
+			v_id_track = volume_id[i]
+			m_id_track = mother_id[i]
 			
 			if part_type == 'g':
 				e_dep = 100.
@@ -387,8 +391,11 @@ while ifile < len(n_fits):
 			child_id = parent_trk_id[i]
 			proc_id = process_id[i]
 			
-			#print(phi_exit)
 
+			vol_id_track.append(v_id_track)
+			moth_id_track.append(m_id_track)
+
+			
 		# Reading the Calorimeter (controllare separazione geantino e altro)
 		if cal_flag == 1:
             #print(i,'a', energy_dep)
@@ -452,13 +459,67 @@ while ifile < len(n_fits):
 					else:
 						moth_id_ac = 0
 
+		i = i + 1
+	#rint(vol_id_track)
 
+			#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			#%                             Processing the tracker                          %
+			#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+	if astrogam_version == 'V1.0':
+		# From Tracker volume ID to strip and tray ID	
+		Strip_id_x = []
+		Strip_id_y = []
+		tray_id = []
+		
+		# Conversion from tray ID (starting from bottom) to plane ID (starting from the top)
+		plane_id = []
+
+		j=0
+		max_dim = len(vol_id_track)
+		while j < max_dim:
+			if isStrip == 1:
+				if repli == 1:
+					Strip_y = vol_id_track[j]
+					tray = moth_id_track[j]/tracker_bottom_vol_start
+					invert_tray_id = (N_tray - tray)+1
+					vol_id_temp = moth_id_track[j] - (tracker_bottom_vol_start*tray + tracker_top_bot_diff) # removing 1000000xn_tray + 90000					#
+					Strip_x = vol_id_temp
+					plane = invert_tray_id	
+
+					plane_id.append(plane)
+					Strip_id_y.append(Strip_y)
+					Strip_id_x.append(Strip_x)
+
+			else:	
 					
 
+				Strip_y = 0
+				tray_id = vol_id_track[j]/tracker_bottom_vol_start
+				invert_tray_id = (N_tray - tray)+1
+				Strip_x= 0
+				plane = invert_tray_id				
+				
+				plane_id.append(plane)
+				Strip_id_y.append(Strip_y)
+				Strip_id_x.append(Strip_x)
+				
+			j = j+1
+		#print(Strip_id_x)
+
+
+	print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+	print('                             Tracker   '                     )
+	print('           Saving the Tracker raw hits (fits and .dat)      ')
+	print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
 
 
-		i = i + 1
+
+
+
+
 
 
 
