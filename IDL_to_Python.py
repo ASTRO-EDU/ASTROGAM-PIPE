@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import os
+import pickle
+from astropy.table import Table
 
 ##############################
 #     parametri iniziali     #
@@ -24,7 +26,7 @@ phi_type = 225              # Enter phi:
 pol_type = 0                # Is the source polarized? [0 = false, 1 = true]:
 pol_angle = 20              # Enter Polarization angle:
 source_g = 0                # Enter source geometry [0 = Point, 1 = Plane]:
-isStrip = 1                 # Strip/Pixels activated?:
+isStrip = 0                 # Strip/Pixels activated?:
 repli = 1                   # Strips/Pixels replicated?:
 cal_flag = 1                # Is Cal present? [0 = false, 1 = true]:
 ac_flag = 0                 # Is AC present? [0 = false, 1 = true]:
@@ -292,20 +294,20 @@ if astrogam_version=='V1.0':
 
 #print(N_tray, panel_S, strip_side, energy_thresh)
 
-
 #parte lettura file fits
 
-n_fits = os.listdir("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph")
-#n_fits = os.listdir("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/")
+#n_fits = os.listdir("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph")
+n_fits = os.listdir("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/")
+
+outdir = ('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV')
 
 if not os.path.exists('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV'):
-	outdir = os.makedirs(('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV'),0777)
-
+	out_dir = os.makedirs(outdir,0777)
 
 ifile = 0
 while ifile < len(n_fits):
-	t = fits.open("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits")
-    #t = fits.open("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
+	#t = fits.open("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits")
+	t = fits.open("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
 	tbdata = t[1].data
 
 	evt_id = tbdata.field('EVT_ID')
@@ -341,6 +343,26 @@ while ifile < len(n_fits):
 	
 	vol_id_track = []	
 	moth_id_track = []
+	event_id_track = []
+	en_dep_track = []
+	x_en_track = []
+	y_en_track = []
+	z_en_track = []
+	x_ex_track = []
+	y_ex_track = []
+	z_ex_track = []
+	child_id_track = []
+	proc_id_track = []
+	theta_ent_track = []
+	phi_ent_track = []
+	theta_exit_track = []
+	phi_exit_track = []	
+	x_tr = []
+	y_tr = []
+	z_tr = []
+
+
+
 	while i < max_dim:
 		
 		vol_id = volume_id[i]         #volume per condizioni
@@ -357,45 +379,114 @@ while ifile < len(n_fits):
 	        part_id = particle_id[i]
 	        part_name = particle_name[i]
 	        proc_name = process_name[i]
-
+		
 #  Reading the tracker (events with E > 0)
        		        
 		if vol_id >= tracker_bottom_vol_start or moth_id >= tracker_bottom_vol_start:
-			event_id = evt_id[i]
-			track_id = trk_id[i]
-			vol_name = volume_name[i]
-			en_dep = e_dep[i]
-			x_en = x_ent[i]
-			y_en = y_ent[i]
-			z_en = z_ent[i]
-			x_ex = x_exit[i]
-			y_ex = y_exit[i]
-			z_ex = z_exit[i]
-			e_kin_en = e_kin_ent[i]
-			e_kin_ex = e_kin_exit[i]
-			v_id_track = volume_id[i]
-			m_id_track = mother_id[i]
-			
+
 			if part_type == 'g':
-				e_dep = 100.
+				event_id = evt_id[i]
+				track_id = trk_id[i]
+				vol_name = volume_name[i]
 				en_dep = e_dep[i]
-			elif energy_dep > 0.:
-				pass
+				x_en = (x_ent[i])/10.
+				y_en = (y_ent[i])/10.
+				z_en = (z_ent[i])/10.
+				x_ex = (x_exit[i])/10.
+				y_ex = (y_exit[i])/10.
+				z_ex = (z_exit[i])/10.
+				e_kin_en = e_kin_ent[i]
+				e_kin_ex = e_kin_exit[i]
+				v_id_track = volume_id[i]
+				m_id_track = mother_id[i]
+				e_dep = 100.
+				en_dep = e_dep[i]    #controllare
 
-			theta_ent = (180./math.pi)*math.acos(-(cos_x_angle_ent))
-			phi_ent = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
+				theta_ent = (180./math.pi)*math.acos(-(cos_x_angle_ent))
+				phi_ent = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
+	
+				theta_exit = (180./math.pi)*math.acos(-(cos_z_angle_exit))
+				phi_exit = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
 
-			theta_exit = (180./math.pi)*math.acos(-(cos_z_angle_exit))
-			phi_exit = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
-
-			child_id = parent_trk_id[i]
-			proc_id = process_id[i]
+				child_id = parent_trk_id[i]
+				proc_id = process_id[i]
 			
+				x_position = x_en + ((x_ex - x_en)/2.)
+				y_position = y_en + ((y_ex - y_en)/2.)
+				z_position = z_en + ((z_ex - z_en)/2.)
 
-			vol_id_track.append(v_id_track)
-			moth_id_track.append(m_id_track)
+				vol_id_track.append(v_id_track)
+				moth_id_track.append(m_id_track)
+				event_id_track.append(event_id)
+				en_dep_track.append(en_dep)			
+				x_en_track.append(x_en)
+				y_en_track.append(y_en)
+				z_en_track.append(z_en)
+				x_ex_track.append(x_ex)
+				y_ex_track.append(x_ex)
+				z_ex_track.append(x_ex)
+				child_id_track.append(child_id)
+				proc_id_track.append(proc_id)
+				theta_ent_track.append(theta_ent)
+				phi_ent_track.append(phi_ent)
+				theta_exit_track.append(theta_exit)
+				phi_exit_track.append(phi_exit)
+				x_tr.append(x_position)
+				y_tr.append(y_position)
+				z_tr.append(z_position)
 
+			if energy_dep > 0.:
+
+				event_id = evt_id[i]
+				track_id = trk_id[i]
+				vol_name = volume_name[i]
+				en_dep = e_dep[i]
+				x_en = (x_ent[i])/10.
+				y_en = (y_ent[i])/10.
+				z_en = (z_ent[i])/10.
+				x_ex = (x_exit[i])/10.
+				y_ex = (y_exit[i])/10.
+				z_ex = (z_exit[i])/10.
+				e_kin_en = e_kin_ent[i]
+				e_kin_ex = e_kin_exit[i]
+				v_id_track = volume_id[i]
+				m_id_track = mother_id[i]
+				en_dep = e_dep[i]    
+				
+				theta_ent = (180./math.pi)*math.acos(-(cos_x_angle_ent))
+				phi_ent = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
+
+				theta_exit = (180./math.pi)*math.acos(-(cos_z_angle_exit))
+				phi_exit = (180./math.pi)*math.atan((cos_y_angle_exit)/(cos_x_angle_exit))
+
+				child_id = parent_trk_id[i]
+				proc_id = process_id[i]
 			
+				x_position = x_en + ((x_ex - x_en)/2.)
+				y_position = y_en + ((y_ex - y_en)/2.)
+				z_position = z_en + ((z_ex - z_en)/2.)
+
+				vol_id_track.append(v_id_track)
+				moth_id_track.append(m_id_track)
+				event_id_track.append(event_id)
+				en_dep_track.append(en_dep)			
+				x_en_track.append(x_en)
+				y_en_track.append(y_en)
+				z_en_track.append(z_en)
+				x_ex_track.append(x_ex)
+				y_ex_track.append(x_ex)
+				z_ex_track.append(x_ex)
+				child_id_track.append(child_id)
+				proc_id_track.append(proc_id)
+				theta_ent_track.append(theta_ent)
+				phi_ent_track.append(phi_ent)
+				theta_exit_track.append(theta_exit)
+				phi_exit_track.append(phi_exit)
+				x_tr.append(x_position)
+				y_tr.append(y_position)
+				z_tr.append(z_position)
+
+
 		# Reading the Calorimeter (controllare separazione geantino e altro)
 		if cal_flag == 1:
             #print(i,'a', energy_dep)
@@ -408,12 +499,12 @@ while ifile < len(n_fits):
 	                    		vol_id_cal = volume_id[i]
 	                    		vol_name_cal = volume_name[i]
 		                  	en_dep_cal = e_dep[i]
-	                    		x_en_cal = x_ent[i]
-	                    		y_en_cal = y_ent[i]
-	                    		z_en_cal = z_ent[i]
-	                    		x_ex_cal = x_exit[i]
-	                    		y_ex_cal = y_exit[i]
-	                    		z_ex_cal = z_exit[i]
+	                    		x_en_cal = (x_ent[i])/10.
+	                    		y_en_cal = (y_ent[i])/10.
+	                    		z_en_cal = (z_ent[i])/10.
+	                    		x_ex_cal = (x_exit[i])/10.
+	                    		y_ex_cal = (y_exit[i])/10.
+	                    		z_ex_cal = (z_exit[i])/10.
 	                    		e_kin_en_cal = e_kin_ent[i]
 	                    		e_kin_ex_cal = e_kin_exit[i]
 	                    		en_dep_cal = e_dep[i]
@@ -438,12 +529,12 @@ while ifile < len(n_fits):
 
 					energy_dep_ac = e_dep[i]
 
-					ent_x_ac = x_ent[i]
-					ent_y_ac = y_ent[i]
-					ent_z_ac = z_ent[i]
-					exit_x_ac = x_exit[i]
-					exit_y_ac = y_exit[i]
-					exit_z_ac = z_exit[i]
+					ent_x_ac = (x_ent[i])/10.
+					ent_y_ac = (y_ent[i])/10.
+					ent_z_ac = (z_ent[i])/10.
+					exit_x_ac = (x_exit[i])/10.
+					exit_y_ac = (y_exit[i])/10.
+					exit_z_ac = (z_exit[i])/10.
 
 					theta_ent_ac = (180./math.pi)*math.acos(-(cos_x_angle_ent))
 					phi_ent_ac = (180./math.pi)*math.atan((cos_y_angle_ent)/(cos_x_angle_ent))
@@ -460,8 +551,10 @@ while ifile < len(n_fits):
 						moth_id_ac = 0
 
 		i = i + 1
-	#rint(vol_id_track)
-
+	
+	
+	
+	
 			#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 			#%                             Processing the tracker                          %
 			#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -491,12 +584,13 @@ while ifile < len(n_fits):
 					plane_id.append(plane)
 					Strip_id_y.append(Strip_y)
 					Strip_id_x.append(Strip_x)
+					tray_id.append(tray)
 
 			else:	
 					
 
 				Strip_y = 0
-				tray_id = vol_id_track[j]/tracker_bottom_vol_start
+				tray = vol_id_track[j]/tracker_bottom_vol_start
 				invert_tray_id = (N_tray - tray)+1
 				Strip_x= 0
 				plane = invert_tray_id				
@@ -504,7 +598,8 @@ while ifile < len(n_fits):
 				plane_id.append(plane)
 				Strip_id_y.append(Strip_y)
 				Strip_id_x.append(Strip_x)
-				
+				tray_id.append(tray)
+
 			j = j+1
 		#print(Strip_id_x)
 
@@ -513,6 +608,148 @@ while ifile < len(n_fits):
 	print('                             Tracker   '                     )
 	print('           Saving the Tracker raw hits (fits and .dat)      ')
 	print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+
+	if astrogam_version == 'V1.0':
+ 	
+		event_id_tr = np.array(event_id_track)
+		vol_id_tr = np.array(vol_id_track)
+		moth_id_tr = np.array(moth_id_track)
+		tr_id = np.array(tray_id)
+		pl_id = np.array(plane_id)
+		Str_id_x = np.array(Strip_id_x)
+		Str_id_y = np.array(Strip_id_y)
+		en_dep_tr = np.array(en_dep_track)
+		x_en_tr = np.array(x_en_track)
+		y_en_tr = np.array(y_en_track)
+		z_en_tr = np.array(z_en_track)
+		x_ex_tr = np.array(x_ex_track)
+		y_ex_tr = np.array(y_ex_track)
+		z_ex_tr = np.array(z_ex_track)	
+		child_id_tr = np.array(child_id_track)
+		proc_id_tr = np.array(proc_id_track)
+		x_pos = np.array(x_tr)
+		y_pos = np.array(y_tr)
+		z_pos = np.array(z_tr)
+
+
+
+
+		col1 = fits.Column(name='EVT_ID', format='I', array=event_id_tr)	
+		col2 = fits.Column(name='VOL_ID', format='I', array=vol_id_tr)
+		col3 = fits.Column(name='MOTH_ID', format='J', array=moth_id_tr)
+		col4 = fits.Column(name='TRAY_ID', format='I', array=tr_id)
+		col5 = fits.Column(name='PLANE_ID', format='I', array=pl_id)
+		col6 = fits.Column(name='STRIP_ID_X', format='I', array=Str_id_x)
+		col7 = fits.Column(name='STRIP_ID_Y', format='I', array=Str_id_y)
+		col8 = fits.Column(name='E_DEP', format='F20.5', array=en_dep_tr)
+		col9 = fits.Column(name='X_ENT', format='F20.5', array=x_en_tr)
+		col10 = fits.Column(name='Y_ENT', format='F20.5', array=y_en_tr)
+		col11 = fits.Column(name='Z_ENT', format='F20.5', array=z_en_tr)
+		col12 = fits.Column(name='X_EXIT', format='F20.5', array=x_ex_tr)
+		col13 = fits.Column(name='Y_EXIT', format='F20.5', array=y_en_tr)
+		col14 = fits.Column(name='Z_EXIT', format='F20.5', array=z_en_tr)
+		col15 = fits.Column(name='CHILD_ID', format='I', array=child_id_tr)
+		col16 = fits.Column(name='PROC_ID', format='I', array=proc_id_tr)
+		
+		cols = fits.ColDefs([col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col14,col15,col16])
+		tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+		if os.path.exists(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str	(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
+			os.remove(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str	(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+			tbhdu.writeto(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+		else:
+			tbhdu.writeto(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+
+		fits.setval(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+		fits.setval(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in ='+str(N_in), ext=1)
+
+		fits.setval(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy ='+ene_type, ext=1)
+
+		fits.setval(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta ='+str(theta_type), ext=1)
+
+		fits.setval(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi ='+str(phi_type), ext=1)
+
+		fits.setval(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Position unit = cm', ext=1)
+
+		fits.setval(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
+
+
+		if isStrip == 0:
+			if os.path.exists(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat'):
+				os.remove(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat')
+				data = open(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
+			else:
+				data = open(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
+				
+			
+			j = 0
+			while j < len(event_id_tr):
+				event_eq = np.nonzero(event_id_tr == event_id_tr[j])
+				
+				where_event_eq = event_eq[0]
+				
+				plane_id_temp = pl_id[where_event_eq]
+				Cluster_x_temp  = x_pos[where_event_eq]
+				Cluster_y_temp  = y_pos[where_event_eq]
+				Cluster_z_temp  = z_pos[where_event_eq]
+				e_dep_x_temp  = (en_dep_tr[where_event_eq])/2.
+				e_dep_y_temp  = (en_dep_tr[where_event_eq])/2.
+				child_temp = child_id_tr[where_event_eq]
+				proc_temp = proc_id_tr[where_event_eq]	
+	
+				# ------------------------------------
+				# X VIEW
+
+				r = 0
+				while r < len(Cluster_x_temp):
+					if (e_dep_x_temp[r] >= E_th):
+						data.write('{:d}\t'.format(event_id_tr[j]))
+						data.write('{:d}\t'.format(theta_type))
+						data.write('{:d}\t'.format(phi_type))
+						data.write('{:s}\t'.format(ene_type))
+						data.write('{:d}\t'.format(plane_id_temp[r]))
+						data.write('{:f}\t'.format(Cluster_z_temp[r]))
+						data.write('{:d}\t'.format(0))
+						data.write('{:f}\t'.format(Cluster_x_temp[r]))
+						data.write('{:f}\t'.format(e_dep_x_temp[r]))
+						data.write('{:d}\t'.format(1))
+						data.write('{:d}\t'.format(child_temp[r]))
+						data.write('{:d}\n'.format(proc_temp[r]))
+					
+					r = r +1
+
+				# ------------------------------------
+				# Y VIEW
+
+				r = 0
+				while r < len(Cluster_y_temp):
+					if (e_dep_y_temp[r] >= E_th):
+						data.write('{:d}\t'.format(event_id_tr[j]))
+						data.write('{:d}\t'.format(theta_type))
+						data.write('{:d}\t'.format(phi_type))
+						data.write('{:s}\t'.format(ene_type))
+						data.write('{:d}\t'.format(plane_id_temp[r]))
+						data.write('{:f}\t'.format(Cluster_z_temp[r]))
+						data.write('{:d}\t'.format(1))
+						data.write('{:f}\t'.format(Cluster_y_temp[r]))
+						data.write('{:f}\t'.format(e_dep_y_temp[r]))
+						data.write('{:d}\t'.format(1))
+						data.write('{:d}\t'.format(child_temp[r]))
+						data.write('{:d}\n'.format(proc_temp[r]))
+
+
+					r = r + 1
+
+				# ------------------------------------
+
+				
+				j_max = max(where_event_eq)
+				
+				j = j_max + 1
+
+			data.close()
 
 
 
@@ -527,6 +764,8 @@ while ifile < len(n_fits):
 	ifile = ifile + 1
 
 
+
+	
 
 
 
