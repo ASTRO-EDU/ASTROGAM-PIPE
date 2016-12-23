@@ -12,11 +12,11 @@ from astropy.table import Table
 
 astrogam_version = 'V1.0'   # Enter eASTROGAM release (e.g. V1.0):
 bogemms_tag = 211           # Enter BoGEMMS release (e.g. 211):
-sim_type = 0                # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 4: G400]:
+sim_type = 0                # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 5: G400]:
 py_list = 400               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
 N_in = 100000               # Enter the number of emitted particles:
 part_type = "ph"            # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
-n_fits = 1                  # Enter number of FITS files:
+#n_fits = 1                  # Enter number of FITS files:
 ene_range = 0               # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
 ene_min = 100               # Enter miminum energy [MeV]:
 ene_max = 100               # Enter maximum energy [MeV]:
@@ -26,12 +26,45 @@ phi_type = 225              # Enter phi:
 pol_type = 0                # Is the source polarized? [0 = false, 1 = true]:
 pol_angle = 20              # Enter Polarization angle:
 source_g = 0                # Enter source geometry [0 = Point, 1 = Plane]:
-isStrip = 0                 # Strip/Pixels activated?:
-repli = 1                   # Strips/Pixels replicated?:
+isStrip = 1                 # Strip/Pixels activated? [0 = false, 1 = true]
+repli = 1                   # Strips/Pixels replicated? [0 = false, 1 = true]
 cal_flag = 1                # Is Cal present? [0 = false, 1 = true]:
 ac_flag = 0                 # Is AC present? [0 = false, 1 = true]:
 passive_flag = 0            # Is Passive present? [0 = false, 1 = true]:
 energy_thresh = 15          # Enter energy threshold [keV]:
+
+if sim_type != 0 and sim_type != 1 and sim_type != 2 and sim_type != 3 and sim_type != 4 and sim_type != 5:
+	exit('Error: sim_type could be 0 (Mono) - 1 (Range) - 2 (Chen) - 3 (Vela) - 4 (Crab) - 5 (G400)')
+
+if py_list != 0 and py_list != 100 and py_list != 300 and py_list != 400:
+	exit('Error: py_list could be 0 (QGSP_BERT_EMV) - 100 (ARGO) - 300 (FERMI) - 400 (ASTROMEV)')
+
+if part_type != "ph" and part_type != "mu" and part_type != "g" and part_type != "p" and part_type != "el":
+	exit('Error: part_type be ph (photons) - mu (muons) - g (geantino) - p (proton) - el (electron)')
+
+if ene_range != 0 and ene_range != 1 and ene_range != 2 and ene_range != 3:
+	exit('Error: ene_range could be 0 (MONO) - 1 (POW) - 2 (EXP) - 3 (LIN)')
+
+if pol_type != 0 and pol_type != 1:
+	exit('Error: pol_type could be 0 (false) - 1 (true)')
+
+if source_g != 0 and source_g != 1:
+	exit('Error: source_g could be 0 (Point) - 1 (Plane)')
+
+if isStrip != 0 and isStrip != 1:
+	exit('Error: isStrip could be 0 (false) - 1 (true)')
+
+if repli != 0 and repli != 1:
+	exit('Error: repli could be 0 (false) - 1 (true)')
+
+if cal_flag != 0 and cal_flag != 1:
+	exit('Error: cal_flag could be 0 (false) - 1 (true)')
+
+if ac_flag != 0 and ac_flag != 1:
+	exit('Error: ac_flag could be 0 (false) - 1 (true)')
+
+if ac_flag != 0 and ac_flag != 1:
+	exit('Error: ac_flag could be 0 (false) - 1 (true)')
 
 if astrogam_version=='V1.0':
 	astrogam_tag = '01'
@@ -294,10 +327,14 @@ if astrogam_version=='V1.0':
 
 #print(N_tray, panel_S, strip_side, energy_thresh)
 
+
 #parte lettura file fits
 
-#n_fits = os.listdir("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph")
-n_fits = os.listdir("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/")
+n_fits = os.listdir('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type)
+
+filepath = '/eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type
+
+print('eASTROGAM simulation path:' + filepath)
 
 outdir = ('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+str(sim_name)+'/'+str(ene_type)+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV')
 
@@ -306,8 +343,11 @@ if not os.path.exists('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_typ
 
 ifile = 0
 while ifile < len(n_fits):
-	#t = fits.open("/home/gianni/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits")
-	t = fits.open("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
+
+	print('Reading the THELSIM file.....'+ str(ifile))
+
+	t = fits.open('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type+'/xyz.'+str(ifile)+'.fits')
+    #t = fits.open("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
 	tbdata = t[1].data
 
 	evt_id = tbdata.field('EVT_ID')
@@ -485,7 +525,7 @@ while ifile < len(n_fits):
 				x_tr.append(x_position)
 				y_tr.append(y_position)
 				z_tr.append(z_position)
-
+				
 
 		# Reading the Calorimeter (controllare separazione geantino e altro)
 		if cal_flag == 1:
@@ -551,7 +591,7 @@ while ifile < len(n_fits):
 						moth_id_ac = 0
 
 		i = i + 1
-	
+
 	
 	
 	
@@ -631,7 +671,7 @@ while ifile < len(n_fits):
 		y_pos = np.array(y_tr)
 		z_pos = np.array(z_tr)
 
-
+		
 
 
 		col1 = fits.Column(name='EVT_ID', format='I', array=event_id_tr)	
@@ -682,14 +722,14 @@ while ifile < len(n_fits):
 				data = open(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
 			else:
 				data = open(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
-				
+	
 			
+
 			j = 0
 			while j < len(event_id_tr):
 				event_eq = np.nonzero(event_id_tr == event_id_tr[j])
 				
 				where_event_eq = event_eq[0]
-				
 				plane_id_temp = pl_id[where_event_eq]
 				Cluster_x_temp  = x_pos[where_event_eq]
 				Cluster_y_temp  = y_pos[where_event_eq]
@@ -697,14 +737,15 @@ while ifile < len(n_fits):
 				e_dep_x_temp  = (en_dep_tr[where_event_eq])/2.
 				e_dep_y_temp  = (en_dep_tr[where_event_eq])/2.
 				child_temp = child_id_tr[where_event_eq]
-				proc_temp = proc_id_tr[where_event_eq]	
-	
+				proc_temp = proc_id_tr[where_event_eq]
+				
 				# ------------------------------------
+				
 				# X VIEW
 
 				r = 0
 				while r < len(Cluster_x_temp):
-					if (e_dep_x_temp[r] >= E_th):
+					if e_dep_x_temp[r] > E_th:
 						data.write('{:d}\t'.format(event_id_tr[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -717,15 +758,15 @@ while ifile < len(n_fits):
 						data.write('{:d}\t'.format(1))
 						data.write('{:d}\t'.format(child_temp[r]))
 						data.write('{:d}\n'.format(proc_temp[r]))
-					
-					r = r +1
 
+					r = r + 1
 				# ------------------------------------
+
 				# Y VIEW
 
 				r = 0
 				while r < len(Cluster_y_temp):
-					if (e_dep_y_temp[r] >= E_th):
+					if e_dep_y_temp[r] > E_th:
 						data.write('{:d}\t'.format(event_id_tr[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -739,25 +780,76 @@ while ifile < len(n_fits):
 						data.write('{:d}\t'.format(child_temp[r]))
 						data.write('{:d}\n'.format(proc_temp[r]))
 
-
 					r = r + 1
 
-				# ------------------------------------
+				j_max = max(where_event_eq)
+				
+				j = j_max + 1
+			data.close()			
+				
+		    # Loading the LUT
+
+		if isStrip == 1:
+			
+			filename_x_top = './conf/ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS'
+			filename_y_top = './conf/ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS'
+
+			struct_x_top = fits.open(filename_x_top)
+			struct_y_top = fits.open(filename_y_top)
+
+			g_x_data = struct_x_top[1].data
+			
+			Arch_vol_id_x_top = g_x_data.field('VOLUME_ID')
+			Arch_moth_id_x_top = g_x_data.field('MOTHER_ID')
+			Arch_Strip_id_x_top = g_x_data.field('STRIP_ID')
+			Arch_Si_id_x_top = g_x_data.field('TRK_FLAG')
+			Arch_tray_id_x_top = g_x_data.field('TRAY_ID')
+			Arch_plane_id_x_top = g_x_data.field('PLANE_ID')
+			Arch_xpos_x_top = g_x_data.field('XPOS')
+			Arch_zpos_x_top = g_x_data.field('ZPOS')
+			Arch_energy_dep_x_top = g_x_data.field('E_DEP')
+			Arch_pair_flag_x_top = g_x_data.field('PAIR_FLAG')
+
+			g_y_data = struct_y_top[1].data
+
+			Arch_vol_id_y_top = g_y_data.field('VOLUME_ID')
+			Arch_moth_id_y_top = g_y_data.field('MOTHER_ID')
+			Arch_Strip_id_y_top = g_y_data.field('STRIP_ID')
+			Arch_Si_id_y_top = g_y_data.field('TRK_FLAG')
+			Arch_tray_id_y_top = g_y_data.field('TRAY_ID')
+			Arch_plane_id_y_top = g_y_data.field('PLANE_ID')
+			Arch_ypos_y_top = g_y_data.field('YPOS')
+			Arch_zpos_y_top = g_y_data.field('ZPOS')
+			Arch_energy_dep_y_top = g_y_data.field('E_DEP')
+			Arch_pair_flag_y_top = g_y_data.field('PAIR_FLAG')
+
+			j = 0
+			while j < len(event_id_tr):
+				event_eq = np.nonzero(event_id_tr == event_id_tr[j])
+
+				where_event_eq = event_eq[0]
+				vol_id_temp = vol_id_tr[where_event_eq]
+				moth_id_temp  = moth_id_tr[where_event_eq]
+				Strip_id_x_temp  = Str_id_x[where_event_eq]
+				Strip_id_y_temp  = Str_id_y[where_event_eq]
+				tray_id_temp  = tr_id[where_event_eq]
+				plane_id_temp  = pl_id[where_event_eq]
+				energy_dep_temp = en_dep_tr[where_event_eq]
+				child_id_temp = child_id_tr[where_event_eq]
+				proc_id_temp = proc_id_tr[where_event_eq]
+	
 
 				
+
+
+
 				j_max = max(where_event_eq)
 				
 				j = j_max + 1
 
-			data.close()
 
-
-
-
-
-
-
-
+				# ------------------------------------
+				
 
 
 
