@@ -346,8 +346,8 @@ while ifile < len(n_fits):
 
 	print('Reading the THELSIM file.....'+ str(ifile))
 
-	t = fits.open('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type+'/xyz.'+str(ifile)+'.fits')
-    #t = fits.open("/Users/Simone/Desktop/eASTROGAMSimAnalysis_STUDENT/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/onlyCAL/100MeV.MONO.30theta.100000ph/xyz."+str(ifile)+".fits.gz")
+	t = fits.open('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type+'/xyz.'+str(ifile)+'.fits.gz')
+   
 	tbdata = t[1].data
 
 	evt_id = tbdata.field('EVT_ID')
@@ -727,7 +727,7 @@ while ifile < len(n_fits):
 
 			j = 0
 			while j < len(event_id_tr):
-				event_eq = np.nonzero(event_id_tr == event_id_tr[j])
+				event_eq = np.where(event_id_tr == event_id_tr[j])
 				
 				where_event_eq = event_eq[0]
 				plane_id_temp = pl_id[where_event_eq]
@@ -738,7 +738,7 @@ while ifile < len(n_fits):
 				e_dep_y_temp  = (en_dep_tr[where_event_eq])/2.
 				child_temp = child_id_tr[where_event_eq]
 				proc_temp = proc_id_tr[where_event_eq]
-				
+				print(plane_id_temp)
 				# ------------------------------------
 				
 				# X VIEW
@@ -823,11 +823,23 @@ while ifile < len(n_fits):
 			Arch_energy_dep_y_top = g_y_data.field('E_DEP')
 			Arch_pair_flag_y_top = g_y_data.field('PAIR_FLAG')
 
-			j = 0
-			while j < len(event_id_tr):
-				event_eq = np.nonzero(event_id_tr == event_id_tr[j])
 
+			e_dep_temp = [] 		
+			event_id_tot = []
+			vol_id_tot = []
+			moth_id_tot = []
+			Strip_id_x_tot = []
+			Strip_id_y_tot = []
+			tray_id_tot = []
+			plane_id_tot = []
+			energy_dep_tot = []
+			pair_flag_tot = []
+			
+			j = 0
+			while 1:           #j < len(event_id_tr):
+				event_eq = np.where(event_id_tr == event_id_tr[j])
 				where_event_eq = event_eq[0]
+
 				vol_id_temp = vol_id_tr[where_event_eq]
 				moth_id_temp  = moth_id_tr[where_event_eq]
 				Strip_id_x_temp  = Str_id_x[where_event_eq]
@@ -837,22 +849,321 @@ while ifile < len(n_fits):
 				energy_dep_temp = en_dep_tr[where_event_eq]
 				child_id_temp = child_id_tr[where_event_eq]
 				proc_id_temp = proc_id_tr[where_event_eq]
+				
+				r = 0												
+				while 1:
+					#where_vol_eq e where_other_vol numero array inferiore rispetto IDL
+					vol_eq = np.where((vol_id_temp == vol_id_temp[r]) & (moth_id_temp == moth_id_temp[r]))										
+					where_vol_eq = vol_eq[0]	
+					
+					other_vol = np.where((vol_id_temp != vol_id_temp[r]) | (moth_id_temp != moth_id_temp[r]))
+					where_other_vol = other_vol[0]
+					
+					e_dep_temp_old = np.sum(energy_dep_temp[where_vol_eq])
+					event_id_tot_old = event_id_tr[j]
+					vol_id_tot_old = vol_id_temp[r]
+					moth_id_tot_old = moth_id_temp[r]
+					Strip_id_x_tot_old = Strip_id_x_temp[r]
+					Strip_id_y_tot_old = Strip_id_y_temp[r]
+					tray_id_tot_old = tray_id_temp[r]
+					plane_id_tot_old = plane_id_temp[r]
+					energy_dep_tot_old = e_dep_temp_old
+
+					e_dep_temp.append(e_dep_temp_old)
+					event_id_tot.append(event_id_tot_old)
+					vol_id_tot.append(vol_id_tot_old)
+					moth_id_tot.append(moth_id_tot_old)
+					Strip_id_x_tot.append(Strip_id_x_tot_old)
+					Strip_id_y_tot.append(Strip_id_y_tot_old)
+					tray_id_tot.append(tray_id_tot_old)
+					plane_id_tot.append(plane_id_tot_old)
+					energy_dep_tot.append(energy_dep_tot_old)					
+					
+					# if one of hits in the same volume is a pair the summed event is flagged as 1
+					all_child = child_id_temp[where_vol_eq]
+					all_proc = proc_id_temp[where_vol_eq]
+
+					w_pair = np.where((all_child == 1) & (all_proc == 7))
+					where_pair = w_pair[0]
+
+					if where_pair != []:
+						pair_flag_tot_old = 1
+					else:
+						pair_flag_tot_old = 0				#il terzultimo valore di IDL e' 1 quando dovrebbe essere 0 perche nel where_pair e' -1   
+					pair_flag_tot.append(pair_flag_tot_old)	
+ 
+					w_compton = np.where((all_child == 1) & (all_proc == 3))
+					where_compton = w_compton[0]
+
+					if where_compton != []:
+						pair_flag_tot_old = 2
+					else:
+						pair_flag_tot_old = 0
+				
+					pair_flag_tot.append(pair_flag_tot_old)	
+
+					if where_other_vol != []:
+						vol_id_temp = vol_id_temp[where_other_vol]
+						moth_id_temp = moth_id_temp[where_other_vol]
+						Strip_id_x_temp = Strip_id_x_temp[where_other_vol]
+						Strip_id_y_temp = Strip_id_y_temp[where_other_vol]
+						tray_id_temp = tray_id_temp[where_other_vol]
+						plane_id_temp = plane_id_temp[where_other_vol]
+						energy_dep_temp = energy_dep_temp[where_other_vol]
+						child_id_temp = child_id_temp[where_other_vol]
+						proc_id_temp = proc_id_temp[where_other_vol]
+
+					else:
+						
+						break
+				#j_max = max(where_event_eq)
+				#j = j_max + 1
+			
+				N_event_eq = len(where_event_eq)                                          
+				if where_event_eq[N_event_eq-1] < len(event_id_tr)-1:
+					j = where_event_eq[N_event_eq-1]+1					
+				else:
+					break
+
+			event_id_tot_temp = np.zeros(2*len(event_id_tot))
+			vol_id_tot_temp = np.zeros(2*len(event_id_tot))
+			moth_id_tot_temp = np.zeros(2*len(event_id_tot))
+			Strip_id_tot_temp = np.zeros(2*len(event_id_tot))
+			Si_id_tot_temp = np.zeros(2*len(event_id_tot))
+			tray_id_tot_temp = np.zeros(2*len(event_id_tot))
+			plane_id_tot_temp = np.zeros(2*len(event_id_tot))
+			energy_dep_tot_temp = np.zeros(2*len(event_id_tot))
+			pair_flag_tot_temp = np.zeros(2*len(event_id_tot))
+
+			jev = 0
+			while jev < len(event_id_tot):
+				ev_index = jev * 2
+
+				event_id_tot_temp = np.delete(event_id_tot_temp, ev_index)
+				event_id_tot_temp = np.insert(event_id_tot_temp, ev_index, event_id_tot[jev])
+
+				event_id_tot_temp = np.delete(event_id_tot_temp, ev_index + 1)
+				event_id_tot_temp = np.insert(event_id_tot_temp, ev_index + 1, event_id_tot[jev])
+
+				vol_id_tot_temp = np.delete(vol_id_tot_temp, ev_index)
+				vol_id_tot_temp = np.insert(vol_id_tot_temp, ev_index, Strip_id_x_tot[jev])
+
+				vol_id_tot_temp = np.delete(vol_id_tot_temp, ev_index + 1)
+				vol_id_tot_temp = np.insert(vol_id_tot_temp, ev_index + 1, Strip_id_y_tot[jev])
+
+				moth_id_tot_temp = np.delete(moth_id_tot_temp, ev_index)
+				moth_id_tot_temp = np.insert(moth_id_tot_temp, ev_index, moth_id_tot[jev] - Strip_id_x_tot[jev])
+
+				moth_id_tot_temp = np.delete(moth_id_tot_temp, ev_index + 1)
+				moth_id_tot_temp = np.insert(moth_id_tot_temp, ev_index + 1, moth_id_tot[jev] - Strip_id_x_tot[jev])
+
+				Strip_id_tot_temp = np.delete(Strip_id_tot_temp, ev_index)
+				Strip_id_tot_temp = np.insert(Strip_id_tot_temp, ev_index, Strip_id_x_tot[jev])
+
+				Strip_id_tot_temp = np.delete(Strip_id_tot_temp, ev_index + 1)
+				Strip_id_tot_temp = np.insert(Strip_id_tot_temp, ev_index + 1, Strip_id_y_tot[jev])
+
+				Si_id_tot_temp = np.delete(Si_id_tot_temp, ev_index)
+				Si_id_tot_temp = np.insert(Si_id_tot_temp, ev_index, 0)
+				
+				Si_id_tot_temp = np.delete(Si_id_tot_temp, ev_index + 1)
+				Si_id_tot_temp = np.insert(Si_id_tot_temp, ev_index + 1, 1)
+
+				tray_id_tot_temp = np.delete(tray_id_tot_temp, ev_index)
+				tray_id_tot_temp = np.insert(tray_id_tot_temp, ev_index, tray_id_tot[jev])
+
+				tray_id_tot_temp = np.delete(tray_id_tot_temp, ev_index + 1)
+				tray_id_tot_temp = np.insert(tray_id_tot_temp, ev_index + 1, tray_id_tot[jev])
+
+				plane_id_tot_temp = np.delete(plane_id_tot_temp, ev_index)
+				plane_id_tot_temp = np.insert(plane_id_tot_temp, ev_index, plane_id_tot[jev])
+
+				plane_id_tot_temp = np.delete(plane_id_tot_temp, ev_index + 1)
+				plane_id_tot_temp = np.insert(plane_id_tot_temp, ev_index + 1, plane_id_tot[jev])
+
+				tray_id_tot_temp = np.delete(tray_id_tot_temp, ev_index)
+				tray_id_tot_temp = np.insert(tray_id_tot_temp, ev_index, tray_id_tot[jev])
+
+				energy_dep_tot_temp = np.delete(energy_dep_tot_temp, ev_index)
+				energy_dep_tot_temp = np.insert(energy_dep_tot_temp, ev_index, energy_dep_tot[jev]/2.)
+
+				energy_dep_tot_temp = np.delete(energy_dep_tot_temp, ev_index + 1)
+				energy_dep_tot_temp = np.insert(energy_dep_tot_temp, ev_index + 1, energy_dep_tot[jev]/2.)
+
+				pair_flag_tot_temp = np.delete(pair_flag_tot_temp, ev_index)
+				pair_flag_tot_temp = np.insert(pair_flag_tot_temp, ev_index, pair_flag_tot[jev])
+
+				pair_flag_tot_temp = np.delete(pair_flag_tot_temp, ev_index + 1)
+				pair_flag_tot_temp = np.insert(pair_flag_tot_temp, ev_index + 1, pair_flag_tot[jev])
+
+				
+				jev = jev + 1
+						
+			#
+			# Summing the energy along the strip
+			#
+
+			e_dep_temp_Si_0 = [] 		
+			event_id_tot_Si_0 = []
+			vol_id_tot_Si_0 = []
+			moth_id_tot_Si_0 = []
+			Strip_id_x_tot_Si_0 = []
+			Strip_id_y_tot_Si_0 = []
+			tray_id_tot_Si_0 = []
+			plane_id_tot_Si_0 = []
+			energy_dep_tot_Si_0 = []
+			pair_flag_tot_Si_0 = []
+
+			e_dep_temp_Si_1 = [] 		
+			event_id_tot_Si_1 = []
+			vol_id_tot_Si_1 = []
+			moth_id_tot_Si_1 = []
+			Strip_id_x_tot_Si_1 = []
+			Strip_id_y_tot_Si_1 = []
+			tray_id_tot_Si_1 = []
+			plane_id_tot_Si_1 = []
+			energy_dep_tot_Si_1 = []
+			pair_flag_tot_Si_1 = []
+
+			j = 0
+			while 1:           
+				event_eq = np.where(event_id_tot_temp == event_id_tot_temp[j])
+				where_event_eq = event_eq[0]
+
+				vol_id_temp = vol_id_tot_temp[where_event_eq]
+				moth_id_temp = moth_id_tot_temp[where_event_eq]
+				Strip_id_temp = Strip_id_tot_temp[where_event_eq]
+				Si_id_temp = Si_id_tot_temp[where_event_eq]
+				tray_id_temp = tray_id_tot_temp[where_event_eq]
+				plane_id_temp = plane_id_tot_temp[where_event_eq]
+				energy_dep_temp = energy_dep_tot_temp[where_event_eq]
+				pair_flag_temp = pair_flag_tot_temp[where_event_eq]
+				
+				r = 0												
+				while 1:
+					#where_vol_eq e where_other_vol numero array inferiore rispetto IDL
+					vol_eq = np.where((vol_id_temp == vol_id_temp[r]) & (moth_id_temp == moth_id_temp[r]) & (Si_id_temp == 0))	
+					where_vol_eq = vol_eq[0]
+					
+					other_vol = np.where((vol_id_temp != vol_id_temp[r]) | (moth_id_temp != moth_id_temp[r]) | (Si_id_temp != 0))
+					where_other_vol = other_vol[0]
+
+					if where_vol_eq != []:
+						e_dep_temp_old = np.sum(energy_dep_temp[where_vol_eq])
+						event_id_tot_old = event_id_tot_temp[j]
+						vol_id_tot_old = vol_id_temp[r]
+						moth_id_tot_old = moth_id_temp[r]
+						Si_id_tot_old = 0
+						Strip_id_tot_old = Strip_id_temp[r]
+						tray_id_tot_old = tray_id_temp[r]
+						plane_id_tot_old = plane_id_temp[r]
+						energy_dep_tot_old = e_dep_temp_old
+						pair_flag_tot_old = pair_flag_temp[r]
+
+						e_dep_temp_Si_0.append(e_dep_temp_old)
+						event_id_tot_Si_0.append(event_id_tot_old)
+						vol_id_tot_Si_0.append(vol_id_tot_old)
+						moth_id_tot_Si_0.append(moth_id_tot_old)
+						Strip_id_x_tot_Si_0.append(Strip_id_x_tot_old)
+						Strip_id_y_tot_Si_0.append(Strip_id_y_tot_old)
+						tray_id_tot_Si_0.append(tray_id_tot_old)
+						plane_id_tot_Si_0.append(plane_id_tot_old)
+						energy_dep_tot_Si_0.append(energy_dep_tot_old)					
+					
+
+						if where_other_vol != []:
+							vol_id_temp = vol_id_temp[where_other_vol]
+							moth_id_temp = moth_id_temp[where_other_vol]
+							Strip_id_temp = Strip_id_temp[where_other_vol]
+							Si_id_temp = Si_id_temp[where_other_vol]
+							tray_id_temp = tray_id_temp[where_other_vol]
+							plane_id_temp = plane_id_temp[where_other_vol]
+							energy_dep_temp = energy_dep_temp[where_other_vol]
+							pair_flag_temp = pair_flag_temp[where_other_vol]
+						else:
+							#print('exit'
+							break
+
+
+					vol_eq = np.where((vol_id_temp == vol_id_temp[r]) & (moth_id_temp == moth_id_temp[r]) & (Si_id_temp == 1))	
+					where_vol_eq = vol_eq[0]
+					
+					other_vol = np.where((vol_id_temp != vol_id_temp[r]) | (moth_id_temp != moth_id_temp[r]) | (Si_id_temp != 1))
+					where_other_vol = other_vol[0]
+					
+					if where_vol_eq != []:
+						e_dep_temp_old = np.sum(energy_dep_temp[where_vol_eq])
+						event_id_tot_old = event_id_tot_temp[j]
+						vol_id_tot_old = vol_id_temp[r]
+						moth_id_tot_old = moth_id_temp[r]
+						Si_id_tot_old = 0
+						Strip_id_tot_old = Strip_id_temp[r]
+						tray_id_tot_old = tray_id_temp[r]
+						plane_id_tot_old = plane_id_temp[r]
+						energy_dep_tot_old = e_dep_temp_old
+						pair_flag_tot_old = pair_flag_temp[r]
+
+						e_dep_temp_Si_1.append(e_dep_temp_old)
+						event_id_tot_Si_1.append(event_id_tot_old)
+						vol_id_tot_Si_1.append(vol_id_tot_old)
+						moth_id_tot_Si_1.append(moth_id_tot_old)
+						Strip_id_x_tot_Si_1.append(Strip_id_x_tot_old)
+						Strip_id_y_tot_Si_1.append(Strip_id_y_tot_old)
+						tray_id_tot_Si_1.append(tray_id_tot_old)
+						plane_id_tot_Si_1.append(plane_id_tot_old)
+						energy_dep_tot_Si_1.append(energy_dep_tot_old)					
+					
+
+						if where_other_vol != []:
+							vol_id_temp = vol_id_temp[where_other_vol]
+							moth_id_temp = moth_id_temp[where_other_vol]
+							Strip_id_temp = Strip_id_temp[where_other_vol]
+							Si_id_temp = Si_id_temp[where_other_vol]
+							tray_id_temp = tray_id_temp[where_other_vol]
+							plane_id_temp = plane_id_temp[where_other_vol]
+							energy_dep_temp = energy_dep_temp[where_other_vol]
+							pair_flag_temp = pair_flag_temp[where_other_vol]
+						else:
+							break
+			
+				N_event_eq = len(where_event_eq)                                          
+				if where_event_eq[N_event_eq-1] < len(event_id_tot_temp)-1:
+					j = where_event_eq[N_event_eq-1]+1					
+				else:
+					break
+				
+
+
+			# apply the energy thresold
+
+			w_eth = where(energy_dep_tot >= E_th)
+			where_eth = w_eth[0]
+
+
+			event_id_tot = event_id_tot[where_eth]
+			vol_id_tot = vol_id_tot[where_eth]
+			moth_id_tot = moth_id_tot[where_eth]
+			Strip_id_tot = Strip_id_tot[where_eth]
+			Si_id_tot = Si_id_tot[where_eth]
+			tray_id_tot = tray_id_tot[where_eth]
+			plane_id_tot = plane_id_tot[where_eth]
+			energy_dep_tot = energy_dep_tot[where_eth]
+			pair_flag_tot = pair_flag_tot[where_eth]
+
+			N_trig = len(np.uniqe(event_id_tot))
+			event_array = event_id_tot[np.unique(event_id_tot)]
+
+
 	
 
-				
 
 
 
-				j_max = max(where_event_eq)
-				
-				j = j_max + 1
+
 
 
 				# ------------------------------------
 				
-
-
-
 	ifile = ifile + 1
 
 
