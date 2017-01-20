@@ -6,7 +6,7 @@ import os
 import pickle
 from astropy.table import Table
 
-outdir = './conf1/'
+outdir = './conf/'
 print('Configuration files path: '+ outdir)
 
 if not os.path.exists('./conf1/'):
