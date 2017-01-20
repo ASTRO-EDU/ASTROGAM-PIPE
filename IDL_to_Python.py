@@ -325,8 +325,6 @@ if astrogam_version=='V1.0':
 
 	E_th_cal = 30. # keV
 
-#print(N_tray, panel_S, strip_side, energy_thresh)
-
 
 #parte lettura file fits
 
@@ -1244,8 +1242,33 @@ while ifile < len(n_fits):
 			pair_flag_tot = pair_flag_tot[where_eth]
 
 
-			N_trig = len(np.unique(event_id_tot))
-			event_array = event_id_tot[np.unique(event_id_tot)]
+			####Funzione indici unici event_id_tot
+
+			event_id_index = []
+
+			for i in range(len(event_id_tot)):
+				event_id_index_old = i
+				event_id_index.append(i)
+
+			event_uniq_index = []	
+
+			i = 1
+			while i < len(event_id_tot):
+
+				if event_id_tot[i] != event_id_tot[i-1]:
+					event_uniq_index.append(event_id_index[i-1])
+
+				if i == len(event_id_tot)-1:
+					event_uniq_index.append(event_id_index[i])
+
+				i = i + 1
+
+
+			#### Fine Funzione indici unici event_id_tot
+		
+			N_trig = len(event_uniq_index)
+
+			event_array = event_id_tot[event_uniq_index]
 
 
 	if astrogam_version == 'V1.0':
@@ -1324,10 +1347,37 @@ while ifile < len(n_fits):
 				plane_id_temp = plane_id_tot[where_event_eq]
 				energy_dep_temp = energy_dep_tot[where_event_eq]
 				pair_flag_temp = pair_flag_tot[where_event_eq]			
+				
+				# Funzione di ordinamento
 
-				vol_sort_arr = np.argsort(vol_id_temp)
+				vol_sort_arr_list = []
+				vol_id_temp_sort = vol_id_temp
+				for z in range(len(vol_id_temp_sort)):
 
-				vol_id_temp = vol_id_temp[vol_sort_arr]
+					vol_sort_arr_old = z
+					vol_sort_arr_list.append(vol_sort_arr_old)
+						
+				swap = True
+				while swap == True:
+					i = 1
+					swap = False
+												
+					while i < len(vol_id_temp_sort):
+						if vol_id_temp_sort[i-1] > vol_id_temp_sort[i]:
+							temp = vol_id_temp_sort[i-1]
+							vol_id_temp_sort[i-1] = vol_id_temp_sort[i]
+							vol_id_temp_sort[i] = temp
+							temp = vol_sort_arr_list[i-1]
+							vol_sort_arr_list[i-1] = vol_sort_arr_list[i]
+							vol_sort_arr_list[i] = temp
+							swap = True
+						i = i+1
+						
+				vol_sort_arr = np.array(vol_sort_arr_list)				
+				
+				# fine funzione di ordinamento	
+
+				vol_id_temp = np.ravel(vol_id_temp)
 				moth_id_temp = moth_id_temp[vol_sort_arr]
 				Strip_id_temp = Strip_id_temp[vol_sort_arr]
 				Si_id_temp = Si_id_temp[vol_sort_arr]
@@ -1336,16 +1386,18 @@ while ifile < len(n_fits):
 				energy_dep_temp = energy_dep_temp[vol_sort_arr]
 				pair_flag_temp = pair_flag_temp[vol_sort_arr]				
 				
+				
 				for z in range(Total_vol_x_top):
-					w_hit_x_top = np.where((Si_id_temp == 0) & (vol_id_temp == Glob_vol_id_x_top[z, N_ev]) & (moth_id_temp == Glob_moth_id_x_top[z, N_ev]))
-					where_hit_x_top = w_hit_x_top[0]
+					where_hit_x_top_arr = np.where((Si_id_temp == 0) & (vol_id_temp == Glob_vol_id_x_top[z, N_ev]) & (moth_id_temp == Glob_moth_id_x_top[z, N_ev]))
+					where_hit_x_top = where_hit_x_top_arr[0]
 
-					if len(where_hit_x_top) != 0:
+					if len(where_hit_x_top) != 0: 	
+						
 						Glob_energy_dep_x_top[z, N_ev] = energy_dep_temp[where_hit_x_top]
 						Glob_pair_flag_x_top[z, N_ev] = pair_flag_temp[where_hit_x_top]
-
-					w_hit_y_top = np.where((Si_id_temp == 1) & (vol_id_temp == Glob_vol_id_y_top[z, N_ev]) & (moth_id_temp == Glob_moth_id_y_top[z, N_ev]))
-					where_hit_y_top = w_hit_y_top[0]
+						
+					where_hit_y_top_old = np.where((Si_id_temp == 1) & (vol_id_temp == Glob_vol_id_y_top[z, N_ev]) & (moth_id_temp == Glob_moth_id_y_top[z, N_ev]))
+					where_hit_y_top = where_hit_y_top_old[0]
 
 					if len(where_hit_y_top) != 0:
 						Glob_energy_dep_y_top[z, N_ev] = energy_dep_temp[where_hit_y_top]
@@ -1360,18 +1412,455 @@ while ifile < len(n_fits):
 				else:
 					break
 
-			print(np.size(Glob_energy_dep_y_top))
+			
 		
 			print('N_ev: '+ str(N_ev))				
 
 
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+			print('                      Tracker   ')
+			print('              Build the LEVEL 0 output            ')
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')		
+
+
+			Glob_event_id_test_list = []
+			Glob_vol_id_test_list = []
+			Glob_moth_id_test_list = []
+			Glob_Strip_id_test_list = []
+			Glob_Si_id_test_list = []
+			Glob_tray_id_test_list = []
+			Glob_plane_id_test_list = []
+			Glob_pos_test_list = []
+			Glob_zpos_test_list = []
+			Glob_energy_dep_test_list = []
+			Glob_pair_flag_test_list = []
+
+
+			for j in range(N_trig):
+
+				where_test_x_old = np.where(Glob_energy_dep_x_top[:,j] > 0.)
+				where_test_x = where_test_x_old[0]
+				
+
+				if len(where_test_x) != 0:
+					Glob_vol_id_x_test_temp = Glob_vol_id_x_top[where_test_x,j]
+					Glob_moth_id_x_test_temp = Glob_moth_id_x_top[where_test_x,j]
+					Glob_Strip_id_x_test_temp = Glob_Strip_id_x_top[where_test_x,j]
+					Glob_Si_id_x_test_temp = Glob_Si_id_x_top[where_test_x,j]
+					Glob_tray_id_x_test_temp = Glob_tray_id_x_top[where_test_x,j]
+					Glob_plane_id_x_test_temp = Glob_plane_id_x_top[where_test_x,j]
+					Glob_xpos_x_test_temp = Glob_xpos_x_top[where_test_x,j]
+					Glob_zpos_x_test_temp = Glob_zpos_x_top[where_test_x,j]
+					Glob_energy_dep_x_test_temp = Glob_energy_dep_x_top[where_test_x,j]
+					Glob_pair_flag_x_test_temp = Glob_pair_flag_x_top[where_test_x,j]
+
+				where_test_y_old = np.where(Glob_energy_dep_y_top[:,j] > 0.)
+				where_test_y = where_test_y_old[0]
+
+				if len(where_test_y) != 0:
+					Glob_vol_id_y_test_temp = Glob_vol_id_y_top[where_test_y,j]
+					Glob_moth_id_y_test_temp = Glob_moth_id_y_top[where_test_y,j]
+					Glob_Strip_id_y_test_temp = Glob_Strip_id_y_top[where_test_y,j]
+					Glob_Si_id_y_test_temp = Glob_Si_id_y_top[where_test_y,j]
+					Glob_tray_id_y_test_temp = Glob_tray_id_y_top[where_test_y,j]
+					Glob_plane_id_y_test_temp = Glob_plane_id_y_top[where_test_y,j]
+					Glob_ypos_y_test_temp = Glob_ypos_y_top[where_test_y,j]
+					Glob_zpos_y_test_temp = Glob_zpos_y_top[where_test_y,j]
+					Glob_energy_dep_y_test_temp = Glob_energy_dep_y_top[where_test_y,j]
+					Glob_pair_flag_y_test_temp = Glob_pair_flag_y_top[where_test_y,j]
+					
+				if len(where_test_y) != 0 and len(where_test_x) != 0:
+					Glob_vol_id_test_temp = np.concatenate((Glob_vol_id_y_test_temp, Glob_vol_id_x_test_temp))
+					Glob_moth_id_test_temp = np.concatenate((Glob_moth_id_y_test_temp, Glob_moth_id_x_test_temp))
+					Glob_Strip_id_test_temp = np.concatenate((Glob_Strip_id_y_test_temp, Glob_Strip_id_x_test_temp))
+					Glob_Si_id_test_temp = np.concatenate((Glob_Si_id_y_test_temp, Glob_Si_id_x_test_temp))
+					Glob_tray_id_test_temp = np.concatenate((Glob_tray_id_y_test_temp, Glob_tray_id_x_test_temp))
+					Glob_plane_id_test_temp = np.concatenate((Glob_plane_id_y_test_temp, Glob_plane_id_x_test_temp))
+					Glob_pos_test_temp = np.concatenate((Glob_ypos_y_test_temp, Glob_xpos_x_test_temp))
+					Glob_zpos_test_temp = np.concatenate((Glob_zpos_y_test_temp, Glob_zpos_x_test_temp))
+					Glob_energy_dep_test_temp = np.concatenate((Glob_energy_dep_y_test_temp, Glob_energy_dep_x_test_temp))
+					Glob_pair_flag_test_temp = np.concatenate((Glob_pair_flag_y_test_temp, Glob_pair_flag_x_test_temp))
+
+				elif len(where_test_y) != 0 and len(where_test_x) == 0:
+					Glob_vol_id_test_temp = Glob_vol_id_y_test_temp
+					Glob_moth_id_test_temp = Glob_moth_id_y_test_temp
+					Glob_Strip_id_test_temp = Glob_Strip_id_y_test_temp
+					Glob_Si_id_test_temp = Glob_Si_id_y_test_temp
+					Glob_tray_id_test_temp = Glob_tray_id_y_test_temp
+					Glob_plane_id_test_temp = Glob_plane_id_y_test_temp
+					Glob_pos_test_temp = Glob_ypos_y_test_temp
+					Glob_zpos_test_temp = Glob_zpos_y_test_temp
+					Glob_energy_dep_test_temp = Glob_energy_dep_y_test_temp
+					Glob_pair_flag_test_temp = Glob_pair_flag_y_test_temp
+          				
+				elif len(where_test_y) == 0 and len(where_test_x) != 0:
+					Glob_vol_id_test_temp = Glob_vol_id_x_test_temp
+					Glob_moth_id_test_temp = Glob_moth_id_x_test_temp
+					Glob_Strip_id_test_temp = Glob_Strip_id_x_test_temp
+					Glob_Si_id_test_temp = Glob_Si_id_x_test_temp
+					Glob_tray_id_test_temp = Glob_tray_id_x_test_temp
+					Glob_plane_id_test_temp = Glob_plane_id_x_test_temp
+					Glob_pos_test_temp = Glob_xpos_x_test_temp
+					Glob_zpos_test_temp = Glob_zpos_x_test_temp
+					Glob_energy_dep_test_temp = Glob_energy_dep_x_test_temp
+					Glob_pair_flag_test_temp = Glob_pair_flag_x_test_temp
+										
+
+				
+				
+				# Funzione di ordinamento
+
+				tray_sort_arr_list = []
+				Glob_tray_id_test_temp_sort = Glob_tray_id_test_temp
+				for z in range(len(Glob_tray_id_test_temp_sort)):
+
+					tray_sort_arr_old = z
+					tray_sort_arr_list.append(tray_sort_arr_old)
+						
+				swap = True
+				while swap == True:
+					i = 1
+					swap = False
+												
+					while i < len(Glob_tray_id_test_temp_sort):
+						if Glob_tray_id_test_temp_sort[i-1] > Glob_tray_id_test_temp_sort[i]:
+							temp = Glob_tray_id_test_temp_sort[i-1]
+							Glob_tray_id_test_temp_sort[i-1] = Glob_tray_id_test_temp_sort[i]
+							Glob_tray_id_test_temp_sort[i] = temp
+							temp = tray_sort_arr_list[i-1]
+							tray_sort_arr_list[i-1] = tray_sort_arr_list[i]
+							tray_sort_arr_list[i] = temp
+							swap = True
+						i = i+1
+						
+				tray_sort_arr_temp = np.array(tray_sort_arr_list)				
+
+				# fine funzione di ordinamento	
+
+				tray_sort_arr = tray_sort_arr_temp[::-1]
+
+				Glob_vol_id_test_temp = Glob_vol_id_test_temp[tray_sort_arr]
+			        Glob_moth_id_test_temp = Glob_moth_id_test_temp[tray_sort_arr]
+				Glob_Strip_id_test_temp = Glob_Strip_id_test_temp[tray_sort_arr]
+				Glob_Si_id_test_temp = Glob_Si_id_test_temp[tray_sort_arr]
+				Glob_tray_id_test_temp_descending = sorted(Glob_tray_id_test_temp[tray_sort_arr], reverse=True)
+				Glob_tray_id_test_temp = np.array(Glob_tray_id_test_temp_descending)
+				Glob_plane_id_test_temp = Glob_plane_id_test_temp[tray_sort_arr]
+				Glob_pos_test_temp = Glob_pos_test_temp[tray_sort_arr]
+				Glob_zpos_test_temp = Glob_zpos_test_temp[tray_sort_arr]
+				Glob_energy_dep_test_temp = Glob_energy_dep_test_temp[tray_sort_arr]
+				Glob_pair_flag_test_temp = Glob_pair_flag_test_temp[tray_sort_arr]
+
+
+				vol_id_intray_list = []
+				moth_id_intray_list = []
+				Strip_id_intray_list = []
+				Si_id_intray_list = []
+				tray_id_intray_list = []
+				plane_id_intray_list = []
+				pos_intray_list = []
+				zpos_intray_list = []
+				energy_dep_intray_list = []
+				pair_flag_intray_list = []
+
+
+		
+				intray = 0
+				while 1:
+					where_tray_eq_old = np.where(Glob_tray_id_test_temp == Glob_tray_id_test_temp[intray])
+					where_tray_eq = where_tray_eq_old[0]
+
+					where_other_tray_old = np.where(Glob_tray_id_test_temp != Glob_tray_id_test_temp[intray])
+					where_other_tray = where_other_tray_old[0]
+
+
+					vol_id_extract = Glob_vol_id_test_temp[where_tray_eq]
+					moth_id_extract = Glob_moth_id_test_temp[where_tray_eq]
+					Strip_id_extract = Glob_Strip_id_test_temp[where_tray_eq]
+					Si_id_extract = Glob_Si_id_test_temp[where_tray_eq]
+					tray_id_extract = Glob_tray_id_test_temp[where_tray_eq]
+					plane_id_extract = Glob_plane_id_test_temp[where_tray_eq]
+					pos_extract = Glob_pos_test_temp[where_tray_eq]
+					zpos_extract = Glob_zpos_test_temp[where_tray_eq]
+					energy_dep_extract = Glob_energy_dep_test_temp[where_tray_eq]
+					pair_flag_extract = Glob_pair_flag_test_temp[where_tray_eq]
+
+					where_Y_old = np.where(Si_id_extract == 1)
+					where_Y = where_Y_old[0] 
+
+					if len(where_Y) != 0:
+						vol_id_intray_old = vol_id_extract[where_Y]
+						moth_id_intray_old = moth_id_extract[where_Y]
+						Strip_id_intray_old = Strip_id_extract[where_Y]
+						Si_id_intray_old = Si_id_extract[where_Y]
+						tray_id_intray_old = tray_id_extract[where_Y]
+						plane_id_intray_old = plane_id_extract[where_Y]
+						pos_intray_old = pos_extract[where_Y]
+						zpos_intray_old = zpos_extract[where_Y]
+						energy_dep_intray_old = energy_dep_extract[where_Y]
+						pair_flag_intray_old = pair_flag_extract[where_Y]
+
+						vol_id_intray_list.append(vol_id_intray_old)
+						moth_id_intray_list.append(moth_id_intray_old)
+						Strip_id_intray_list.append(Strip_id_intray_old)
+						Si_id_intray_list.append(Si_id_intray_old)
+						tray_id_intray_list.append(tray_id_intray_old)
+						plane_id_intray_list.append(plane_id_intray_old)
+						pos_intray_list.append(pos_intray_old)
+						zpos_intray_list.append(zpos_intray_old)
+						energy_dep_intray_list.append(energy_dep_intray_old)
+						pair_flag_intray_list.append(pair_flag_intray_old)
+
+
+					where_X_old = np.where(Si_id_extract == 0)
+					where_X = where_X_old[0]
+
+					if len(where_X) != 0:
+						vol_id_intray_old = vol_id_extract[where_X]
+						moth_id_intray_old = moth_id_extract[where_X]
+						Strip_id_intray_old = Strip_id_extract[where_X]
+						Si_id_intray_old = Si_id_extract[where_X]
+						tray_id_intray_old = tray_id_extract[where_X]
+						plane_id_intray_old = plane_id_extract[where_X]
+						pos_intray_old = pos_extract[where_X]
+						zpos_intray_old = zpos_extract[where_X]
+						energy_dep_intray_old = energy_dep_extract[where_X]
+						pair_flag_intray_old = pair_flag_extract[where_X]
+
+						vol_id_intray_list.append(vol_id_intray_old)
+						moth_id_intray_list.append(moth_id_intray_old)
+						Strip_id_intray_list.append(Strip_id_intray_old)
+						Si_id_intray_list.append(Si_id_intray_old)
+						tray_id_intray_list.append(tray_id_intray_old)
+						plane_id_intray_list.append(plane_id_intray_old)
+						pos_intray_list.append(pos_intray_old)
+						zpos_intray_list.append(zpos_intray_old)
+						energy_dep_intray_list.append(energy_dep_intray_old)
+						pair_flag_intray_list.append(pair_flag_intray_old)
+
+ 
+					N_tray_eq = len(where_tray_eq)
+					if where_tray_eq[N_tray_eq-1] < len(Glob_tray_id_test_temp)-1:
+						intray = where_tray_eq[N_tray_eq-1]+1						
+					else:
+						break 
+ 
+				vol_id_intray_concatenate = np.ma.concatenate(vol_id_intray_list)
+				moth_id_intray_concatenate = np.ma.concatenate(moth_id_intray_list)
+				Strip_id_intray_concatenate = np.ma.concatenate(Strip_id_intray_list)
+				Si_id_intray_concatenate = np.ma.concatenate(Si_id_intray_list)
+				tray_id_intray_concatenate = np.ma.concatenate(tray_id_intray_list)
+				plane_id_intray_concatenate = np.ma.concatenate(plane_id_intray_list)
+				pos_intray_concatenate = np.ma.concatenate(pos_intray_list)
+				zpos_intray_concatenate = np.ma.concatenate(zpos_intray_list)
+				energy_dep_intray_concatenate = np.ma.concatenate(energy_dep_intray_list)
+				pair_flag_intray_concatenate = np.ma.concatenate(pair_flag_intray_list)
+ 				
+				vol_id_temp = np.array(vol_id_intray_concatenate)
+				moth_id_temp = np.array(moth_id_intray_concatenate)
+				Strip_id_temp = np.array(Strip_id_intray_concatenate)
+				Si_id_temp = np.array(Si_id_intray_concatenate)
+				tray_id_temp = np.array(tray_id_intray_concatenate)
+				plane_id_temp = np.array(plane_id_intray_concatenate)
+				pos_temp = np.array(pos_intray_concatenate)
+				zpos_temp = np.array(zpos_intray_concatenate)
+				energy_dep_temp = np.array(energy_dep_intray_concatenate)
+				pair_flag_temp = np.array(pair_flag_intray_concatenate)				  
+ 
+ 
+				event_id_temp = []
+				for k in range(len(vol_id_temp)):
+					event_id_temp_old = event_array[j]
+					event_id_temp.append(event_id_temp_old)
+
+
+
+				Glob_event_id_test_old = event_id_temp
+				Glob_vol_id_test_old = vol_id_temp
+				Glob_moth_id_test_old = moth_id_temp
+				Glob_Strip_id_test_old = Strip_id_temp
+				Glob_Si_id_test_old = Si_id_temp
+				Glob_tray_id_test_old = tray_id_temp
+				Glob_plane_id_test_old = plane_id_temp
+				Glob_pos_test_old = pos_temp
+				Glob_zpos_test_old = zpos_temp
+				Glob_energy_dep_test_old = energy_dep_temp
+				Glob_pair_flag_test_old = pair_flag_temp
+
+
+				Glob_event_id_test_list.append(Glob_event_id_test_old)
+				Glob_vol_id_test_list.append(Glob_vol_id_test_old)
+				Glob_moth_id_test_list.append(Glob_moth_id_test_old)
+				Glob_Strip_id_test_list.append(Glob_Strip_id_test_old)
+				Glob_Si_id_test_list.append(Glob_Si_id_test_old)
+				Glob_tray_id_test_list.append(Glob_tray_id_test_old)
+				Glob_plane_id_test_list.append(Glob_plane_id_test_old)
+				Glob_pos_test_list.append(Glob_pos_test_old)
+				Glob_zpos_test_list.append(Glob_zpos_test_old)
+				Glob_energy_dep_test_list.append(Glob_energy_dep_test_old)
+				Glob_pair_flag_test_list.append(Glob_pair_flag_test_old)
+	
+			Glob_event_id_test_concatenate = np.ma.concatenate(Glob_event_id_test_list)	
+			Glob_vol_id_test_concatenate = np.ma.concatenate(Glob_vol_id_test_list)
+			Glob_moth_id_test_concatenate = np.ma.concatenate(Glob_moth_id_test_list)
+			Glob_Strip_id_test_concatenate = np.ma.concatenate(Glob_Strip_id_test_list)
+			Glob_Si_id_test_concatenate = np.ma.concatenate(Glob_Si_id_test_list)
+			Glob_tray_id_test_concatenate = np.ma.concatenate(Glob_tray_id_test_list)
+			Glob_plane_id_test_concatenate = np.ma.concatenate(Glob_plane_id_test_list)
+			Glob_pos_test_concatenate = np.ma.concatenate(Glob_pos_test_list)
+			Glob_zpos_test_concatenate = np.ma.concatenate(Glob_zpos_test_list)
+			Glob_energy_dep_test_concatenate = np.ma.concatenate(Glob_energy_dep_test_list)
+			Glob_pair_flag_test_concatenate = np.ma.concatenate(Glob_pair_flag_test_list)			
+
+			Glob_event_id_test = np.array(Glob_event_id_test_concatenate)
+			Glob_vol_id_test = np.array(Glob_vol_id_test_concatenate)
+			Glob_moth_id_test = np.array(Glob_moth_id_test_concatenate)
+			Glob_Strip_id_test = np.array(Glob_Strip_id_test_concatenate)
+			Glob_Si_id_test = np.array(Glob_Si_id_test_concatenate)
+			Glob_tray_id_test = np.array(Glob_tray_id_test_concatenate)
+			Glob_plane_id_test = np.array(Glob_plane_id_test_concatenate)
+			Glob_pos_test = np.array(Glob_pos_test_concatenate)
+			Glob_zpos_test = np.array(Glob_zpos_test_concatenate)
+			Glob_energy_dep_test = np.array(Glob_energy_dep_test_concatenate)
+			Glob_pair_flag_test = np.array(Glob_pair_flag_test_concatenate, dtype = np.int64)
+
+			#print(Glob_event_id_test_list)
+			# Level 0 = energy summed
+			# Level 0 = the events are sorted in tray, and Y before X within the same tray
+			# energy threshold applied
+
+			col1 = fits.Column(name='EVT_ID', format='I', array=Glob_event_id_test)	
+			col2 = fits.Column(name='VOL_ID', format='J', array=Glob_vol_id_test)
+			col3 = fits.Column(name='MOTH_ID', format='J', array=Glob_moth_id_test)
+			col4 = fits.Column(name='TRAY_ID', format='I', array=Glob_tray_id_test)
+			col5 = fits.Column(name='PLANE_ID', format='I', array=Glob_plane_id_test)
+			col6 = fits.Column(name='TRK_FLAG', format='I', array=Glob_Si_id_test)
+			col7 = fits.Column(name='STRIP_ID', format='J', array=Glob_Strip_id_test)
+			col8 = fits.Column(name='POS', format='F20.5', array=Glob_pos_test)
+			col9 = fits.Column(name='ZPOS', format='F20.5', array=Glob_zpos_test)
+			col10 = fits.Column(name='E_DEP', format='F20.5', array=Glob_energy_dep_test)
+			col11 = fits.Column(name='PAIR_FLAG', format='I', array=Glob_pair_flag_test)
+		
+			cols = fits.ColDefs([col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11])
+			tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+			if os.path.exists(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str	(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
+				os.remove(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str	(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+				tbhdu.writeto(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+			else:
+				tbhdu.writeto(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Creator          = Giovanni Giannella & Simone Guidotti', ext=1)
+
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='THELSIM release  = eASTROGAM '+astrogam_version, ext=1)
+		
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in ='+str(N_in), ext=1)
+		
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='N_trig ='+str(N_trig), ext=1)
+
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='ENERGY ='+ene_type, ext=1)
+
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta ='+str(theta_type), ext=1)
+		
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi ='+str(phi_type), ext=1)
+		
+			fits.setval(outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
+
+
+
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+			print('         ASCII data format for AA input - strip')
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+
+			if os.path.exists(outdir+'/'+sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat'):
+				os.remove(outdir+'/'+sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat')
+				data = open(outdir+'/'+sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
+			else:
+				data = open(outdir+'/'+sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
 
 
 
 
 
+			#print(Glob_event_id_test)
+
+			j=0
+			while 1:
+				where_event_eq_arr = np.where(Glob_event_id_test == Glob_event_id_test[j])
+				where_event_eq = where_event_eq_arr[0]
+				print(j)
+
+				Glob_Si_id_test_temp = Glob_Si_id_test[where_event_eq]
+				Glob_tray_id_test_temp  = Glob_tray_id_test[where_event_eq]
+				Glob_plane_id_test_temp  = Glob_plane_id_test[where_event_eq]
+				Glob_Strip_id_test_temp = Glob_Strip_id_test[where_event_eq]
+				Glob_pos_test_temp = Glob_pos_test[where_event_eq]
+				Glob_zpos_test_temp = Glob_zpos_test[where_event_eq]
+				Glob_energy_dep_test_temp = Glob_energy_dep_test[where_event_eq]
+				Glob_pair_flag_test_temp = Glob_pair_flag_test[where_event_eq]
+
+				# ------------------------------------
+				
+				# X VIEW
+
+				r = 0
+
+				where_x_arr = np.where(Glob_Si_id_test_temp == 0)
+				where_x = where_x_arr[0]				
+				
+				if len(where_x) != 0:				
+					while r < len(where_x):
+						data.write('{:d}\t'.format(Glob_event_id_test[j]))
+						data.write('{:d}\t'.format(theta_type))
+						data.write('{:d}\t'.format(phi_type))
+						data.write('{:s}\t'.format(ene_type))
+						data.write('{:d}\t'.format(Glob_plane_id_test_temp[where_x[r]]))
+						data.write('{:f}\t'.format(Glob_zpos_test_temp[where_x[r]]))
+						data.write('{:d}\t'.format(0))
+						data.write('{:d}\t'.format(Glob_Strip_id_test_temp[where_x[r]]))
+						data.write('{:f}\t'.format(Glob_pos_test_temp[where_x[r]]))
+						data.write('{:f}\t'.format(Glob_energy_dep_test_temp[where_x[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_test_temp[where_x[r]]))
+
+						r = r + 1
+				# ------------------------------------
+
+				# Y VIEW
+
+				r = 0
+
+				where_y_arr = np.where(Glob_Si_id_test_temp == 1)
+				where_y = where_y_arr[0]				
+				
+				if len(where_y) != 0:				
+					while r < len(where_y):
+						data.write('{:d}\t'.format(Glob_event_id_test[j]))
+						data.write('{:d}\t'.format(theta_type))
+						data.write('{:d}\t'.format(phi_type))
+						data.write('{:s}\t'.format(ene_type))
+						data.write('{:d}\t'.format(Glob_plane_id_test_temp[where_y[r]]))
+						data.write('{:f}\t'.format(Glob_zpos_test_temp[where_y[r]]))
+						data.write('{:d}\t'.format(1))
+						data.write('{:d}\t'.format(Glob_Strip_id_test_temp[where_y[r]]))
+						data.write('{:f}\t'.format(Glob_pos_test_temp[where_y[r]]))
+						data.write('{:f}\t'.format(Glob_energy_dep_test_temp[where_y[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_test_temp[where_y[r]]))
+
+						r = r + 1
 
 
+				N_event_eq = len(where_event_eq)
+				if where_event_eq[N_event_eq-1] < len(Glob_event_id_test)-1:
+					j = where_event_eq[N_event_eq-1]+1						
+				else:
+					break 
+
+
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+			print('                      Tracker   ')
+			print('       L0.5 - cluster baricenter ')
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
 
 				# ------------------------------------
