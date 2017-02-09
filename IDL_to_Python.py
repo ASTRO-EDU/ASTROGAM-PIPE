@@ -7,69 +7,12 @@ import pickle
 from astropy.table import Table
 import copy
 import time
+import sys
 
-
-
+sys.argv[0] = 'IDL_to_Python.py'
 ##############################
 #         Funzioni           #
 ##############################
-
-##### Restituisce gli indice del vettore ordinato con grandi dimensioni##
-def big_order(a):							#
-	a_sort = np.sort(a)						#
-	e = 0								#
-	index_arr = np.zeros(len(a), dtype=np.int64)			#
-	for b in range(len(a_sort)):					#
-									#
-		if a_sort[b] == a_sort[b-1]:				#
-			d = index_old + 1				#
-		else:							#
-			d = 0						#
-									#
-		for c in range(d,len(a)):				#
-			if a_sort[b] == a[c]:				#
-				index_arr[e] = c			#
-				index_old = c				#
-				e = e + 1				#
-									#
-				break					#
-									#
-	return(index_arr)						#
-#########################################################################
-
-
-
-##### Restituisce gli indice del vettore ordinato con piccoli dimensioni#
-def small_order(a):							#
-									#
-	index_a_list = []						#
-	a_copy = copy.deepcopy(a)					#
-									#
-	for b in range(len(a_copy)):					#
-		a_copy_old = b						#
-		index_a_list.append(a_copy_old)				#
-									#
-	swap = True							#
-	while swap == True:						#
-		c = 1							#
-		swap = False						#
-									#			
-		while c < len(a_copy):					#
-			if a_copy[c-1] > a_copy[c]:			#
-				temp = a_copy[c-1]			#
-				a_copy[c-1] = a_copy[c]			#
-				a_copy[c] = temp			#
-				temp = index_a_list[c-1]		#
-				index_a_list[c-1] = index_a_list[c]	#
-				index_a_list[c] = temp			#
-				swap = True				#
-			c = c + 1					#
-									#						
-	index_arr = np.array(index_a_list)				#
-	return(index_arr)						#
-									#
-#########################################################################
-
 
 ########## index_uniq da utilizzare solo con array gia' ordinati ########
 def index_uniq(a):							#
@@ -103,28 +46,28 @@ def index_uniq(a):							#
 #     parametri iniziali     #
 ##############################
 
-astrogam_version = 'V1.0'   # Enter eASTROGAM release (e.g. V1.0):
-bogemms_tag = 211           # Enter BoGEMMS release (e.g. 211):
-sim_type = 0                # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 5: G400]:
-py_list = 400               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
-N_in = 100000               # Enter the number of emitted particles:
-part_type = "ph"            # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
-#n_fits = 1                  # Enter number of FITS files:
-ene_range = 0               # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
-ene_min = 100               # Enter miminum energy [MeV]:
-ene_max = 100               # Enter maximum energy [MeV]:
-ang_type = "UNI"            # Enter the angular distribution [e.g. UNI, ISO]:
-theta_type = 30             # Enter theta:
-phi_type = 225              # Enter phi:
-pol_type = 0                # Is the source polarized? [0 = false, 1 = true]:
-pol_angle = 20              # Enter Polarization angle:
-source_g = 0                # Enter source geometry [0 = Point, 1 = Plane]:
-isStrip = 1                 # Strip/Pixels activated? [0 = false, 1 = true]
-repli = 1                   # Strips/Pixels replicated? [0 = false, 1 = true]
-cal_flag = 1                # Is Cal present? [0 = false, 1 = true]:
-ac_flag = 0                 # Is AC present? [0 = false, 1 = true]:
-passive_flag = 0            # Is Passive present? [0 = false, 1 = true]:
-energy_thresh = 15          # Enter energy threshold [keV]:
+astrogam_version = sys.argv[1]           # Enter eASTROGAM release (e.g. V1.0):
+bogemms_tag = int(sys.argv[2])           # Enter BoGEMMS release (e.g. 211):
+sim_type = int(sys.argv[3])              # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 5: G400]:
+py_list = int(sys.argv[4])               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
+N_in = int(sys.argv[5])                  # Enter the number of emitted particles:
+part_type = sys.argv[6]                  # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
+n_fits = int(sys.argv[7])                # Enter number of FITS files:
+ene_range = int(sys.argv[8])             # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
+ene_min = int(sys.argv[9])               # Enter miminum energy [MeV]:
+ene_max = int(sys.argv[10])              # Enter maximum energy [MeV]:
+ang_type = sys.argv[11]                  # Enter the angular distribution [e.g. UNI, ISO]:
+theta_type = int(sys.argv[12])           # Enter theta:
+phi_type = int(sys.argv[13])             # Enter phi:
+pol_type = int(sys.argv[14])             # Is the source polarized? [0 = false, 1 = true]:
+pol_angle = int(sys.argv[15])            # Enter Polarization angle:
+source_g = int(sys.argv[16])             # Enter source geometry [0 = Point, 1 = Plane]:
+isStrip = int(sys.argv[17])              # Strip/Pixels activated? [0 = false, 1 = true]
+repli = int(sys.argv[18])                # Strips/Pixels replicated? [0 = false, 1 = true]
+cal_flag = int(sys.argv[19])             # Is Cal present? [0 = false, 1 = true]:
+ac_flag = int(sys.argv[20])              # Is AC present? [0 = false, 1 = true]:
+passive_flag = int(sys.argv[21])         # Is Passive present? [0 = false, 1 = true]:
+energy_thresh = int(sys.argv[22])        # Enter energy threshold [keV]:
 
 if sim_type != 0 and sim_type != 1 and sim_type != 2 and sim_type != 3 and sim_type != 4 and sim_type != 5:
 	exit('Error: sim_type could be 0 (Mono) - 1 (Range) - 2 (Chen) - 3 (Vela) - 4 (Crab) - 5 (G400)')
@@ -421,7 +364,7 @@ if astrogam_version=='V1.0':
 
 #parte lettura file fits
 
-n_fits = os.listdir('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type)
+#n_fits = os.listdir('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type)
 
 filepath = '/eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+str(theta_type)+'theta.'+pol_string+str(N_in)+part_type
 
@@ -433,7 +376,7 @@ if not os.path.exists('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_typ
 	out_dir = os.makedirs(outdir,0777)
 
 ifile = 0
-while ifile < len(n_fits):
+while ifile < n_fits:
 
 	print('Reading the THELSIM file.....'+ str(ifile))
 
@@ -943,7 +886,7 @@ while ifile < len(n_fits):
 
 
 		if isStrip == 0:
-			if os.path.exists(outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat'):
+			if os.path.exists(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat'):
 				os.remove(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat')
 				data = open(outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
 			else:
@@ -1011,6 +954,7 @@ while ifile < len(n_fits):
 				j_max = max(where_event_eq)
 				
 				j = j_max + 1
+
 			data.close()			
 				
 		    # Loading the LUT
@@ -1436,7 +1380,7 @@ while ifile < len(n_fits):
 
 				# Funzione di ordinamento 1
 										
-				vol_sort_arr = small_order(vol_id_temp)
+				vol_sort_arr = np.argsort(vol_id_temp, kind='mergesort')
 								
 				vol_id_temp = vol_id_temp[vol_sort_arr]
 				moth_id_temp = moth_id_temp[vol_sort_arr]
@@ -1575,7 +1519,7 @@ while ifile < len(n_fits):
 
 				# Funzione di ordinamento 2
 										
-				tray_sort_arr_temp = small_order(Glob_tray_id_test_temp)				
+				tray_sort_arr_temp = np.argsort(Glob_tray_id_test_temp, kind='mergesort')				
 
 				tray_sort_arr = tray_sort_arr_temp[::-1]
 				Glob_vol_id_test_temp = Glob_vol_id_test_temp[tray_sort_arr]
@@ -1818,7 +1762,18 @@ while ifile < len(n_fits):
 				data = open(outdir+'/'+sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat', 'w')
 
 
-
+			# ASCII Columns:
+			# - c1 = event ID
+			# - c2 = theta input
+			# - c3 = phi input
+			# - c4 = energy input
+			# - c5 = plane ID
+			# - c6 = Pos Z
+			# - c7 = X/Y flag (X = 0, Y = 1)
+			# - c8 = Strip ID
+			# - c9 = strip position (reference system center at the Silicon layer center)
+			# - c10 = energy deposition (keV)
+			# - c11 = pair flag (1 = pair, 0 = not pair)
 
 
 			#print(Glob_event_id_test)
@@ -1893,6 +1848,7 @@ while ifile < len(n_fits):
 				else:
 					break 
 
+			data.close()
 
 			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 			print('                      Tracker   ')
@@ -1913,9 +1869,9 @@ while ifile < len(n_fits):
 			Glob_Strip_number_x_top_cluster_list = []
 			Glob_pair_flag_x_top_cluster_list = []
 
-
+			start_for = time.time()
 			for k in range(N_trig):
-
+				start = time.time()
 				N_start = 0
 				j=0
 				
@@ -1924,13 +1880,10 @@ while ifile < len(n_fits):
 					Glob_plane_id_x_top_col = Glob_plane_id_x_top[:,k]
 
 					############ Funzione di ordinamento 3
-					start = time.time()
 				
-					sort_ascending_plane_x = big_order(Glob_plane_id_x_top_col)
-				
-					end_time = time.time() - start
-						
-					print('k :' + str(k), 'j :'+str(j),'Esecution time 3 :'+str(end_time))				
+					sort_ascending_plane_x = np.argsort(Glob_plane_id_x_top_col, kind='mergesort')
+															
+									
 				
 					############ fine funzione di ordinamento	
 
@@ -1979,13 +1932,10 @@ while ifile < len(n_fits):
 
 
 					############ Funzione di ordinamento 4
-					start = time.time()
+
 					
-					sort_strip_ascending = big_order(Glob_Strip_id_x_top_tray)
-					
-					end_time = time.time() - start
-						
-					print('Esecution time 4 :'+str(end_time))				
+					sort_strip_ascending = np.argsort(Glob_Strip_id_x_top_tray, kind='mergesort')
+									
 				
 					############ fine funzione di ordinamento	
 
@@ -2112,8 +2062,10 @@ while ifile < len(n_fits):
 						break
 
 
-
-
+				end_time = time.time() - start
+				print('k :' + str(k),'Esecution time 3-4: '+str(end_time))
+			end_time_for = time.time() - start_for
+			print(end_time_for)
 
 			Glob_event_id_y_top_cluster_list = []
 			Glob_Si_id_y_top_cluster_list = []
@@ -2121,13 +2073,13 @@ while ifile < len(n_fits):
 			Glob_plane_id_y_top_cluster_list = []
 			Glob_zpos_y_top_cluster_list = []
 			Glob_energy_dep_y_top_cluster_list = []
-			Glob_xpos_y_top_cluster_list = []
+			Glob_ypos_y_top_cluster_list = []
 			Glob_Strip_number_y_top_cluster_list = []
 			Glob_pair_flag_y_top_cluster_list = []
 
 
 			for k in range(N_trig):
-
+				start = time.time()
 				N_start = 0
 				j=0
 
@@ -2137,14 +2089,10 @@ while ifile < len(n_fits):
 				while 1:
 
 					############ Funzione di ordinamento 5
-					start = time.time()
 				
-					sort_ascending_plane_y = big_order(Glob_plane_id_y_top_col)
+					sort_ascending_plane_y = np.argsort(Glob_plane_id_y_top_col, kind='mergesort')
 				
-					end_time = time.time() - start
-						
-					print('k :' + str(k), 'j :'+str(j),'Esecution time 5:'+str(end_time))				
-				
+								
 					############ fine funzione di ordinamento
 	
 
@@ -2191,13 +2139,13 @@ while ifile < len(n_fits):
 						Glob_pair_flag_y_top_tray = Glob_pair_flag_y_top_tray[where_layer_y_top]
 					
 					############ Funzione di ordinamento 6
-					start = time.time()
 
-					sort_strip_ascending = big_order(Glob_Strip_id_y_top_tray)
+
+					sort_strip_ascending = np.argsort(Glob_Strip_id_y_top_tray, kind='mergesort')
 				
-					end_time = time.time() - start
+
 						
-					print('Esecution time 6:'+str(end_time))				
+				
 				
 					############ fine funzione di ordinamento
 
@@ -2208,7 +2156,7 @@ while ifile < len(n_fits):
 					Glob_Si_id_y_top_tray = Glob_Si_id_y_top_tray[sort_strip_ascending]
 					Glob_tray_id_y_top_tray = Glob_tray_id_y_top_tray[sort_strip_ascending]
 					Glob_plane_id_y_top_tray = Glob_plane_id_y_top_tray[sort_strip_ascending]
-					Glob_xpos_y_top_tray = Glob_xpos_y_top_tray[sort_strip_ascending]
+					Glob_ypos_y_top_tray = Glob_ypos_y_top_tray[sort_strip_ascending]
 					Glob_zpos_y_top_tray = Glob_zpos_y_top_tray[sort_strip_ascending]
 					Glob_energy_dep_y_top_tray = Glob_energy_dep_y_top_tray[sort_strip_ascending]
 					Glob_pair_flag_y_top_tray = Glob_pair_flag_y_top_tray[sort_strip_ascending]
@@ -2226,8 +2174,8 @@ while ifile < len(n_fits):
 						Glob_plane_id_y_top_cluster_old = Glob_plane_id_y_top_tray
 						Glob_zpos_y_top_cluster_old = Glob_zpos_y_top_tray
 						Glob_energy_dep_y_top_cluster_old = np.sum(e_cluster_temp)
-						Glob_xpos_y_top_cluster_old = (np.sum(wx_cluster_temp)/np.sum(e_cluster_temp))
-						Glob_Strip_number_x_top_cluster_old = nstrip_temp
+						Glob_ypos_y_top_cluster_old = (np.sum(wx_cluster_temp)/np.sum(e_cluster_temp))
+						Glob_Strip_number_y_top_cluster_old = nstrip_temp
 						Glob_pair_flag_y_top_cluster_old = Glob_pair_flag_y_top_tray
 
 
@@ -2237,7 +2185,7 @@ while ifile < len(n_fits):
 						Glob_plane_id_y_top_cluster_list.append(Glob_plane_id_y_top_cluster_old)
 						Glob_zpos_y_top_cluster_list.append(Glob_zpos_y_top_cluster_old)
 						Glob_energy_dep_y_top_cluster_list.append(Glob_energy_dep_y_top_cluster_old)
-						Glob_xpos_y_top_cluster_list.append(Glob_xpos_y_top_cluster_old)
+						Glob_ypos_y_top_cluster_list.append(Glob_ypos_y_top_cluster_old)
 						Glob_Strip_number_y_top_cluster_list.append(Glob_Strip_number_y_top_cluster_old)
 						Glob_pair_flag_y_top_cluster_list.append(Glob_pair_flag_y_top_cluster_old)
 
@@ -2251,7 +2199,7 @@ while ifile < len(n_fits):
 						for jc in range(len(Glob_Strip_id_y_top_tray) -1):
 							if Glob_Strip_id_y_top_tray[jc+1] == (Glob_Strip_id_y_top_tray[jc]+1):
 								e_cluster_temp_old = Glob_energy_dep_y_top_tray[jc+1]
-								wx_cluster_temp_old = Glob_xpos_y_top_tray[jc + 1]*Glob_energy_dep_y_top_tray[jc+1]
+								wx_cluster_temp_old = Glob_ypos_y_top_tray[jc + 1]*Glob_energy_dep_y_top_tray[jc+1]
 								nstrip_temp_old = nstrip_temp+1						
 
 								e_cluster_temp_list.append(e_cluster_temp_old)
@@ -2271,24 +2219,24 @@ while ifile < len(n_fits):
 									Glob_plane_id_y_top_cluster_old = Glob_plane_id_y_top_tray[jc]
 									Glob_zpos_y_top_cluster_old = Glob_zpos_y_top_tray[jc]
 									Glob_energy_dep_y_top_cluster_old = np.sum(e_cluster_temp)
-									Glob_xpos_y_top_cluster_old = (np.sum(wx_cluster_temp)/np.sum(e_cluster_temp))
+									Glob_ypos_y_top_cluster_old = (np.sum(wx_cluster_temp)/np.sum(e_cluster_temp))
 									Glob_Strip_number_y_top_cluster_old = nstrip_temp
 									Glob_pair_flag_y_top_cluster_old = Glob_pair_flag_y_top_tray[jc]
 
 
 								else:
-									Glob_event_id_x_top_cluster_old = k
+									Glob_event_id_y_top_cluster_old = k
 									Glob_Si_id_y_top_cluster_old = Glob_Si_id_y_top_tray[jc]
 									Glob_tray_id_y_top_cluster_old = Glob_tray_id_y_top_tray[jc]
 									Glob_plane_id_y_top_cluster_old = Glob_plane_id_y_top_tray[jc]
 									Glob_zpos_y_top_cluster_old = Glob_zpos_y_top_tray[jc]
 									Glob_energy_dep_y_top_cluster_old = np.sum(e_cluster_temp)
-									Glob_xpos_y_top_cluster_old = (np.sum(wx_cluster_temp)/np.sum(e_cluster_temp))
+									Glob_ypos_y_top_cluster_old = (np.sum(wx_cluster_temp)/np.sum(e_cluster_temp))
 									Glob_Strip_number_y_top_cluster_old = nstrip_temp
 									Glob_pair_flag_y_top_cluster_old = Glob_pair_flag_y_top_tray[jc]
 
 									e_cluster_temp = Glob_energy_dep_y_top_tray[jc+1]
-									wx_cluster_temp = Glob_xpos_y_top_tray[jc+1]*Glob_energy_dep_y_top_tray[jc+1]
+									wx_cluster_temp = Glob_ypos_y_top_tray[jc+1]*Glob_energy_dep_y_top_tray[jc+1]
 									nstrip_temp = 1
 
 									if jc == len(Glob_Strip_id_y_top_tray)-1:
@@ -2298,7 +2246,7 @@ while ifile < len(n_fits):
 										Glob_plane_id_y_top_cluster_old = Glob_plane_id_y_top_tray[jc+1]
 										Glob_zpos_y_top_cluster_old = Glob_zpos_y_top_tray[jc+1]
 										Glob_energy_dep_y_top_cluster_old = Glob_energy_dep_y_top_tray[jc+1]
-										Glob_xpos_y_top_cluster_old = Glob_xpos_y_top_tray[jc +1]
+										Glob_ypos_y_top_cluster_old = Glob_ypos_y_top_tray[jc +1]
 										Glob_Strip_number_y_top_cluster_old = nstrip_temp
 										Glob_pair_flag_y_top_cluster_old = Glob_pair_flag_y_top_tray[jc+1]
 
@@ -2309,7 +2257,7 @@ while ifile < len(n_fits):
 								Glob_plane_id_y_top_cluster_list.append(Glob_plane_id_y_top_cluster_old)
 								Glob_zpos_y_top_cluster_list.append(Glob_zpos_y_top_cluster_old)
 								Glob_energy_dep_y_top_cluster_list.append(Glob_energy_dep_y_top_cluster_old)
-								Glob_xpos_y_top_cluster_list.append(Glob_xpos_y_top_cluster_old)
+								Glob_ypos_y_top_cluster_list.append(Glob_ypos_y_top_cluster_old)
 								Glob_Strip_number_y_top_cluster_list.append(Glob_Strip_number_y_top_cluster_old)
 								Glob_pair_flag_y_top_cluster_list.append(Glob_pair_flag_y_top_cluster_old)
 
@@ -2321,7 +2269,8 @@ while ifile < len(n_fits):
 					else:
 						break
 
-
+				end_time = time.time() - start
+				print('k :' + str(k),'Esecution time 5-6: '+str(end_time))
 
 
 			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -2403,22 +2352,10 @@ while ifile < len(n_fits):
 					Glob_energy_dep_cluster_temp_list.append(Glob_energy_dep_cluster_temp)
 					Glob_pair_flag_cluster_temp_list.append(Glob_pair_flag_cluster_temp)
 				
-				# Funzione di ordinamento
+				# Funzione di ordinamento 7
 
-				tray_sort_arr_list = []
-				Glob_tray_id_cluster_temp_sort = np.sort(Glob_tray_id_cluster_temp)
-				
-				Glob_tray_id_cluster_temp_new = copy.deepcopy(Glob_tray_id_cluster_temp)
-				
-				for z in range(len(Glob_tray_id_cluster_temp_sort)):
-					for t in range(len(Glob_tray_id_cluster_temp_new)):
-						if Glob_tray_id_cluster_temp_sort[z] == Glob_tray_id_cluster_temp_new[t]:
-							index = t
-							tray_sort_arr_list.append(index)
-							Glob_tray_id_cluster_temp_new[t] = -1
-							break
 						
-				tray_sort_arr_temp = np.array(tray_sort_arr_list)				
+				tray_sort_arr_temp = np.argsort(Glob_tray_id_cluster_temp, kind='mergesort')				
 
 				# fine funzione di ordinamento	
 
@@ -2463,6 +2400,8 @@ while ifile < len(n_fits):
 					strip_number_extract = Glob_Strip_number_cluster_temp[where_tray_eq]
 					pair_flag_extract = Glob_pair_flag_cluster_temp[where_tray_eq]
 
+
+
 					where_Xtop_arr = np.where(Si_id_extract == 0)
 					where_Xtop = where_Xtop_arr[0]
 
@@ -2476,6 +2415,14 @@ while ifile < len(n_fits):
 						strip_number_intray = strip_number_extract[where_Xtop]
 						pair_flag_intray = pair_flag_extract[where_Xtop]
 
+						Si_id_temp_list.append(Si_id_intray)
+						tray_id_temp_list.append(tray_id_intray)
+						plane_id_temp_list.append(plane_id_intray)
+						pos_temp_list.append(pos_intray)
+						zpos_temp_list.append(zpos_intray)
+						energy_dep_temp_list.append(energy_dep_intray)
+						strip_number_temp_list.append(strip_number_intray)
+						pair_flag_temp_list.append(pair_flag_intray)				
 					
 					where_Ytop_arr = np.where(Si_id_extract == 1)
 					where_Ytop = where_Ytop_arr[0]
@@ -2491,6 +2438,15 @@ while ifile < len(n_fits):
 						strip_number_intray = strip_number_extract[where_Ytop]
 						pair_flag_intray = pair_flag_extract[where_Ytop]
 
+						Si_id_temp_list.append(Si_id_intray)
+						tray_id_temp_list.append(tray_id_intray)
+						plane_id_temp_list.append(plane_id_intray)
+						pos_temp_list.append(pos_intray)
+						zpos_temp_list.append(zpos_intray)
+						energy_dep_temp_list.append(energy_dep_intray)
+						strip_number_temp_list.append(strip_number_intray)
+						pair_flag_temp_list.append(pair_flag_intray)
+
 
 					N_tray_eq = len(where_tray_eq)
 					if where_tray_eq[N_tray_eq-1] < len(Glob_tray_id_cluster_temp)-1:
@@ -2503,15 +2459,15 @@ while ifile < len(n_fits):
 					event_id_temp[k] = event_array[j]
 
 
-				Glob_event_id_cluster = np.array(event_id_temp)
-				Glob_Si_id_cluster = np.array(Si_id_temp)
-				Glob_tray_id_cluster = np.array(tray_id_temp)
-				Glob_plane_id_cluster = np.array(plane_id_temp)
-				Glob_pos_cluster = np.array(pos_temp)
-				Glob_zpos_cluster = np.array(zpos_temp)
-				Glob_energy_dep_cluster = np.array(energy_dep_temp)
-				Glob_Strip_number_cluster = np.array(strip_number_temp)
-				Glob_pair_flag_cluster = np.array(pair_flag_temp)
+				Glob_event_id_cluster = np.array(event_id_temp_list)
+				Glob_Si_id_cluster = np.array(Si_id_temp_list)
+				Glob_tray_id_cluster = np.array(tray_id_temp_list)
+				Glob_plane_id_cluster = np.array(plane_id_temp_list)
+				Glob_pos_cluster = np.array(pos_temp_list)
+				Glob_zpos_cluster = np.array(zpos_temp_list)
+				Glob_energy_dep_cluster = np.array(energy_dep_temp_list)
+				Glob_Strip_number_cluster = np.array(strip_number_temp_list)
+				Glob_pair_flag_cluster = np.array(pair_flag_temp_list)
 
 				# Level 0.5 = energy summed, MIP threshold applied, strip position used
 
@@ -2651,6 +2607,9 @@ while ifile < len(n_fits):
 					j = where_event_eq[N_event_eq-1]+1						
 				else:
 					break 
+
+
+			data.close()
 					
 			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 			print('         ASCII data format for AA input - pairs')
@@ -2749,6 +2708,7 @@ while ifile < len(n_fits):
 				else:
 					break 					
 
+			data.close()
 
 			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 			print('         ASCII data format for AA input - compton')
@@ -2812,7 +2772,7 @@ while ifile < len(n_fits):
 							data.write('{:d}\t'.format(0))
 							data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
 							data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
-							data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]])
+							data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
 							data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
 											  
 							r = r + 1
@@ -2838,7 +2798,7 @@ while ifile < len(n_fits):
 							data.write('{:d}\t'.format(1))
 							data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
 							data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
-							data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]])
+							data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
 							data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
 														 
 							r = r + 1
@@ -2851,6 +2811,7 @@ while ifile < len(n_fits):
 					break 					
 
 
+			data.close()
 
 	if cal_flag == 1:
 		
@@ -3239,7 +3200,7 @@ while ifile < len(n_fits):
 
 ############    passo a file fits successivo   ####################
 
-
+	t.close()
 				
 	ifile = ifile + 1
 

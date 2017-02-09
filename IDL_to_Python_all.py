@@ -8,35 +8,36 @@ import pickle
 from astropy.table import Table
 import copy
 import time
+import sys
 
-
+sys.argv[0] = 'IDL_to_Python_all.py'
 
 ##############################
 #     parametri iniziali     #
 ##############################
 
-astrogam_version = 'V1.0'   # Enter eASTROGAM release (e.g. V1.0):
-bogemms_tag = 211           # Enter BoGEMMS release (e.g. 211):
-sim_type = 0                # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 5: G400]:
-py_list = 400               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
-N_in = 100000               # Enter the number of emitted particles:
-part_type = "ph"            # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
-#n_fits = 1                  # Enter number of FITS files:
-ene_range = 0               # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
-ene_min = 100               # Enter miminum energy [MeV]:
-ene_max = 100               # Enter maximum energy [MeV]:
-ang_type = "UNI"            # Enter the angular distribution [e.g. UNI, ISO]:
-theta_type = 30             # Enter theta:
-phi_type = 225              # Enter phi:
-pol_type = 0                # Is the source polarized? [0 = false, 1 = true]:
-pol_angle = 20              # Enter Polarization angle:
-source_g = 0                # Enter source geometry [0 = Point, 1 = Plane]:
-isStrip = 1                 # Strip/Pixels activated? [0 = false, 1 = true]
-repli = 1                   # Strips/Pixels replicated? [0 = false, 1 = true]
-cal_flag = 1                # Is Cal present? [0 = false, 1 = true]:
-ac_flag = 0                 # Is AC present? [0 = false, 1 = true]:
-passive_flag = 0            # Is Passive present? [0 = false, 1 = true]:
-energy_thresh = 15          # Enter energy threshold [keV]:
+astrogam_version = sys.argv[1]           # Enter eASTROGAM release (e.g. V1.0):
+bogemms_tag = int(sys.argv[2])           # Enter BoGEMMS release (e.g. 211):
+sim_type = int(sys.argv[3])              # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 5: G400]:
+py_list = int(sys.argv[4])               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
+N_in = int(sys.argv[5])                  # Enter the number of emitted particles:
+part_type = sys.argv[6]                  # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
+n_fits = int(sys.argv[7])                # Enter number of FITS files:
+ene_range = int(sys.argv[8])             # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
+ene_min = int(sys.argv[9])               # Enter miminum energy [MeV]:
+ene_max = int(sys.argv[10])              # Enter maximum energy [MeV]:
+ang_type = sys.argv[11]                  # Enter the angular distribution [e.g. UNI, ISO]:
+theta_type = int(sys.argv[12])           # Enter theta:
+phi_type = int(sys.argv[13])             # Enter phi:
+pol_type = int(sys.argv[14])             # Is the source polarized? [0 = false, 1 = true]:
+pol_angle = int(sys.argv[15])            # Enter Polarization angle:
+source_g = int(sys.argv[16])             # Enter source geometry [0 = Point, 1 = Plane]:
+isStrip = int(sys.argv[17])              # Strip/Pixels activated? [0 = false, 1 = true]
+repli = int(sys.argv[18])                # Strips/Pixels replicated? [0 = false, 1 = true]
+cal_flag = int(sys.argv[19])             # Is Cal present? [0 = false, 1 = true]:
+ac_flag = int(sys.argv[20])              # Is AC present? [0 = false, 1 = true]:
+passive_flag = int(sys.argv[21])         # Is Passive present? [0 = false, 1 = true]:
+energy_thresh = int(sys.argv[22])        # Enter energy threshold [keV]:
 
 if sim_type != 0 and sim_type != 1 and sim_type != 2 and sim_type != 3 and sim_type != 4 and sim_type != 5:
 	exit('Error: sim_type could be 0 (Mono) - 1 (Range) - 2 (Chen) - 3 (Vela) - 4 (Crab) - 5 (G400)')
