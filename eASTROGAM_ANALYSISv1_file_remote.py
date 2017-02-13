@@ -349,9 +349,9 @@ if astrogam_version=='V1.0':
 	panel_top = 340
 
 	# --------> design
-	N_tray = 56l
+	N_tray = 56
 	N_plane = N_tray*1
-	N_strip = 3840l
+	N_strip = 3840
 	tray_side = 92.16 #cm
 	strip_side = tray_side/N_strip
 
