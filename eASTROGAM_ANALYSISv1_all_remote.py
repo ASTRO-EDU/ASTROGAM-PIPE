@@ -423,7 +423,7 @@ acInput_energy_dep_tot_ac = []
 ############################################### Creazione file
 
 
-while ifile < n_fits:
+while ifile <= n_fits:
 
 	if isStrip == 1:
 	
