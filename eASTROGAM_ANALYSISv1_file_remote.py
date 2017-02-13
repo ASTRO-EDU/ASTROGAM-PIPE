@@ -377,7 +377,7 @@ if not os.path.exists('./eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_typ
 	out_dir = os.makedirs(outdir,0777)
 
 #ifile = 0
-while ifile < n_fits:
+while ifile <= n_fits:
 	start = time.time()
 	
 	print('Reading the THELSIM file.....'+ str(ifile))
