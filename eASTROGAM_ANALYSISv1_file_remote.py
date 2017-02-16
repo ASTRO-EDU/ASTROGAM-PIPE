@@ -570,7 +570,7 @@ while ifile <= n_fits:
 				z_pos.append(z_position)
 				
 
-		# Reading the Calorimeter (controllare separazione geantino e altro)
+		# Reading the Calorimeter
 		if cal_flag == 1:
 
 			if vol_id >= cal_vol_start and vol_id <= cal_vol_end:
@@ -765,8 +765,8 @@ while ifile <= n_fits:
 		event_id_tr = np.array(event_id_tr)
 		vol_id_tr = np.array(vol_id_tr)
 		moth_id_tr = np.array(moth_id_tr)
-		tr_id = np.array(tray_id)
-		pl_id = np.array(plane_id)
+		tray_id = np.array(tray_id)
+		plane_id = np.array(plane_id)
 		Strip_id_x = np.array(Strip_id_x)
 		Strip_id_y = np.array(Strip_id_y)
 		en_dep_tr = np.array(en_dep_tr)
@@ -786,8 +786,8 @@ while ifile <= n_fits:
 		col1 = fits.Column(name='EVT_ID', format='I', array=event_id_tr)	
 		col2 = fits.Column(name='VOL_ID', format='I', array=vol_id_tr)
 		col3 = fits.Column(name='MOTH_ID', format='J', array=moth_id_tr)
-		col4 = fits.Column(name='TRAY_ID', format='I', array=tr_id)
-		col5 = fits.Column(name='PLANE_ID', format='I', array=pl_id)
+		col4 = fits.Column(name='TRAY_ID', format='I', array=tray_id)
+		col5 = fits.Column(name='PLANE_ID', format='I', array=plane_id)
 		col6 = fits.Column(name='STRIP_ID_X', format='I', array=Strip_id_x)
 		col7 = fits.Column(name='STRIP_ID_Y', format='I', array=Strip_id_y)
 		col8 = fits.Column(name='E_DEP', format='F20.5', array=en_dep_tr)
@@ -854,7 +854,7 @@ while ifile <= n_fits:
 				where_event_eq = np.where(event_id_tr == event_id_tr[j])
 				where_event_eq = where_event_eq[0]
 
-				plane_id_temp = pl_id[where_event_eq]
+				plane_id_temp = plane_id[where_event_eq]
 				Cluster_x_temp  = x_pos[where_event_eq]
 				Cluster_y_temp  = y_pos[where_event_eq]
 				Cluster_z_temp  = z_pos[where_event_eq]
@@ -974,8 +974,8 @@ while ifile <= n_fits:
 				moth_id_temp  = moth_id_tr[where_event_eq]
 				Strip_id_x_temp  = Strip_id_x[where_event_eq]
 				Strip_id_y_temp  = Strip_id_y[where_event_eq]
-				tray_id_temp  = tr_id[where_event_eq]
-				plane_id_temp  = pl_id[where_event_eq]
+				tray_id_temp  = tray_id[where_event_eq]
+				plane_id_temp  = plane_id[where_event_eq]
 				energy_dep_temp = en_dep_tr[where_event_eq]
 				child_id_temp = child_id_tr[where_event_eq]
 				proc_id_temp = proc_id_tr[where_event_eq]
