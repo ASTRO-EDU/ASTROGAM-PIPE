@@ -22,7 +22,7 @@ sim_type = int(sys.argv[3])              # Enter simulation type [0 = Mono, 1 = 
 py_list = int(sys.argv[4])               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
 N_in = int(sys.argv[5])                  # Enter the number of emitted particles:
 part_type = sys.argv[6]                  # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
-n_fits = int(sys.argv[7])                # Enter number of FITS files:
+n_fits = int(sys.argv[7])                # Enter the final number of FITS files:
 ene_range = int(sys.argv[8])             # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
 ene_min = int(sys.argv[9])               # Enter miminum energy [MeV]:
 ene_max = int(sys.argv[10])              # Enter maximum energy [MeV]:
@@ -38,7 +38,7 @@ cal_flag = int(sys.argv[19])             # Is Cal present? [0 = false, 1 = true]
 ac_flag = int(sys.argv[20])              # Is AC present? [0 = false, 1 = true]:
 passive_flag = int(sys.argv[21])         # Is Passive present? [0 = false, 1 = true]:
 energy_thresh = int(sys.argv[22])        # Enter energy threshold [keV]:
-ifile = int(sys.argv[23])		 # Enter the initial file number
+ifile = int(sys.argv[23])		 # Enter the initial number of FITS files
 
 
 if sim_type != 0 and sim_type != 1 and sim_type != 2 and sim_type != 3 and sim_type != 4 and sim_type != 5:
@@ -297,7 +297,7 @@ if astrogam_version == 'V1.0':
 		stripname = 'PIXEL.REPLI'
 
 
-filepath = './eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV/'
+filepath = './output_eASTROGAM'+astrogam_version+sdir+'/theta'+str(theta_type)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+str(N_in)+part_type+dir_cal+dir_passive+'/'+str(energy_thresh)+'keV/'
 print('LEVEL0 file path: '+ filepath)
 
 
