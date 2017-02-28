@@ -29,34 +29,16 @@
 #ifile					Enter the initial number of FITS files
 #n_fits					Enter the final number of FITS files:
 
-#@ shell = /bin/bash
-#@ job_name = eASTROGAM_analysis
-#@ job_type = serial
-#@ environment= COPY_ALL
-#@ class    = large
-#@ wall_clock_limit = 240:00:00
-#RISORSE PER OGNI TASK
-#@ resources = ConsumableCpus(1) 
-#ConsumableMemory(5000Mb)
-##@ node = 1
-##@ tasks_per_node = 1
-# in alternativa a task_per_node
-##@ total_tasks = 4
-#@ error   = job1.$(jobid).err
-#@ output  = job1.$(jobid).out
-#@ notify_user = giovanni.giannella@studio.unibo.it
-#@ queue
 
- date
 
 #module load python2.7-sci
 
 
 ####per analizzare i file fits di boogems
 
-#python eASTROGAM_ANALYSISv1_file_remote.py V1.0 211 0 400 100000 ph 0 100 100 UNI 30 225 0 20 0 1 1 1 0 0 15 0 2
+python eASTROGAM_ANALYSISv1_file_remote.py V1.0 211 0 400 100000 ph 0 100 100 UNI 30 225 0 20 0 1 1 1 0 0 15 0 0
 
 
 ####per unire gli output processati da eASTROGAM_ANALYSISv3_file_remote
 
-#python eASTROGAM_ANALYSISv1_all_remote.py V1.0 211 0 400 100000 ph 0 100 100 UNI 30 225 0 20 0 1 1 1 0 0 15 0 10
+#python eASTROGAM_ANALYSISv1_all_remote.py V1.0 211 0 400 100000 ph 0 100 100 UNI 30 225 0 20 0 1 1 1 0 0 15 0 1
