@@ -36,9 +36,13 @@
 
 ####per analizzare i file fits di boogems
 
-python eASTROGAM_ANALYSISv1_file_remote.py V1.0 211 0 400 100000 ph 0 100 100 UNI 30 225 0 20 0 1 1 1 0 0 15 0 0
+python eASTROGAM_ANALYSISv1_file_remote.py V1.1 211 0 400 100000 ph 0 100 100 UNI 30 225 0 20 0 1 1 1 0 0 15 0 3
 
 
 ####per unire gli output processati da eASTROGAM_ANALYSISv3_file_remote
 
 #python eASTROGAM_ANALYSISv1_all_remote.py V1.0 211 0 400 100000 ph 0 100 100 UNI 30 225 0 20 0 1 1 1 0 0 15 0 1
+
+### per creare i LUT (file Geometry) ####
+
+#python eASTROGAM_Geometry.py V1.1
