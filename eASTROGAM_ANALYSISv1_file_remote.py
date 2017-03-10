@@ -65,7 +65,7 @@ while ifile <= n_fits:
 	#%                             Processing the tracker                          %
 	#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	if astrogam_version == 'V1.0':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
 
 		# From Tracker volume ID to strip and tray ID and conversion from tray ID (starting from bottom) to plane ID (starting from the top)
 
@@ -76,7 +76,7 @@ while ifile <= n_fits:
 	print('           Saving the Tracker raw hits (fits and .dat)      ')
 	print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
-	if astrogam_version == 'V1.0':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
 		
 		dhseASTROGAM.writing_G4raw(N_in, part_type, theta_type, phi_type, ifile, astrogam_version)		
 
@@ -98,6 +98,10 @@ while ifile <= n_fits:
 			
 			dhseASTROGAM.writing_AA_fake(astrogam_version, N_in, part_type, theta_type, phi_type, ifile)		
 				
+		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+		print('                             Tracker   ')
+		print('  Creation of LUT data table with summed energy for each volume       ')
+		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
 		# Loading the LUT
 
@@ -120,7 +124,7 @@ while ifile <= n_fits:
 			dhseASTROGAM.index_uniq()
 
 			
-	if astrogam_version == 'V1.0':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
 
 		if isStrip == 1:
 
@@ -262,10 +266,22 @@ while ifile <= n_fits:
 		print('                Summing the energy                ')
 		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
+		dhseASTROGAM.writing_cal_raw(N_in, part_type, theta_type, phi_type, ifile, astrogam_version)
+
 		dhseASTROGAM.G4_cal()
 		
 		dhseASTROGAM.writing_G4cal(astrogam_version, N_in, part_type, theta_type, phi_type, ifile)
 
+		dhseASTROGAM.compton_cal()
+		
+		if len(dhseASTROGAM.where_compton_cal) != 0:
+			dhseASTROGAM.writing_G4_cal_compton(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
+		
+		dhseASTROGAM.pair_cal()
+		
+		if len(dhseASTROGAM.where_pair_cal) != 0:
+			dhseASTROGAM.writing_G4_cal_pair(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
+		
 		dhseASTROGAM.cal_sum()
 		
 		dhseASTROGAM.writing_cal_sum(astrogam_version, N_in, part_type, theta_type, phi_type, ifile)
@@ -275,12 +291,30 @@ while ifile <= n_fits:
 
 		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 		print('                          AC')
+		print('                    write raw data                 ')
+		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+
+		dhseASTROGAM.writing_ac_raw(N_in, part_type, theta_type, phi_type, ifile, astrogam_version)
+
+		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+		print('                          AC')
 		print('                  Summing the energy                ')
 		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
 		dhseASTROGAM.AC_analysis()
 
 		dhseASTROGAM.writing_G4ac(astrogam_version, N_in, part_type, theta_type, phi_type, ifile)
+
+		dhseASTROGAM.compton_ac()
+		
+		if len(dhseASTROGAM.where_compton_ac) != 0:
+			dhseASTROGAM.writing_G4_ac_compton(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
+		
+		dhseASTROGAM.pair_ac()
+		
+		if len(dhseASTROGAM.where_pair_ac) != 0:
+			dhseASTROGAM.writing_G4_ac_pair(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
+
 
 ############    next fits file   ####################
 
