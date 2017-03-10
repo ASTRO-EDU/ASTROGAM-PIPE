@@ -50,8 +50,12 @@ class DHSim:
 
 		if astrogam_version=='V1.0':
 			astrogam_tag = '01'
+			sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'0102'
 
-		sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'0102'
+		if astrogam_version=='V1.1':
+			astrogam_tag = '11'
+			sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
+
 
 		if ene_range == 0:
 			ene_dis = 'MONO'
@@ -251,7 +255,7 @@ class DHSim:
 		if passive_flag == 1:
 			dir_passive = '/WithPassive'
 
-		if astrogam_version == 'V1.0':
+		if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
 			if isStrip == 0:
 				stripDir = 'NoPixel/'
 			if isStrip == 1 and repli == 0:
@@ -268,16 +272,21 @@ class DHSim:
 
 
 
-	# setting specific agile version variables
+		# setting specific agile version variables
 
-		if astrogam_version=='V1.0':
+		if astrogam_version=='V1.0' or astrogam_version=='V1.1':
 			# --------> volume ID
 			tracker_top_vol_start = 1090000
 			tracker_bottom_vol_start = 1000000
 			tracker_top_bot_diff = 90000
 
-			cal_vol_start = 50000
-			cal_vol_end = 58463
+			if astrogam_version=='V1.0':				
+				cal_vol_start = 50000
+				cal_vol_end = 58463
+
+			if astrogam_version=='V1.1':				
+				cal_vol_start = 50000
+				cal_vol_end = 83855
 
 			ac_vol_start = 301
 			ac_vol_end = 350
@@ -409,8 +418,11 @@ class DHSim:
 		x_ex_tr = []
 		y_ex_tr = []
 		z_ex_tr = []
+		part_id_tr = []
+		trk_id_tr = []
 		child_id_tr = []
 		proc_id_tr = []
+		gtime_ent_tr = []
 		theta_ent_tr = []
 		phi_ent_tr = []
 		theta_exit_tr = []
@@ -433,8 +445,11 @@ class DHSim:
 		phi_ent_cal = []
 		theta_exit_cal = []
 		phi_exit_cal = []
+		part_id_cal = []
+		trk_id_cal = []
 		child_id_cal = []
-		proc_id_cal = []			
+		proc_id_cal = []
+		gtime_ent_cal = []
 	
 		event_id_ac = []
 		vol_id_ac = []
@@ -449,8 +464,11 @@ class DHSim:
 		phi_ent_ac = []
 		theta_exit_ac = []
 		phi_exit_ac = []
+		part_id_ac = []
+		trk_id_ac = []
 		child_id_ac = []
-		proc_id_ac = []		
+		proc_id_ac = []
+		gtime_ent_ac = []
 		moth_id_ac = []
 	
 		i = 0
@@ -465,11 +483,6 @@ class DHSim:
 		        cos_x_angle_exit = mdx_exit[i]
 		        cos_y_angle_exit = mdy_exit[i]
 		        cos_z_angle_exit = mdz_exit[i]
-		        gtime_en = gtime_ent[i]
-			gtime_ex = gtime_exit[i]
-			part_id = particle_id[i]
-			part_name = particle_name[i]
-			proc_name = process_name[i]
 		
 			#  Reading the tracker (events with E > 0)
 	       		        
@@ -493,7 +506,7 @@ class DHSim:
 					x_position = x_en + ((x_ex - x_en)/2.)
 					y_position = y_en + ((y_ex - y_en)/2.)
 					z_position = z_en + ((z_ex - z_en)/2.)
-
+	
 					vol_id_tr.append(volume_id[i])
 					moth_id_tr.append(mother_id[i])
 					event_id_tr.append(evt_id[i])
@@ -513,6 +526,10 @@ class DHSim:
 					x_pos.append(x_position)
 					y_pos.append(y_position)
 					z_pos.append(z_position)
+					part_id_tr.append(particle_id[i])
+					trk_id_tr.append(trk_id[i])
+					gtime_ent_tr.append(gtime_ent[i])					
+
 
 				if energy_dep > 0.:
 
@@ -552,6 +569,9 @@ class DHSim:
 					x_pos.append(x_position)
 					y_pos.append(y_position)
 					z_pos.append(z_position)
+					part_id_tr.append(particle_id[i])
+					trk_id_tr.append(trk_id[i])
+					gtime_ent_tr.append(gtime_ent[i])					
 				
 
 			# Reading the Calorimeter
@@ -585,6 +605,9 @@ class DHSim:
 
 						child_id_cal.append(parent_trk_id[i])
 						proc_id_cal.append(process_id[i])
+						part_id_cal.append(particle_id[i])
+						trk_id_cal.append(trk_id[i])
+						gtime_ent_cal.append(gtime_ent[i])					
 					
 
 					if energy_dep > 0.:
@@ -613,6 +636,9 @@ class DHSim:
 
 						child_id_cal.append(parent_trk_id[i])
 						proc_id_cal.append(process_id[i])
+						part_id_cal.append(particle_id[i])
+						trk_id_cal.append(trk_id[i])
+						gtime_ent_cal.append(gtime_ent[i])					
 
 
 			# Reading the AC
@@ -650,6 +676,9 @@ class DHSim:
 
 						child_id_ac.append(parent_trk_id[i])
 						proc_id_ac.append(process_id[i])
+						part_id_ac.append(particle_id[i])
+						trk_id_ac.append(trk_id[i])
+						gtime_ent_ac.append(gtime_ent[i])					
 
 
 					if energy_dep > 0.:
@@ -682,6 +711,9 @@ class DHSim:
 
 						child_id_ac.append(parent_trk_id[i])
 						proc_id_ac.append(process_id[i])
+						part_id_ac.append(particle_id[i])
+						trk_id_ac.append(trk_id[i])
+						gtime_ent_ac.append(gtime_ent[i])					
 
 	
 
@@ -706,6 +738,9 @@ class DHSim:
 		x_pos = np.array(x_pos)
 		y_pos = np.array(y_pos)
 		z_pos = np.array(z_pos)
+		part_id_tr = np.array(part_id_tr)
+		trk_id_tr = np.array(trk_id_tr)
+		gtime_ent_tr = np.array(gtime_ent_tr)					
 
 		###### calorimeter arrays
 
@@ -725,6 +760,10 @@ class DHSim:
 		child_id_cal = np.array(child_id_cal)
 		proc_id_cal = np.array(proc_id_cal)			
 		moth_id_cal = np.array(moth_id_cal)
+		part_id_cal = np.array(part_id_cal)
+		trk_id_cal = np.array(trk_id_cal)
+		gtime_ent_cal = np.array(gtime_ent_cal)					
+
 
 		#### AC arrays
 
@@ -732,6 +771,9 @@ class DHSim:
 		vol_id_ac = np.array(vol_id_ac)
 		en_dep_ac = np.array(en_dep_ac)
 		moth_id_ac =np.array(moth_id_ac)
+		part_id_ac = np.array(part_id_ac)
+		trk_id_ac = np.array(trk_id_ac)
+		gtime_ent_ac = np.array(gtime_ent_ac)					
 
 		
 		self.vol_id_tr = vol_id_tr 
@@ -753,6 +795,10 @@ class DHSim:
 		self.x_pos = x_pos 
 		self.y_pos = y_pos
 		self.z_pos = z_pos 
+		self.part_id_tr = part_id_tr
+		self.trk_id_tr = trk_id_tr
+		self.gtime_ent_tr = gtime_ent_tr					
+
 		self.vol_id_cal = vol_id_cal 
 		self.moth_id_cal = moth_id_cal
 		self.event_id_cal = event_id_cal
@@ -769,6 +815,10 @@ class DHSim:
 		self.phi_ent_cal = phi_ent_cal 
 		self.theta_exit_cal = theta_exit_cal 
 		self.phi_exit_cal = phi_exit_cal 
+		self.part_id_cal = part_id_cal
+		self.trk_id_cal = trk_id_cal
+		self.gtime_ent_cal = gtime_ent_cal					
+
 		self.vol_id_ac = vol_id_ac 
 		self.event_id_ac = event_id_ac
 		self.en_dep_ac = en_dep_ac 
@@ -784,6 +834,9 @@ class DHSim:
 		self.phi_ent_ac = phi_ent_ac 
 		self.theta_exit_ac = theta_exit_ac 
 		self.phi_exit_ac = phi_exit_ac
+		self.part_id_ac = part_id_ac
+		self.trk_id_ac = trk_id_ac
+		self.gtime_ent_ac = gtime_ent_ac					
 		
 		
 
@@ -863,12 +916,15 @@ class DHSim:
 		col10 = fits.Column(name='Y_ENT', format='F20.5', array=self.y_en_tr)
 		col11 = fits.Column(name='Z_ENT', format='F20.5', array=self.z_en_tr)
 		col12 = fits.Column(name='X_EXIT', format='F20.5', array=self.x_ex_tr)
-		col13 = fits.Column(name='Y_EXIT', format='F20.5', array=self.y_en_tr)
-		col14 = fits.Column(name='Z_EXIT', format='F20.5', array=self.z_en_tr)
-		col15 = fits.Column(name='CHILD_ID', format='I', array=self.child_id_tr)
-		col16 = fits.Column(name='PROC_ID', format='I', array=self.proc_id_tr)
+		col13 = fits.Column(name='Y_EXIT', format='F20.5', array=self.y_ex_tr)
+		col14 = fits.Column(name='Z_EXIT', format='F20.5', array=self.z_ex_tr)
+		col15 = fits.Column(name='PART_ID', format='I', array=self.part_id_tr)
+		col16 = fits.Column(name='TRK_ID', format='I', array=self.trk_id_tr)
+		col17 = fits.Column(name='CHILD_ID', format='I', array=self.child_id_tr)
+		col18 = fits.Column(name='PROC_ID', format='I', array=self.proc_id_tr)
+
 		
-		cols = fits.ColDefs([col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col14,col15,col16])
+		cols = fits.ColDefs([col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col14,col15,col16,col17,col18])
 		tbhdu = fits.BinTableHDU.from_columns(cols)			
 		
 		
@@ -892,9 +948,6 @@ class DHSim:
 
 		fits.setval(self.outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
 		
-
-
-
 	#### L0.fits  ############
 
 	def writing_L0(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
@@ -978,6 +1031,53 @@ class DHSim:
 			
 		fits.setval(self.outdir+'/L0.5.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
 			
+
+	###### cal_raw.fits  ########
+
+	def writing_cal_raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
+
+		
+		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_cal)	
+		col2 = fits.Column(name='VOL_ID', format='I', array=self.vol_id_cal)
+		col3 = fits.Column(name='MOTH_ID', format='J', array=self.moth_id_cal)
+		col4 = fits.Column(name='E_DEP', format='F20.5', array=self.energy_dep_cal)
+		col5 = fits.Column(name='X_ENT', format='F20.5', array=self.x_en_cal)
+		col6 = fits.Column(name='Y_ENT', format='F20.5', array=self.y_en_cal)
+		col7 = fits.Column(name='Z_ENT', format='F20.5', array=self.z_en_cal)
+		col8 = fits.Column(name='X_EXIT', format='F20.5', array=self.x_ex_cal)
+		col9 = fits.Column(name='Y_EXIT', format='F20.5', array=self.y_ex_cal)
+		col10 = fits.Column(name='Z_EXIT', format='F20.5', array=self.z_ex_cal)
+		col11 = fits.Column(name='PART_ID', format='I', array=self.part_id_cal)
+		col12 = fits.Column(name='TRK_ID', format='I', array=self.trk_id_cal)
+		col13 = fits.Column(name='CHILD_ID', format='I', array=self.child_id_cal)
+		col14 = fits.Column(name='PROC_ID', format='I', array=self.proc_id_cal)
+
+		
+		cols = fits.ColDefs([col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col14])
+		tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+		if os.path.exists(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits'):
+			os.remove(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+			tbhdu.writeto(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+		else:
+			tbhdu.writeto(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+
+		fits.setval(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in ='+str(N_in), ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy ='+self.ene_type, ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta ='+str(theta_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi ='+str(phi_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Position unit = cm', ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
+
+
 			
 	#############  G4_Cal.fits  #############
 
@@ -986,9 +1086,9 @@ class DHSim:
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal)	
 		col2 = fits.Column(name='BAR_ID', format='I', array=self.bar_id_tot)
 		col3 = fits.Column(name='BAR_ENERGY', format='F20.15', array=self.bar_ene_tot)
-
+		col4 = fits.Column(name='PAIR_FLAG', format='I', array=self.pair_flag_tot_cal)
 		
-		cols = fits.ColDefs([col1,col2,col3])
+		cols = fits.ColDefs([col1,col2,col3,col4])
 		tbhdu = fits.BinTableHDU.from_columns(cols)			
 		
 		
@@ -1009,6 +1109,68 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
 
 		fits.setval(self.outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
+
+
+	####### COMPTON/PAIR CAL EVENTS FITS #########
+	
+	def writing_G4_cal_compton(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+		
+		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal_compton)	
+		col2 = fits.Column(name='BAR_ID', format='I', array=self.bar_id_tot_compton)
+		col3 = fits.Column(name='BAR_ENERGY', format='F20.15', array=self.bar_ene_tot_compton)
+		col4 = fits.Column(name='PAIR_FLAG', format='I', array=self.pair_flag_tot_cal_compton)
+		
+		cols = fits.ColDefs([col1,col2,col3,col4])
+		tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+		if os.path.exists(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits'):
+			os.remove(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+			tbhdu.writeto(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+		else:
+			tbhdu.writeto(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+
+		fits.setval(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in =  ' +str(N_in), ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy     = '+self.ene_type, ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta     = '+str(theta_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
+		
+
+	def writing_G4_cal_pair(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+	
+		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal_pair)	
+		col2 = fits.Column(name='BAR_ID', format='I', array=self.bar_id_tot_pair)
+		col3 = fits.Column(name='BAR_ENERGY', format='F20.15', array=self.bar_ene_tot_pair)
+		col4 = fits.Column(name='PAIR_FLAG', format='I', array=self.pair_flag_tot_cal_pair)
+		
+		cols = fits.ColDefs([col1,col2,col3,col4])
+		tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+		if os.path.exists(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits'):
+			os.remove(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+			tbhdu.writeto(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+		else:
+			tbhdu.writeto(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+
+		fits.setval(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in =  ' +str(N_in), ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy     = '+self.ene_type, ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta     = '+str(theta_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 			
 	######### Cal Sum.fits  ##################
@@ -1041,6 +1203,55 @@ class DHSim:
 		fits.setval(self.outdir+'/SUM.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 
+
+	###### cal_raw.fits  ########
+
+	def writing_ac_raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
+
+		
+		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_ac)	
+		col2 = fits.Column(name='VOL_ID', format='I', array=self.vol_id_ac)
+		col3 = fits.Column(name='MOTH_ID', format='J', array=self.moth_id_ac)
+		col4 = fits.Column(name='E_DEP', format='F20.5', array=self.energy_dep_ac)
+		col5 = fits.Column(name='X_ENT', format='F20.5', array=self.x_en_ac)
+		col6 = fits.Column(name='Y_ENT', format='F20.5', array=self.y_en_ac)
+		col7 = fits.Column(name='Z_ENT', format='F20.5', array=self.z_en_ac)
+		col8 = fits.Column(name='X_EXIT', format='F20.5', array=self.x_ex_ac)
+		col9 = fits.Column(name='Y_EXIT', format='F20.5', array=self.y_ex_ac)
+		col10 = fits.Column(name='Z_EXIT', format='F20.5', array=self.z_ex_ac)
+		col11 = fits.Column(name='PART_ID', format='I', array=self.part_id_ac)
+		col12 = fits.Column(name='TRK_ID', format='I', array=self.trk_id_ac)
+		col13 = fits.Column(name='CHILD_ID', format='I', array=self.child_id_ac)
+		col14 = fits.Column(name='PROC_ID', format='I', array=self.proc_id_ac)
+
+		
+		cols = fits.ColDefs([col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13,col14])
+		tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+		if os.path.exists(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits'):
+			os.remove(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+			tbhdu.writeto(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+		else:
+			tbhdu.writeto(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+
+		fits.setval(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in ='+str(N_in), ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy ='+self.ene_type, ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta ='+str(theta_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi ='+str(phi_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Position unit = cm', ext=1)
+
+		fits.setval(self.outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
+
+
+
+
 	########## G4_AC.fits #################
 
 	def writing_G4ac(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
@@ -1049,8 +1260,9 @@ class DHSim:
 		col2 = fits.Column(name='AC_PANEL', format='A', array=self.AC_panel)
 		col3 = fits.Column(name='AC_SUBPANEL', format='I', array=self.AC_subpanel)
 		col4 = fits.Column(name='E_DEP', format='F20.15', array=self.energy_dep_tot_ac)
-		
-		cols = fits.ColDefs([col1,col2,col3,col4])
+		col5 = fits.Column(name='PIR_FLAG', format='I', array=self.pair_flag_tot_ac)
+
+		cols = fits.ColDefs([col1,col2,col3,col4,col5])
 		tbhdu = fits.BinTableHDU.from_columns(cols)			
 		
 		
@@ -1072,6 +1284,72 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
 
 		fits.setval(self.outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
+
+
+
+	####### COMPTON/PAIR AC EVENTS FITS #########
+	
+	def writing_G4_ac_compton(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+		
+		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_ac_compton)	
+		col2 = fits.Column(name='AC_PANEL', format='A', array=self.AC_panel_compton)
+		col3 = fits.Column(name='AC_SUBPANEL', format='I', array=self.AC_subpanel_compton)
+		col4 = fits.Column(name='E_DEP', format='F20.15', array=self.energy_dep_tot_ac_compton)
+		col5 = fits.Column(name='PIR_FLAG', format='I', array=self.pair_flag_tot_ac_compton)
+
+		cols = fits.ColDefs([col1,col2,col3,col4,col5])
+		tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+		if os.path.exists(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits'):
+			os.remove(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+			tbhdu.writeto(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+		else:
+			tbhdu.writeto(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+
+		fits.setval(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in =  ' +str(N_in), ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy     = '+self.ene_type, ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta     = '+str(theta_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
+		
+
+	def writing_G4_ac_pair(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+	
+		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_ac_pair)	
+		col2 = fits.Column(name='AC_PANEL', format='A', array=self.AC_panel_pair)
+		col3 = fits.Column(name='AC_SUBPANEL', format='I', array=self.AC_subpanel_pair)
+		col4 = fits.Column(name='E_DEP', format='F20.15', array=self.energy_dep_tot_ac_pair)
+		col5 = fits.Column(name='PIR_FLAG', format='I', array=self.pair_flag_tot_ac_pair)
+
+		cols = fits.ColDefs([col1,col2,col3,col4,col5])
+		tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+		if os.path.exists(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits'):
+			os.remove(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+			tbhdu.writeto(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+		else:
+			tbhdu.writeto(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits')
+
+		fits.setval(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='N_in =  ' +str(N_in), ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy     = '+self.ene_type, ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Theta     = '+str(theta_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
+
+		fits.setval(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
+
 
 
 	####### AA Strip ##############
@@ -1282,7 +1560,7 @@ class DHSim:
 				
 			if len(where_x) != 0:				
 				while r < len(where_x):
-					if Glob_pair_flag_cluster_temp[where_x[r]] == 1:
+					if Glob_pair_flag_cluster_temp[where_x[r]] == 1 or Glob_pair_flag_cluster_temp[where_x[r]] == 3:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1307,7 +1585,7 @@ class DHSim:
 				
 			if len(where_y) != 0:				
 				while r < len(where_y):
-					if Glob_pair_flag_cluster_temp[where_y[r]] == 1:
+					if Glob_pair_flag_cluster_temp[where_y[r]] == 1 or Glob_pair_flag_cluster_temp[where_y[r]] == 3:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1371,7 +1649,7 @@ class DHSim:
 										   
 			if len(where_x) != 0:
 				while r < len(where_x):
-					if Glob_pair_flag_cluster_temp[where_x[r]] == 2:
+					if Glob_pair_flag_cluster_temp[where_x[r]] == 2 or Glob_pair_flag_cluster_temp[where_x[r]] == 4:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1397,7 +1675,7 @@ class DHSim:
 												  
 			if len(where_y) != 0:				
 				while r < len(where_y):
-					if Glob_pair_flag_cluster_temp[where_y[r]] == 2:
+					if Glob_pair_flag_cluster_temp[where_y[r]] == 2 or Glob_pair_flag_cluster_temp[where_y[r]] == 4:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1574,6 +1852,7 @@ class DHSim:
 		plane_id_tot = []
 		energy_dep_tot = []
 		pair_flag_tot = []
+		gtime_tot = []
 			
 		j = 0
 		while 1:          
@@ -1590,18 +1869,48 @@ class DHSim:
 			energy_dep_temp = self.en_dep_tr[where_event_eq]
 			child_id_temp = self.child_id_tr[where_event_eq]
 			proc_id_temp = self.proc_id_tr[where_event_eq]
+			gtime_temp = self.gtime_ent_tr[where_event_eq]
+			trk_id_temp = self.trk_id_tr[where_event_eq] 
 
+			where_pair = np.where((child_id_temp == 1) & (proc_id_temp == 7) & (trk_id_temp <= 3))
+			where_pair = where_pair[0]
+			where_compton = np.where((child_id_temp == 1) & (proc_id_temp == 3) & (trk_id_temp <= 2))
+			where_compton = where_compton[0]
 
+			if len(where_pair) != 0:
+				gtime_pair = gtime_temp[where_pair]
+				ispair = 1
+			else:
+				ispair = 0
+
+			if len(where_compton) != 0:
+				gtime_compton = gtime_temp[where_compton]
+				iscompton = 1
+			else:
+				iscompton = 0
+
+			if ispair == 1 and iscompton == 1:
+				if gtime_pair[0] < gtime_compton[0]:
+					iscompton = 0
+				if gtime_compton[0] < gtime_pair[0]:
+					ispair = 0
+
+		
 
 			r = 0												
 			while 1:
-					
+						
+				ispair_vol = 0
+				iscompton_vol = 0
+				isprimary_vol = 0
+	
 				where_vol_eq = np.where((vol_id_temp == vol_id_temp[r]) & (moth_id_temp == moth_id_temp[r]))										
 				where_vol_eq = where_vol_eq[0]	
 
 				where_other_vol = np.where((vol_id_temp != vol_id_temp[r]) | (moth_id_temp != moth_id_temp[r]))
 				where_other_vol = where_other_vol[0]
-
+		
+				# summing the energy of the same event 
 				e_dep_temp_old = np.sum(energy_dep_temp[where_vol_eq])
 				event_id_tot_old = self.event_id_tr[j]
 				vol_id_tot_old = vol_id_temp[r]
@@ -1623,28 +1932,62 @@ class DHSim:
 				plane_id_tot.append(plane_id_tot_old)
 				energy_dep_tot.append(energy_dep_tot_old)					
 					
-				# if one of hits in the same volume is a pair the summed event is flagged as 1
+				#Searching for Pair/Compton events of secondary particles generated by the primary
+				#if one of hits in the same volume is a pair the summed event is flagged as 1
+				#if one of hits in the same volume is a compton the summed event is flagged as 2
+				#hits generated by the primary before pair interaction are flagged as 3
+				#hits generated by the primary after compton interaction are flagged as 4
+
 				all_child = child_id_temp[where_vol_eq]
+				all_trk = trk_id_temp[where_vol_eq]
 				all_proc = proc_id_temp[where_vol_eq]
+				all_gtime = gtime_temp[where_vol_eq]
 
-				where_pair = np.where((all_child == 1) & (all_proc == 7))
-				where_pair = where_pair[0]
+				where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
+				where_pair_vol = where_pair_vol[0]
 
-				if len(where_pair) != 0:
+				where_compton_vol = np.where((all_child == 1) & (all_proc == 3) & (all_trk <= 2))
+				where_compton_vol = where_compton_vol[0]
+
+
+				if len(where_pair_vol) != 0 and ispair == 1:
 					pair_flag_tot_old = 1
-				else:
-					pair_flag_tot_old = 0				
-				pair_flag_tot.append(pair_flag_tot_old)	
-	 
-				where_compton = np.where((all_child == 1) & (all_proc == 3))
-				where_compton = where_compton[0]
+					ispair_vol = 1
 
-				if len(where_compton) != 0:
+					pair_flag_tot.append(pair_flag_tot_old)	
+	 
+
+				if len(where_compton_vol) != 0 and iscompton == 1:
 					pair_flag_tot_old = 2
-				else:
-					pair_flag_tot_old = 0
+					iscompton_vol = 1
 				
-				pair_flag_tot.append(pair_flag_tot_old)	
+					pair_flag_tot.append(pair_flag_tot_old)	
+
+				where_primary = np.where(all_child == 0)
+				where_primary = where_primary[0]
+
+				if ispair == 1 and  ispair_vol == 0:
+					if len(where_primary) != 0:
+						if all_gtime[where_primary[0]] < gtime_pair[0]:
+							pair_flag_tot_old = 3
+							isprimary_vol = 1
+							
+							pair_flag_tot.append(pair_flag_tot_old)
+
+
+				if iscompton == 1 and  iscompton_vol == 0:
+					if len(where_primary) != 0:
+						if all_gtime[where_primary[0]] < gtime_compton[0]:
+							pair_flag_tot_old = 4
+							isprimary_vol = 1
+							
+							pair_flag_tot.append(pair_flag_tot_old)
+
+
+				if ispair_vol == 0 and iscompton_vol == 0 and isprimary_vol == 0:
+					pair_flag_tot_old = 0
+
+					pair_flag_tot.append(pair_flag_tot_old)
 
 				if len(where_other_vol) != 0:
 					vol_id_temp = vol_id_temp[where_other_vol]
@@ -1654,8 +1997,10 @@ class DHSim:
 					tray_id_temp = tray_id_temp[where_other_vol]
 					plane_id_temp = plane_id_temp[where_other_vol]
 					energy_dep_temp = energy_dep_temp[where_other_vol]
+					trk_id_temp = trk_id_temp[where_other_vol]
 					child_id_temp = child_id_temp[where_other_vol]
 					proc_id_temp = proc_id_temp[where_other_vol]
+					gtime_temp = gtime_temp[where_other_vol]
 					
 				else:
 					break
@@ -3041,6 +3386,7 @@ class DHSim:
 		bar_id_tot = []
 		moth_id_tot_cal = []
 		bar_ene_tot = []
+		pair_flag_tot_cal = []
 		
 		j=0
 		while 1:
@@ -3053,9 +3399,43 @@ class DHSim:
 			vol_id_temp_cal = self.vol_id_cal[where_event_eq]
 			moth_id_temp_cal = self.moth_id_cal[where_event_eq]
 			bar_ene_temp = bar_ene[where_event_eq]
+			trk_id_temp_cal = self.trk_id_cal[where_event_eq]
+			child_id_temp_cal = self.child_id_cal[where_event_eq]
+			proc_id_temp_cal = self.proc_id_cal[where_event_eq]
+			gtime_temp_cal = self.gtime_ent_cal[where_event_eq]
+
+			where_pair = np.where((child_id_temp_cal == 1) & (proc_id_temp_cal == 7) & (trk_id_temp_cal <= 3))
+			where_pair = where_pair[0]
+
+			where_compton = np.where((child_id_temp_cal == 1) & (proc_id_temp_cal == 3) & (trk_id_temp_cal <= 2))
+			where_compton = where_compton[0]
+
+			if len(where_pair) != 0:
+				gtime_pair = gtime_temp_cal[where_pair]
+				ispair = 1
+			else:
+				ispair = 0
+
+			if len(where_compton) != 0:
+				gtime_compton = gtime_temp_cal[where_compton]
+				iscompton = 1
+			else:
+				iscompton = 0
+
+  
+			if ispair == 1 and iscompton == 1:
+				if gtime_pair[0] < gtime_compton[0]:
+					iscompton = 0
+
+				if gtime_compton[0] < gtime_pair[0]:
+					ispair = 0
 
 			r = 0
 			while 1:
+
+				ispair_vol = 0
+				iscompton_vol = 0
+				isprimary_vol = 0
 					 
 				where_vol_eq = np.where(vol_id_temp_cal == vol_id_temp_cal[r])
 				where_vol_eq = where_vol_eq[0]
@@ -3077,11 +3457,73 @@ class DHSim:
 					bar_id_tot.append(bar_id_tot_old )
 					moth_id_tot_cal.append(moth_id_tot_cal_old)
 					bar_ene_tot.append(bar_ene_tot_old) 
+
+
+					#Searching for Pair/Compton events of secondary particles generated by the primary
+					#if one of hits in the same volume is a pair the summed event is flagged as 1
+					#if one of hits in the same volume is a compton the summed event is flagged as 2
+					#hits generated by the primary are flagged as 3
+					all_child = child_id_temp_cal[where_vol_eq]
+					all_trk = trk_id_temp_cal[where_vol_eq]
+					all_proc = proc_id_temp_cal[where_vol_eq]
+					all_gtime = gtime_temp_cal[where_vol_eq]
+        
+					where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
+					where_pair_vol = where_pair_vol[0]
+
+					where_compton_vol = np.where((all_child == 1) & (all_proc == 3) & (all_trk <= 2))
+					where_compton_vol = where_compton_vol[0]
+
+					if len(where_pair_vol) != 0 and ispair == 1:
+						pair_flag_tot_old = 1
+						ispair_vol = 1
+
+						pair_flag_tot_cal.append(pair_flag_tot_old)	
+	 
+	
+					if len(where_compton_vol) != 0 and iscompton == 1:
+						pair_flag_tot_old = 2
+						iscompton_vol = 1
+				
+						pair_flag_tot_cal.append(pair_flag_tot_old)	
+
+					where_primary = np.where(all_child == 0)
+					where_primary = where_primary[0]
+
+					if ispair == 1 and  ispair_vol == 0:
+						if len(where_primary) != 0:
+							if all_gtime[where_primary[0]] < gtime_pair[0]:
+								pair_flag_tot_old = 3
+								isprimary_vol = 1
+							
+								pair_flag_tot_cal.append(pair_flag_tot_old)
+
+
+					if iscompton == 1 and  iscompton_vol == 0:
+						if len(where_primary) != 0:
+							if all_gtime[where_primary[0]] < gtime_compton[0]:
+								pair_flag_tot_old = 4
+								isprimary_vol = 1
+							
+								pair_flag_tot_cal.append(pair_flag_tot_old)
+
+
+					if ispair_vol == 0 and iscompton_vol == 0 and isprimary_vol == 0:
+						pair_flag_tot_old = 0
+
+						pair_flag_tot_cal.append(pair_flag_tot_old)
+
+
 					
 				if where_other_vol != []:
 					vol_id_temp_cal = vol_id_temp_cal[where_other_vol]
 					moth_id_temp_cal = moth_id_temp_cal[where_other_vol]
 					bar_ene_temp = bar_ene_temp[where_other_vol]
+					trk_id_temp_cal = trk_id_temp_cal[where_other_vol]
+					child_id_temp_cal = child_id_temp_cal[where_other_vol]
+					proc_id_temp_cal = proc_id_temp_cal[where_other_vol]
+					gtime_temp_cal = gtime_temp_cal[where_other_vol]
+
 				else:
 					break
 
@@ -3096,11 +3538,63 @@ class DHSim:
 		event_id_tot_cal = np.array((event_id_tot_cal), dtype = np.int64)
 		bar_id_tot = np.array((bar_id_tot), dtype = np.int64)
 		bar_ene_tot = np.array(bar_ene_tot)
+		pair_flag_tot_cal = np.array(pair_flag_tot_cal)
+
 
 		self.event_id_tot_cal = event_id_tot_cal 
 		self.bar_id_tot = bar_id_tot 
 		self.bar_ene_tot = bar_ene_tot
+		self.pair_flag_tot_cal = pair_flag_tot_cal
+
+
+	######## COMPTON/PAIR CAL EVENTS ######
 	
+	def compton_cal(self):
+
+		where_compton_cal = np.where((self.pair_flag_tot_cal == 2) | (self.pair_flag_tot_cal == 4))
+		where_compton_cal = where_compton_cal[0]
+
+		if len(where_compton_cal) != 0:
+			event_id_tot_cal_compton = self.event_id_tot_cal[where_compton_cal]
+			bar_id_tot_compton = self.bar_id_tot[where_compton_cal]
+			bar_ene_tot_compton = self.bar_ene_tot[where_compton_cal]
+			pair_flag_tot_cal_compton = self.pair_flag_tot_cal[where_compton_cal]
+
+			self.event_id_tot_cal_compton = event_id_tot_cal_compton
+			self.bar_id_tot_compton = bar_id_tot_compton
+			self.bar_ene_tot_compton = bar_ene_tot_compton
+			self.pair_flag_tot_cal_compton = pair_flag_tot_cal_compton
+			
+	
+		else:
+			print('No Compton CAL events found')
+	
+		self.where_compton_cal = where_compton_cal 
+
+		
+	def pair_cal(self):
+
+		where_pair_cal = np.where((self.pair_flag_tot_cal == 1) | (self.pair_flag_tot_cal == 3))
+		where_pair_cal = where_pair_cal[0]
+
+		if len(where_pair_cal) != 0:
+			event_id_tot_cal_pair = self.event_id_tot_cal[where_pair_cal]
+			bar_id_tot_pair = self.bar_id_tot[where_pair_cal]
+			bar_ene_tot_pair = self.bar_ene_tot[where_pair_cal]
+			pair_flag_tot_cal_pair = self.pair_flag_tot_cal[where_pair_cal]
+
+			self.event_id_tot_cal_pair = event_id_tot_cal_pair
+			self.bar_id_tot_pair = bar_id_tot_pair
+			self.bar_ene_tot_pair = bar_ene_tot_pair
+			self.pair_flag_tot_cal_pair = pair_flag_tot_cal_pair
+		
+
+
+		else:
+			print('No Pair CAL events found')
+
+		self.where_pair_cal = where_pair_cal
+
 	################################
 
 	def cal_sum(self):
@@ -3148,7 +3642,7 @@ class DHSim:
 		vol_id_tot_ac = []
 		moth_id_tot_ac = []
 		energy_dep_tot_ac = []
-
+		pair_flag_tot_ac = []
 
 
 		j=0
@@ -3161,10 +3655,45 @@ class DHSim:
 			vol_id_temp_ac = self.vol_id_ac[where_event_eq]
 			moth_id_temp_ac = self.moth_id_ac[where_event_eq]
 			energy_dep_temp_ac = self.energy_dep_ac[where_event_eq]
+			trk_id_temp_ac = self.trk_id_ac[where_event_eq]
+			child_id_temp_ac = self.child_id_ac[where_event_eq]
+			proc_id_temp_ac = self.proc_id_ac[where_event_eq]
+			gtime_temp_ac = self.gtime_ent_ac[where_event_eq]
 
+			where_pair = np.where((child_id_temp_ac == 1) & (proc_id_temp_ac == 7) & (trk_id_temp_ac <= 3))
+			where_pair = where_pair[0]
+
+			where_compton = np.where((child_id_temp_ac == 1) & (proc_id_temp_ac == 3) & (trk_id_temp_ac <= 2))
+			where_compton = where_compton[0]
+
+			if len(where_pair) != 0:
+				gtime_pair = gtime_temp_ac[where_pair]
+				ispair = 1
+			else:
+				ispair = 0
+
+			if len(where_compton) != 0:
+				gtime_compton = gtime_temp_ac[where_compton]
+				iscompton = 1
+			else:
+				iscompton = 0
+
+  
+			if ispair == 1 and iscompton == 1:
+				if gtime_pair[0] < gtime_compton[0]:
+					iscompton = 0
+
+				if gtime_compton[0] < gtime_pair[0]:
+					ispair = 0
+			
 
 			r = 0
 			while 1:
+
+				ispair_vol = 0
+				iscompton_vol = 0
+				isprimary_vol = 0
+
 				where_vol_eq = np.where(vol_id_temp_ac == vol_id_temp_ac[r])
 				where_vol_eq = where_vol_eq[0]
 
@@ -3182,10 +3711,70 @@ class DHSim:
 				energy_dep_tot_ac.append(energy_dep_tot_ac_old)
 
 
+				#Searching for Pair/Compton events of secondary particles generated by the primary
+				#if one of hits in the same volume is a pair the summed event is flagged as 1
+				#if one of hits in the same volume is a compton the summed event is flagged as 2
+				#hits generated by the primary are flagged as 3
+				all_child = child_id_temp_ac[where_vol_eq]
+				all_trk = trk_id_temp_ac[where_vol_eq]
+				all_proc = proc_id_temp_ac[where_vol_eq]
+				all_gtime = gtime_temp_ac[where_vol_eq]
+        
+				where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
+				where_pair_vol = where_pair_vol[0]
+
+				where_compton_vol = np.where((all_child == 1) & (all_proc == 3) & (all_trk <= 2))
+				where_compton_vol = where_compton_vol[0]
+
+				if len(where_pair_vol) != 0 and ispair == 1:
+					pair_flag_tot_old = 1
+					ispair_vol = 1
+
+					pair_flag_tot_ac.append(pair_flag_tot_old)	
+	 
+	
+				if len(where_compton_vol) != 0 and iscompton == 1:
+					pair_flag_tot_old = 2
+					iscompton_vol = 1
+				
+					pair_flag_tot_ac.append(pair_flag_tot_old)	
+
+				where_primary = np.where(all_child == 0)
+				where_primary = where_primary[0]
+
+				if ispair == 1 and  ispair_vol == 0:
+					if len(where_primary) != 0:
+						if all_gtime[where_primary[0]] < gtime_pair[0]:
+							pair_flag_tot_old = 3
+							isprimary_vol = 1
+							
+							pair_flag_tot_ac.append(pair_flag_tot_old)
+
+
+				if iscompton == 1 and  iscompton_vol == 0:
+					if len(where_primary) != 0:
+						if all_gtime[where_primary[0]] < gtime_compton[0]:
+							pair_flag_tot_old = 4
+							isprimary_vol = 1
+							
+							pair_flag_tot_ac.append(pair_flag_tot_old)
+
+
+				if ispair_vol == 0 and iscompton_vol == 0 and isprimary_vol == 0:
+					pair_flag_tot_old = 0
+
+					pair_flag_tot_ac.append(pair_flag_tot_old)
+
+
 				if len(where_other_vol) != 0:
-					vol_id_temp_ac = vol_id_temp_ac(where_other_vol)
-					moth_id_temp_ac = moth_id_temp_ac(where_other_vol)
-					energy_dep_temp_ac = energy_dep_temp_ac(where_other_vol)
+					vol_id_temp_ac = vol_id_temp_ac[where_other_vol]
+					moth_id_temp_ac = moth_id_temp_ac[where_other_vol]
+					energy_dep_temp_ac = energy_dep_temp_ac[where_other_vol]
+					trk_id_temp_ac = trk_id_temp_ac[where_other_vol]
+					child_id_temp_ac = child_id_temp_ac[where_other_vol]
+					proc_id_temp_ac = proc_id_temp_ac[where_other_vol]
+					gtime_temp_ac = gtime_temp_ac[where_other_vol]
+
 				else:
 					break
 
@@ -3286,10 +3875,58 @@ class DHSim:
 		AC_subpanel = np.array(AC_subpanel)
 		event_id_tot_ac = np.array(event_id_tot_ac)
 		energy_dep_tot_ac = np.array(energy_dep_tot_ac)
+		pair_flag_tot_ac = np.array(pair_flag_tot_ac)
 
 		self.AC_panel = AC_panel 
 		self.AC_subpanel = AC_subpanel 
 		self.event_id_tot_ac = event_id_tot_ac 
 		self.energy_dep_tot_ac = energy_dep_tot_ac
 
+	######## COMPTON/PAIR AC EVENTS ######
+	
+	def compton_ac(self):
+
+		where_compton_ac = np.where((self.pair_flag_tot_ac == 2) | (self.pair_flag_tot_ac == 4))
+		where_compton_ac = where_compton_ac[0]
+
+		if len(where_compton_ac) != 0:
+			event_id_tot_ac_compton = self.event_id_tot_ac[where_compton_ac]
+			bar_id_tot_compton = self.bar_id_tot[where_compton_ac]
+			bar_ene_tot_compton = self.bar_ene_tot[where_compton_ac]
+			pair_flag_tot_ac_compton = self.pair_flag_tot_ac[where_compton_ac]
+
+			self.event_id_tot_ac_compton = event_id_tot_ac_compton
+			self.bar_id_tot_compton = bar_id_tot_compton
+			self.bar_ene_tot_compton = bar_ene_tot_compton
+			self.pair_flag_tot_ac_compton = pair_flag_tot_ac_compton
+			
+	
+		else:
+			print('No Compton AC events found')
+	
+		self.where_compton_ac = where_compton_ac 
+
+		
+	def pair_ac(self):
+
+		where_pair_ac = np.where((self.pair_flag_tot_ac == 1) | (self.pair_flag_tot_ac == 3))
+		where_pair_ac = where_pair_ac[0]
+
+		if len(where_pair_ac) != 0:
+			event_id_tot_ac_pair = self.event_id_tot_ac[where_pair_ac]
+			bar_id_tot_pair = self.bar_id_tot[where_pair_ac]
+			bar_ene_tot_pair = self.bar_ene_tot[where_pair_ac]
+			pair_flag_tot_ac_pair = self.pair_flag_tot_ac[where_pair_ac]
+
+			self.event_id_tot_ac_pair = event_id_tot_ac_pair
+			self.bar_id_tot_pair = bar_id_tot_pair
+			self.bar_ene_tot_pair = bar_ene_tot_pair
+			self.pair_flag_tot_ac_pair = pair_flag_tot_ac_pair
+		
+
+
+		else:
+			print('No Pair AC events found')
+
+		self.where_pair_ac = where_pair_ac
 										
