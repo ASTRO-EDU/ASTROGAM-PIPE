@@ -145,8 +145,6 @@ while ifile <= n_fits:
 
 			dhseASTROGAM.build_L0()
 
-#			dhseASTROGAM.ene_strip_plan_y()
-
 			# Level 0 = energy summed
 			# Level 0 = the events are sorted in tray, and Y before X within the same tray
 			# energy threshold applied		
@@ -190,8 +188,6 @@ while ifile <= n_fits:
 			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
 			dhseASTROGAM.merging()			
-
-			dhseASTROGAM.ene_cluster_plan_y()
 
 			# Level 0.5 = energy summed, MIP threshold applied, strip position used
 
