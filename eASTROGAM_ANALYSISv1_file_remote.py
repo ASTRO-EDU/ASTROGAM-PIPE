@@ -59,7 +59,7 @@ while ifile <= n_fits:
 	
 	print('Reading the THELSIM file.....'+ str(ifile))
 
-	dhseASTROGAM.reading_fits(ifile, cal_flag, ac_flag, part_type)
+	dhseASTROGAM.reading_fits(ifile, cal_flag, ac_flag, part_type, isStrip)
 		
 	#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	#%                             Processing the tracker                          %
@@ -119,6 +119,8 @@ while ifile <= n_fits:
 				
 			dhseASTROGAM.summing_energy()
 
+			dhseASTROGAM.energy_trheshold()		
+		
 			####index uniq event_id_tot
 
 			dhseASTROGAM.index_uniq()
@@ -133,7 +135,7 @@ while ifile <= n_fits:
 			print('Number of tracker triggered events: '+ str(dhseASTROGAM.N_trig))
 			
 			dhseASTROGAM.strip_analysis()
-		
+ 		
 			print('N_ev: '+ str(dhseASTROGAM.N_ev))				
 
 			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -142,6 +144,7 @@ while ifile <= n_fits:
 			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')		
 
 			dhseASTROGAM.build_L0()
+
 
 			# Level 0 = energy summed
 			# Level 0 = the events are sorted in tray, and Y before X within the same tray
