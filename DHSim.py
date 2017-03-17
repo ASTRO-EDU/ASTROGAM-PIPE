@@ -3916,9 +3916,6 @@ class DHSim:
 		energy_dep_tot_ac = np.array(energy_dep_tot_ac)
 		pair_flag_tot_ac = np.array(pair_flag_tot_ac)
 
-		print(len(AC_panel))
-		print(AC_panel)
-
 		self.AC_panel = AC_panel 
 		self.AC_subpanel = AC_subpanel 
 		self.event_id_tot_ac = event_id_tot_ac 
@@ -3960,7 +3957,6 @@ class DHSim:
 		where_pair_ac = np.where((self.pair_flag_tot_ac == 1) | (self.pair_flag_tot_ac == 3))
 		where_pair_ac = where_pair_ac[0]
 	
-		print(self.AC_panel)
 
 		if len(where_pair_ac) != 0:
 			event_id_tot_ac_pair = self.event_id_tot_ac[where_pair_ac]
