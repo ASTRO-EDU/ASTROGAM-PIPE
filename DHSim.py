@@ -390,7 +390,6 @@ class DHSim:
 		trk_id = tbdata.field('TRK_ID')
 		parent_trk_id = tbdata.field('PARENT_TRK_ID')
 		volume_id = tbdata.field('VOLUME_ID')
-		volume_name = tbdata.field('VOLUME_NAME')
 		mother_id = tbdata.field('MOTHER_ID')
 		e_dep = tbdata.field('E_DEP')
 		x_ent = tbdata.field('X_ENT')
@@ -399,8 +398,6 @@ class DHSim:
 		x_exit = tbdata.field('X_EXIT')
 		y_exit = tbdata.field('Y_EXIT')
 		z_exit = tbdata.field('Z_EXIT')
-		e_kin_ent = tbdata.field('E_KIN_ENT')
-		e_kin_exit = tbdata.field('E_KIN_EXIT')
 		mdx_ent = tbdata.field('MDX_ENT')
 		mdy_ent = tbdata.field('MDY_ENT')
 		mdz_ent = tbdata.field('MDZ_ENT')
@@ -408,11 +405,8 @@ class DHSim:
 		mdy_exit = tbdata.field('MDY_EXIT')
 		mdz_exit = tbdata.field('MDZ_EXIT')
 		gtime_ent = tbdata.field('GTIME_ENT')
-		gtime_exit = tbdata.field('GTIME_EXIT')
 		particle_id = tbdata.field('PARTICLE_ID')
-		particle_name = tbdata.field('PARTICLE_NAME')
 		process_id = tbdata.field('PROCESS_ID')
-		process_name = tbdata.field('PROCESS_NAME')
 	
 	
 		vol_id_tr = []	
