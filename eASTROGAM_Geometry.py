@@ -200,72 +200,29 @@ while t < N_tray:
 		
 		index = (t*N_strip) + s
 
-		Glob_moth_id_x_top = np.delete(Glob_moth_id_x_top, index)
-		Glob_moth_id_x_top = np.insert(Glob_moth_id_x_top, index, copyM + 90000)
-
-		Glob_tray_id_x_top = np.delete(Glob_tray_id_x_top, index)
-		Glob_tray_id_x_top = np.insert(Glob_tray_id_x_top, index, t+1)
-
-		Glob_plane_id_x_top = np.delete(Glob_plane_id_x_top, index)
-		Glob_plane_id_x_top = np.insert(Glob_plane_id_x_top, index, N_tray - t)
-
-		Glob_Si_id_x_top = np.delete(Glob_Si_id_x_top, index)
-		Glob_Si_id_x_top = np.insert(Glob_Si_id_x_top, index, 0)
-		
-		Glob_Strip_id_x_top = np.delete(Glob_Strip_id_x_top, index)
-		Glob_Strip_id_x_top = np.insert(Glob_Strip_id_x_top, index, s)
-		
-		Glob_energy_dep_x_top = np.delete(Glob_energy_dep_x_top, index)
-		Glob_energy_dep_x_top = np.insert(Glob_energy_dep_x_top, index, 0.)
-		
-		Glob_vol_id_x_top = np.delete(Glob_vol_id_x_top, index)
-		Glob_vol_id_x_top = np.insert(Glob_vol_id_x_top, index, s)
-
-		Glob_pair_flag_x_top = np.delete(Glob_pair_flag_x_top, index)
-		Glob_pair_flag_x_top = np.insert(Glob_pair_flag_x_top, index, 0)
-
-
+		Glob_moth_id_x_top[index] = copyM + 90000
+		Glob_tray_id_x_top[index] = t+1
+		Glob_plane_id_x_top[index] = N_tray - t
+		Glob_Si_id_x_top[index] = 0
+		Glob_Strip_id_x_top[index] = s
+		Glob_energy_dep_x_top[index] = 0.
+		Glob_vol_id_x_top[index] = s
+		Glob_pair_flag_x_top[index] = 0
 		Strip_pos_x_top = -(Tray_side/2.0) + (pitch/2.) + (pitch*s)
+		Glob_pos_x_top[index] = Strip_pos_x_top/10.    #cm
+		Glob_z_x_top[index] = pos_z_x_top/10.
 
-		Glob_pos_x_top = np.delete(Glob_pos_x_top, index)
-		Glob_pos_x_top = np.insert(Glob_pos_x_top, index, Strip_pos_x_top/10.)    #cm
-  
-		Glob_z_x_top = np.delete(Glob_z_x_top, index)
-		Glob_z_x_top = np.insert(Glob_z_x_top, index, pos_z_x_top/10.)
-
-
-		Glob_moth_id_y_top = np.delete(Glob_moth_id_y_top, index)
-		Glob_moth_id_y_top = np.insert(Glob_moth_id_y_top, index, copyM + 90000)
-
-		Glob_tray_id_y_top = np.delete(Glob_tray_id_y_top, index)
-		Glob_tray_id_y_top = np.insert(Glob_tray_id_y_top, index, t+1)
-
-		Glob_plane_id_y_top = np.delete(Glob_plane_id_y_top, index)
-		Glob_plane_id_y_top = np.insert(Glob_plane_id_y_top, index, N_tray - t)
-
-		Glob_Si_id_y_top = np.delete(Glob_Si_id_y_top, index)
-		Glob_Si_id_y_top = np.insert(Glob_Si_id_y_top, index, 1)
-		
-		Glob_Strip_id_y_top = np.delete(Glob_Strip_id_y_top, index)
-		Glob_Strip_id_y_top = np.insert(Glob_Strip_id_y_top, index, s)
-		
-		Glob_energy_dep_y_top = np.delete(Glob_energy_dep_y_top, index)
-		Glob_energy_dep_y_top = np.insert(Glob_energy_dep_y_top, index, 0.)
-		
-		Glob_vol_id_y_top = np.delete(Glob_vol_id_y_top, index)
-		Glob_vol_id_y_top = np.insert(Glob_vol_id_y_top, index, s)
-
-		Glob_pair_flag_y_top = np.delete(Glob_pair_flag_y_top, index)
-		Glob_pair_flag_y_top = np.insert(Glob_pair_flag_y_top, index, 0)
-
-
+		Glob_moth_id_y_top[index] = copyM + 90000
+		Glob_tray_id_y_top[index] = t+1
+		Glob_plane_id_y_top[index] = N_tray - t
+		Glob_Si_id_y_top[index] = 1
+		Glob_Strip_id_y_top[index] = s
+		Glob_energy_dep_y_top[index] = 0.
+		Glob_vol_id_y_top[index] = s
+		Glob_pair_flag_y_top[index] = 0
 		Strip_pos_y_top = -(Tray_side/2.0) + (pitch/2.) + (pitch*s)
-
-		Glob_pos_y_top = np.delete(Glob_pos_y_top, index)
-		Glob_pos_y_top = np.insert(Glob_pos_y_top, index, Strip_pos_y_top/10.)    #cm
-  
-		Glob_z_y_top = np.delete(Glob_z_y_top, index)
-		Glob_z_y_top = np.insert(Glob_z_y_top, index, pos_z_y_top/10.)
+		Glob_pos_y_top[index] = Strip_pos_y_top/10.    #cm
+		Glob_z_y_top[index] = pos_z_y_top/10.
 		
 		s = s + 1
 
