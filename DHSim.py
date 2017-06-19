@@ -309,6 +309,7 @@ class DHSim:
 			# --------> processing
 			# accoppiamento capacitivo
 			# acap = [0.035, 0.045, 0.095, 0.115, 0.38, 1., 0.38, 0.115, 0.095, 0.045, 0.035]
+			
 			# tracker energy threshold (0.25 MIP)
 			E_th = float(energy_thresh)  # keV
 
@@ -477,13 +478,13 @@ class DHSim:
 		
 			vol_id = volume_id[i]        
 			moth_id = mother_id[i]
-		        energy_dep = e_dep[i]         
-		        cos_x_angle_ent = mdx_ent[i]
-		        cos_y_angle_ent = mdy_ent[i]
-		        cos_z_angle_ent = mdz_ent[i]
-		        cos_x_angle_exit = mdx_exit[i]
-		        cos_y_angle_exit = mdy_exit[i]
-		        cos_z_angle_exit = mdz_exit[i]
+			energy_dep = e_dep[i]         
+			cos_x_angle_ent = mdx_ent[i]
+			cos_y_angle_ent = mdy_ent[i]
+			cos_z_angle_ent = mdz_ent[i]
+			cos_x_angle_exit = mdx_exit[i]
+			cos_y_angle_exit = mdy_exit[i]
+			cos_z_angle_exit = mdz_exit[i]
 		
 			#  Reading the tracker (events with E > 0)
 	       		        
@@ -877,7 +878,7 @@ class DHSim:
 					Strip_y = self.vol_id_tr[j]
 					tray = self.moth_id_tr[j]/self.tracker_bottom_vol_start
 					invert_tray_id = (self.N_tray - tray)+1
-					vol_id_temp = self.moth_id_tr[j] - (self.tracker_bottom_vol_start*tray + self.tracker_top_bot_diff) # removing 1000000xn_tray + 90000					#
+					vol_id_temp = self.moth_id_tr[j] - (self.tracker_bottom_vol_start*tray + self.tracker_top_bot_diff) # removing 1000000xn_tray + 90000
 					Strip_x = vol_id_temp
 					plane = invert_tray_id	
 
@@ -1484,8 +1485,6 @@ class DHSim:
 		else:
 			data = open(self.outdir+'/'+self.sim_tag+'_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
 		
-
-		totalstrips_before = 0
 		j=0
 		while j < len(self.Glob_event_id_cluster):
 			
@@ -1522,8 +1521,8 @@ class DHSim:
 					data.write('{:d}\t'.format(0))
 					data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
 					data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
-					data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
-					data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
+					data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
+					#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
 
 					r = r + 1
 			# ------------------------------------
@@ -1546,8 +1545,8 @@ class DHSim:
 					data.write('{:d}\t'.format(1))
 					data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
 					data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
-					data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
-					data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
+					data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
+					#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
 
 					r = r + 1
 
@@ -1609,8 +1608,8 @@ class DHSim:
 						data.write('{:d}\t'.format(0))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
-						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
-						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
+						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
+						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
 				
 					r = r + 1
 			# ------------------------------------
@@ -1634,8 +1633,8 @@ class DHSim:
 						data.write('{:d}\t'.format(1))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
-						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
-						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
+						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
+						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
 
 					r = r + 1
 
@@ -1698,8 +1697,8 @@ class DHSim:
 						data.write('{:d}\t'.format(0))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
-						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
-						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
+						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
+						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
 												  
 					r = r + 1
 							
@@ -1724,8 +1723,8 @@ class DHSim:
 						data.write('{:d}\t'.format(1))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
-						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
-						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
+						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
+						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
 															 
 					r = r + 1
 															 
@@ -2109,11 +2108,162 @@ class DHSim:
 		self.energy_dep_tot_temp = energy_dep_tot_temp 
 		self.pair_flag_tot_temp = pair_flag_tot_temp
 
+
+	def acap(self):
+		event_id_tot_list = []
+		vol_id_tot_list = []
+		moth_id_tot_list = []
+		Strip_id_tot_list = []
+		Si_id_tot_list = []
+		tray_id_tot_list = []
+		plane_id_tot_list = []
+		#energy_dep_tot_list = []
+		pair_flag_tot_list = []
+		
+		energy = np.zeros(len(self.energy_dep_tot_temp))
+
+		j = 0
+		while j < len(self.energy_dep_tot_temp):	
+			event_id_tot = self.event_id_tot_temp[j]
+			vol_id_tot = self.vol_id_tot_temp[j]
+			moth_id_tot = self.moth_id_tot_temp[j]
+			Strip_id_tot = self.Strip_id_tot_temp[j]
+			Si_id_tot = self.Si_id_tot_temp[j]
+			tray_id_tot = self.tray_id_tot_temp[j]
+			plane_id_tot = self.plane_id_tot_temp[j]
+			pair_flag_tot = self.pair_flag_tot_temp[j]
+			
+			event_id_tot_list.append(event_id_tot)
+			vol_id_tot_list.append(vol_id_tot)
+			moth_id_tot_list.append(moth_id_tot)
+			Strip_id_tot_list.append(Strip_id_tot)
+			Si_id_tot_list.append(Si_id_tot)
+			tray_id_tot_list.append(tray_id_tot)
+			plane_id_tot_list.append(plane_id_tot)
+			pair_flag_tot_list.append(pair_flag_tot)
+			
+			if (j == 0 and self.energy_dep_tot_temp[j] > 0.):
+				energy[j]=0.68*self.energy_dep_tot_temp[j]
+				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+				energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
+			if (j == 1 and self.energy_dep_tot_temp[j] > 0.):
+				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+				energy[j]=0.68*self.energy_dep_tot_temp[j]
+				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+				energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
+			if (j > 1 and j < len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
+				energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
+				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+				energy[j]=0.68*self.energy_dep_tot_temp[j]
+				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+				energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
+			if (j == len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
+				energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
+				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+				energy[j]=0.68*self.energy_dep_tot_temp[j]
+				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+			if (j == len(self.energy_dep_tot_temp)-1 and self.energy_dep_tot_temp[j] > 0.):
+				energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
+				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+				energy[j]=0.68*self.energy_dep_tot_temp[j]
+				
+			else:
+				energy[j] = self.energy_dep_tot_temp[j]
+
+			if j == len(self.energy_dep_tot_temp)-1:
+				break
+			else:
+				j = j + 1
+		
+		event_id_tot_temp = np.array(event_id_tot_list)
+		vol_id_tot_temp = np.array(vol_id_tot_list)
+		moth_id_tot_temp = np.array(moth_id_tot_list)
+		Strip_id_tot_temp = np.array(Strip_id_tot_list)
+		Si_id_tot_temp = np.array(Si_id_tot_list)
+		tray_id_tot_temp = np.array(tray_id_tot_list)
+		plane_id_tot_temp = np.array(plane_id_tot_list)
+		energy_dep_tot_temp = np.array(energy)
+		pair_flag_tot_temp = np.array(pair_flag_tot_list)
+		
+		self.event_id_tot_temp = event_id_tot_temp 
+		self.vol_id_tot_temp = vol_id_tot_temp 
+		self.moth_id_tot_temp = moth_id_tot_temp
+		self.Strip_id_tot_temp = Strip_id_tot_temp 
+		self.Si_id_tot_temp = Si_id_tot_temp 
+		self.tray_id_tot_temp = tray_id_tot_temp 
+		self.plane_id_tot_temp = plane_id_tot_temp
+		self.energy_dep_tot_temp = energy_dep_tot_temp 
+		self.pair_flag_tot_temp = pair_flag_tot_temp
+
+
+	def noise(self):
+		### 1keV di noise per ogni strip ---> *1000 (eV) ---> /2.35 (FWHM) ---> /3.6 (conv) ----> 118 e- 
+		keV = 1.
+		noise = keV*1000/2.35/3.6
+			
+		event_id_tot_list = []
+		vol_id_tot_list = []
+		moth_id_tot_list = []
+		Strip_id_tot_list = []
+		Si_id_tot_list = []
+		tray_id_tot_list = []
+		plane_id_tot_list = []
+		#energy_dep_tot_list = []
+		pair_flag_tot_list = []
+		
+		energy = np.zeros(len(self.energy_dep_tot_temp))
+		
+		j = 0
+		while j < len(self.energy_dep_tot_temp):
+			event_id_tot = self.event_id_tot_temp[j]
+			vol_id_tot = self.vol_id_tot_temp[j]
+			moth_id_tot = self.moth_id_tot_temp[j]
+			Strip_id_tot = self.Strip_id_tot_temp[j]
+			Si_id_tot = self.Si_id_tot_temp[j]
+			tray_id_tot = self.tray_id_tot_temp[j]
+			plane_id_tot = self.plane_id_tot_temp[j]
+			pair_flag_tot = self.pair_flag_tot_temp[j]
+			
+			event_id_tot_list.append(event_id_tot)
+			vol_id_tot_list.append(vol_id_tot)
+			moth_id_tot_list.append(moth_id_tot)
+			Strip_id_tot_list.append(Strip_id_tot)
+			Si_id_tot_list.append(Si_id_tot)
+			tray_id_tot_list.append(tray_id_tot)
+			plane_id_tot_list.append(plane_id_tot)
+			pair_flag_tot_list.append(pair_flag_tot)
+		
+			energy[j] = (((self.energy_dep_tot_temp[j]*1000.)/2.35)/3.6 + noise)*3.6*2.35/1000.
+			
+			j = j + 1
+		
+		event_id_tot_temp = np.array(event_id_tot_list)
+		vol_id_tot_temp = np.array(vol_id_tot_list)
+		moth_id_tot_temp = np.array(moth_id_tot_list)
+		Strip_id_tot_temp = np.array(Strip_id_tot_list)
+		Si_id_tot_temp = np.array(Si_id_tot_list)
+		tray_id_tot_temp = np.array(tray_id_tot_list)
+		plane_id_tot_temp = np.array(plane_id_tot_list)
+		energy_dep_tot_temp = np.array(energy)
+		pair_flag_tot_temp = np.array(pair_flag_tot_list)
+		
+		self.event_id_tot_temp = event_id_tot_temp 
+		self.vol_id_tot_temp = vol_id_tot_temp 
+		self.moth_id_tot_temp = moth_id_tot_temp 
+		self.Strip_id_tot_temp = Strip_id_tot_temp 
+		self.Si_id_tot_temp = Si_id_tot_temp
+		self.tray_id_tot_temp = tray_id_tot_temp
+		self.plane_id_tot_temp = plane_id_tot_temp
+		self.energy_dep_tot_temp = energy_dep_tot_temp
+		self.pair_flag_tot_temp = pair_flag_tot_temp
+
+
+
 ######### SUMMING ENERGY AND ENERGY THRESHOLD ###########
 
 	# Summing the energy along the strip 
 
-	def summing_energy(self):
+	def summing_energy(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 		e_dep_temp = [] 		
 		event_id_tot = []
@@ -2246,7 +2396,6 @@ class DHSim:
 		energy_dep_tot = np.array(energy_dep_tot)
 		pair_flag_tot = np.array(pair_flag_tot)
 
- 		
 		self.event_id_tot = event_id_tot
 		self.vol_id_tot = vol_id_tot
 		self.moth_id_tot = moth_id_tot
@@ -2256,15 +2405,82 @@ class DHSim:
 		self.plane_id_tot = plane_id_tot
 		self.energy_dep_tot = energy_dep_tot
 		self.pair_flag_tot = pair_flag_tot
+		''''
+		if os.path.exists('prova.dat'):
+			os.remove('prova.dat')
+			data = open('prova.dat', 'w')
+		else:
+			data = open('prova.dat', 'w')
 
+
+		j=0
+		while j < len(self.event_id_tot):
+			
+			where_event_eq = np.where(self.event_id_tot == self.event_id_tot[j])
+			where_event_eq = where_event_eq[0]
+				
+			Si_id_tot_temp = self.Si_id_tot[where_event_eq]
+			tray_id_tot_temp  = self.tray_id_tot[where_event_eq]
+			plane_id_tot_temp  = self.plane_id_tot[where_event_eq]
+			Strip_id_tot_temp = self.Strip_id_tot[where_event_eq]
+			vol_id_tot_temp = self.vol_id_tot[where_event_eq]
+			moth_id_tot_temp = self.moth_id_tot[where_event_eq]
+			energy_dep_tot_temp = self.energy_dep_tot[where_event_eq]
+			pair_flag_tot_temp = self.pair_flag_tot[where_event_eq]
+
+			# ------------------------------------
+				
+			# X VIEW
+
+			r = 0
+
+			where_x = np.where(Si_id_tot_temp == 0)
+			where_x = where_x[0]				
+				
+			if len(where_x) != 0:				
+				while r < len(where_x):
+					data.write('{:d}\t'.format(self.event_id_tot[j]))
+					data.write('{:d}\t'.format(plane_id_tot_temp[where_x[r]]))
+					data.write('{:d}\t'.format(0))
+					data.write('{:d}\t'.format(Strip_id_tot_temp[where_x[r]]))
+					data.write('{:f}\t'.format(energy_dep_tot_temp[where_x[r]]))
+					data.write('{:f}\n'.format(pair_flag_tot_temp[where_x[r]]))
+
+					r = r + 1
+			# ------------------------------------
+
+			# Y VIEW
+
+			r = 0
+
+			where_y = np.where(Si_id_tot_temp == 1)
+			where_y = where_y[0]				
+				
+			if len(where_y) != 0:				
+				while r < len(where_y):
+					data.write('{:d}\t'.format(self.event_id_tot[j]))
+					data.write('{:d}\t'.format(plane_id_tot_temp[where_y[r]]))
+					data.write('{:d}\t'.format(1))
+					data.write('{:d}\t'.format(Strip_id_tot_temp[where_y[r]]))
+					data.write('{:f}\t'.format(energy_dep_tot_temp[where_y[r]]))
+					data.write('{:f}\n'.format(pair_flag_tot_temp[where_y[r]]))
+
+					r = r + 1
+
+
+			j_max = max(where_event_eq)
+			j = j_max + 1
+
+
+		data.close()
+		'''
 
 		# apply the energy thresold
 
-	def energy_trheshold(self):
+	def energy_threshold(self):
 			
 		where_eth = np.where(self.energy_dep_tot >= self.E_th)
 		where_eth = where_eth[0]
-			
 
 		event_id_tot = self.event_id_tot[where_eth]
 		vol_id_tot = self.vol_id_tot[where_eth]
@@ -2275,7 +2491,7 @@ class DHSim:
 		plane_id_tot = self.plane_id_tot[where_eth]
 		energy_dep_tot = self.energy_dep_tot[where_eth]
 		pair_flag_tot = self.pair_flag_tot[where_eth]
-
+		
 		self.event_id_tot = event_id_tot 
 		self.vol_id_tot = vol_id_tot 
 		self.moth_id_tot = moth_id_tot 
@@ -3424,6 +3640,266 @@ class DHSim:
 		self.Glob_pair_flag_cluster = Glob_pair_flag_cluster
 
 
+########## ENERGY RESOLUTION ##########
+		#It computes the discards between the position of the cluster and the hit in every plane in order to show the energy resolution of the tracker
+		
+	##Cluster.dat
+	def resolution(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+		print('                 Tracker Resolution   ')
+		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+		
+		if os.path.exists(self.outdir+'/'+self.sim_tag+'_RESOLUTION_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
+			os.remove(self.outdir+'/'+self.sim_tag+'_RESOLUTION_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
+			data = open(self.outdir+'/'+self.sim_tag+'_RESOLUTION_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		else:
+			data = open(self.outdir+'/'+self.sim_tag+'_RESOLUTION_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		#self.outdir+'/'+self.sim_tag+'_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'
+		#file cluster
+		event_x_list = []
+		event_y_list = []
+		plane_x_list = []
+		plane_y_list = []
+		pos_x_list = []
+		pos_y_list = []
+		si_x_list = []
+		si_y_list = []
+		
+		j = 0
+		while j < len(self.Glob_event_id_cluster):
+			where_event_eq = np.where(self.Glob_event_id_cluster == self.Glob_event_id_cluster[j]) 
+			where_event_eq = where_event_eq[0]
+
+			event = self.Glob_event_id_cluster[where_event_eq]
+			plane = self.Glob_plane_id_cluster[where_event_eq] 
+			#zpos = self.Glob_zpos_cluster[where_event_eq]
+			si = self.Glob_Si_id_cluster[where_event_eq]
+			pos = self.Glob_pos_cluster[where_event_eq]
+			#en_dep = self.Glob_energy_dep_cluster[where_event_eq]
+			n_strips = self.Glob_Strip_number_cluster[where_event_eq]
+			#pair_flag = self.Glob_pair_flag_cluster[where_event_eq]
+
+			#------------------
+			# X VIEW
+			#------------------
+
+			where_x = np.where((si == 0) & (n_strips > 1)) #elementi formanti il cluster
+			where_x = where_x[0]
+
+			event_x_list.append(event[where_x[0]])
+			plane_x_list.append(plane[where_x[0]])
+			pos_x_list.append(pos[where_x[0]])
+			si_x_list.append(si[where_x[0]])
+					
+					
+			data.write('{:d}\t'.format(event[where_x[0]]))
+			data.write('{:d}\t'.format(si[where_x[0]]))
+			data.write('{:d}\t'.format(plane[where_x[0]]))
+			data.write('{:f}\t'.format(pos[where_x[0]]))
+			data.write('{:d}\n'.format(n_strips[where_x[0]]))
+			
+			#------------------
+			# Y VIEW
+			#------------------
+
+#			where_y = np.where((si == 1) & (n_strips > 1))
+#			where_y = where_y[0]
+
+					
+#			event_y_list.append(event[where_y[0]])
+#			plane_y_list.append(plane[where_x[0]])
+#			pos_y_list.append(pos[where_x[0]])
+#			si_y_list.append(si[where_x[0]])
+				
+#			data.write('{:d}\t'.format(event[where_y[0]]))
+#			data.write('{:d}\t'.format(si[where_y[0]]))
+#			data.write('{:d}\t'.format(plane[where_y[0]]))
+#			data.write('{:f}\t'.format(pos[where_y[0]]))
+#			data.write('{:d}\n'.format(n_strips[where_y[0]]))
+							
+											
+			j_max = max(where_event_eq)
+			j = j_max + 1
+			
+		data.close()
+		
+			
+		#file AA strip.dat
+		
+		if os.path.exists(self.outdir+'/'+self.sim_tag+'_RESOLUTION_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
+			os.remove(self.outdir+'/'+self.sim_tag+'_RESOLUTION_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
+			data1 = open(self.outdir+'/'+self.sim_tag+'_RESOLUTION_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		else:
+			data1 = open(self.outdir+'/'+self.sim_tag+'_RESOLUTION_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		event_0_x_list = []
+		event_0_y_list = []
+		plane_0_x_list = []
+		plane_0_y_list = []
+		pos_0_x_list = []
+		pos_0_y_list = []
+		si_0_x_list = []
+		si_0_y_list = []
+		zpos_0_x_list = []
+		zpos_0_y_list = []
+		
+		j = 0
+		while j < len(self.Glob_event_id_test):
+			where_event_eq_0 = np.where(self.Glob_event_id_test == self.Glob_event_id_test[j]) 
+			where_event_eq_0 = where_event_eq_0[0]
+
+			event_0 = self.Glob_event_id_test[where_event_eq_0]
+			plane_0 = self.Glob_plane_id_test[where_event_eq_0] 
+			zpos_0 = self.Glob_zpos_test[where_event_eq_0]
+			si_0 = self.Glob_Si_id_test[where_event_eq_0]
+			pos_0 = self.Glob_pos_test[where_event_eq_0]
+			#en_dep = self.Glob_energy_dep_cluster[where_event_eq]
+			strip_id_0 = self.Glob_Strip_id_test[where_event_eq_0]
+			#pair_flag = self.Glob_pair_flag_cluster[where_event_eq]
+
+			#------------------
+			# X VIEW
+			#------------------
+			where_x_0 = np.where(si_0 == 0)
+			where_x_0 = where_x_0[0]
+			
+			r = 0
+			if len(where_x_0) != 0:
+				while r < len(where_x_0):
+					if ((strip_id_0[where_x_0[r]] == strip_id_0[where_x_0[r]-1]-1) & (si_0[where_x_0[r]-1] == 0)):
+						event_0_x = event_0[where_x_0[r]-1]
+						plane_0_x = plane_0[where_x_0[r]-1]
+						pos_0_x = pos_0[where_x_0[r]-1]
+						si_0_x = si_0[where_x_0[r]-1]
+						zpos_0_x = zpos_0[where_x_0[r]-1]
+
+						event_0_x_list.append(event_0_x)
+						plane_0_x_list.append(plane_0_x)
+						pos_0_x_list.append(pos_0_x)
+						si_0_x_list.append(si_0_x)
+						zpos_0_x_list.append(zpos_0_x)
+						
+						data1.write('{:d}\t'.format(event_0[where_x_0[r]-1]))
+						data1.write('{:d}\t'.format(si_0[where_x_0[r]-1]))
+						data1.write('{:d}\t'.format(plane_0[where_x_0[r]-1]))
+						data1.write('{:f}\t'.format(pos_0[where_x_0[r]-1]))
+						data1.write('{:d}\n'.format(strip_id_0[where_x_0[r]-1])) 
+							
+						break
+					
+					r = r + 1
+
+			#------------------
+			# Y VIEW
+			#------------------
+#			where_y_0 = np.where(si_0 == 1)
+#			where_y_0 = where_y_0[0]
+			
+#			r = 0
+#			if len(where_y_0) != 0:
+#				while r < len(where_y_0):
+#					if ((strip_id_0[where_y_0[r]] == strip_id_0[where_y_0[r]-1]-1) & (si_0[where_y_0[r]-1] == 1)):
+#						event_0_y = event_0[where_y_0[r]-1]
+#						plane_0_y = plane_0[where_y_0[r]-1]
+#						pos_0_y = pos_0[where_y_0[r]-1]
+#						si_0_y = si_0[where_y_0[r]-1]
+#						zpos_0_y = zpos_0[where_y_0[r]-1]
+				
+#						event_0_y_list.append(event_0_y)
+#						plane_0_y_list.append(plane_0_y)
+#						pos_0_y_list.append(pos_0_y)
+#						si_0_y_list.append(si_0_y)
+#						zpos_0_y_list.append(zpos_0_y)
+						
+#						data1.write('{:d}\t'.format(event_0[where_y_0[r]-1]))
+#						data1.write('{:d}\t'.format(si_0[where_y_0[r]-1]))
+#						data1.write('{:d}\t'.format(plane_0[where_y_0[r]-1]))
+#						data1.write('{:f}\t'.format(pos_0[where_y_0[r]-1]))
+#						data1.write('{:d}\n'.format(strip_id_0[where_y_0[r]-1])) 
+					
+#						break
+					
+#					r = r + 1
+				
+			j_max = max(where_event_eq_0)
+			j = j_max + 1
+		
+		data1.close()
+		
+		print('cluster',len(pos_x_list))
+#		print('cluster_y',len(pos_y_list))
+		print('strip',len(pos_0_x_list))
+#		print('strip_y',len(pos_0_y_list))
+		
+		event_x_list = np.array(event_x_list)
+#		event_y_list = np.array(event_y_list)
+		plane_x_list = np.array(plane_x_list)
+#		plane_y_list = np.array(plane_y_list)
+		pos_x_list = np.array(pos_x_list)
+#		pos_y_list = np.array(pos_y_list)
+		si_x_list = np.array(si_x_list)
+#		si_y_list = np.array(si_y_list)
+		
+		event_0_x_list = np.array(event_0_x_list)
+#		event_0_y_list = np.array(event_0_y_list)
+		plane_0_x_list = np.array(plane_0_x_list)
+#		plane_0_y_list = np.array(plane_0_y_list)
+		pos_0_x_list = np.array(pos_0_x_list)
+#		pos_0_y_list = np.array(pos_0_y_list)
+		si_0_x_list = np.array(si_0_x_list)
+#		si_0_y_list = np.array(si_0_y_list)
+
+		#### Difference X #######
+
+		if os.path.exists(self.outdir+'/'+self.sim_tag+'_DIFFERENCE_RESOLUTION_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
+			os.remove(self.outdir+'/'+self.sim_tag+'_DIFFERENCE_RESOLUTION_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
+			data_diff_x = open(self.outdir+'/'+self.sim_tag+'_DIFFERENCE_RESOLUTION_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		else:
+			data_diff_x = open(self.outdir+'/'+self.sim_tag+'_DIFFERENCE_RESOLUTION_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		
+		diff_x_list = []
+		t = 0 
+		while t < len(pos_x_list):
+			diff_x = pos_0_x_list[t]-pos_x_list[t]
+			diff_x_list.append(diff_x)
+			
+			data_diff_x.write('{:d}\t'.format(event_x_list[t]))
+			data_diff_x.write('{:d}\t'.format(plane_x_list[t]))
+			data_diff_x.write('{:f}\n'.format(diff_x))
+
+			t = t + 1
+		diff_x_list_abs = np.absolute(diff_x_list)
+		mvx = (sum(diff_x_list_abs)/len(pos_x_list)*1000.)  #mm ---> micron
+		print('mean_value',mvx,'micron')
+		
+		data_diff_x.close()
+		
+
+		#### Difference Y #######
+
+#		if os.path.exists('difference_y.dat'):
+#			os.remove('difference_y.dat')
+#			data_diff_y = open('difference_y.dat', 'w')
+#		else:
+#			data_diff_y = open('difference_y.dat', 'w')
+
+#		diff_y_list = []
+#		t = 0 
+#		while t < len(pos_y_list):
+#			diff_y = pos_0_y_list[t]-pos_y_list[t]
+#			diff_y_list.append(diff_y)
+
+#			data_diff_y.write('{:d}\t'.format(event_y_list[t]))
+#			data_diff_y.write('{:d}\t'.format(plane_y_list[t]))
+#			data_diff_y.write('{:f}\n'.format(diff_y))
+
+#			t = t + 1
+#		diff_y_list_abs = np.absolute(diff_y_list)
+#		mvy = (sum(diff_y_list_abs)/len(pos_y_list)*1000.)  #mm ---> micron
+#		print('mean_value_y',mvy,'micron')
+		
+#		data_diff_y.close()	
+
+				
 ########## CALORIMETER ###########
 
 	# IT FLAGS THE PRIMARY EVENT, SEPARATING COMPTON FROM PAIR #

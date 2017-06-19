@@ -43,6 +43,7 @@ n_fits = int(sys.argv[23])               # Enter the final number of FITS files 
 dhseASTROGAM = DHSim()
 
 
+
 ### parametri iniziali
 
 dhseASTROGAM.parameter(sim_type, py_list, part_type, ene_range, pol_type, source_g, isStrip, repli, cal_flag, ac_flag, astrogam_version, bogemms_tag, ene_min, ene_max , passive_flag, energy_thresh)
@@ -113,13 +114,29 @@ while ifile <= n_fits:
 
 			dhseASTROGAM.flag_events()
 
+			###################
+			# Accoppiamento Capacitivo
+			###################
+			
+			dhseASTROGAM.acap()
+
+			##################
+			# Introducing the noise in every strip
+			#################
+			
+			dhseASTROGAM.noise()
+
 			#
 			# Summing the energy along the strip and applying the energy threshold
 			#
 				
-			dhseASTROGAM.summing_energy()
+			dhseASTROGAM.summing_energy(astrogam_version, N_in, part_type, theta_type, phi_type, ifile)
+			
+			#################
+			# Energy Threshold
+			################
 
-			dhseASTROGAM.energy_trheshold()		
+			dhseASTROGAM.energy_threshold()		
 		
 			####index uniq event_id_tot
 
@@ -251,6 +268,11 @@ while ifile <= n_fits:
 									   
 			dhseASTROGAM.writing_AA_cluster_compton(N_in, part_type, ang_type, theta_type, phi_type, ifile)
 
+			####################
+			#Angular resolution
+			###################
+			
+			#dhseASTROGAM.resolution(N_in, part_type, ang_type, theta_type, phi_type, ifile)
 
 	if cal_flag == 1:
 		
