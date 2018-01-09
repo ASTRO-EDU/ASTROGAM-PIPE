@@ -57,65 +57,27 @@ class DHSim:
 		if astrogam_version=='V1.1':
 			astrogam_tag = '11'
 			sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
-
+			
+		if (ene_min[0] == '0'):
+			ene_min = np.round(float(ene_min), 1)
+		else:
+			ene_min = int(ene_min)
+			
+		if (ene_max[0] == '0'):
+			ene_max = np.round(float(ene_max), 1)
+		else:
+			ene_max = int(ene_max)
 
 		if ene_range == 0:
 			ene_dis = 'MONO'
-			ene_type = ene_min
-			if ene_type >= 1:
-				ene_type = repr(ene_type)
-			if ene_type < 1:
-				ene_type = repr(ene_type)
-				ene_type = ene_type[:5]
-			if type(ene_type) is int:
-				pass
-			else:	
-				nstring = len(ene_type)
-				ene_type_notzero = ene_type
-		      		flag = 1 
-			
-
-				if ene_type[0] == '0' or  ene_type[0] == '.':
-					if flag == 1:
-						ene_type_notzero = ene_type_notzero[:5]
-				else:
-					flag = 0
-				ene_type = ene_type_notzero
-	
+			ene_type = str(ene_min)
 
 
 		if ene_range == 1:
 			ene_dis = 'POW'
 	
-			ene_min_string = repr(ene_min)	
-			if type(ene_min) is int:
-				pass
-			else:
-				nstring = len(ene_min_string)
-				ene_min_string_notzero = ene_min_string
-		      		flag = 1 	
-				if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
-					if flag == 1:
-						ene_min_string_notzero = ene_min_string_notzero[:5]
-				else:
-					flag = 0
-				ene_min_string = ene_min_string_notzero
-
-	
-			ene_max_string = repr(ene_max)	
-			if type(ene_max) is int:
-				pass
-			else:
-				nstring = len(ene_max_string)
-				ene_max_string_notzero = ene_max_string
-		      		flag = 1 	
-				if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
-					if flag == 1:
-						ene_max_string_notzero = ene_max_string_notzero[:5]
-				else:
-					flag = 0
-				ene_max_string = ene_max_string_notzero	
-	
+			ene_min_string = str(ene_min)	
+			ene_max_string = str(ene_max)	
 			ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 	
 
@@ -124,35 +86,8 @@ class DHSim:
 		if ene_range == 2:
 			ene_dis = 'EXP'
 	
-			ene_min_string = repr(ene_min)	
-			if type(ene_min) is int:
-				pass
-			else:
-				nstring = len(ene_min_string)
-				ene_min_string_notzero = ene_min_string
-		      		flag = 1 	
-				if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
-					if flag == 1:
-						ene_min_string_notzero = ene_min_string_notzero[:5]
-				else:
-					flag = 0
-				ene_min_string = ene_min_string_notzero
-	
-	
-			ene_max_string = repr(ene_max)	
-			if type(ene_max) is int:
-				pass
-			else:
-				nstring = len(ene_max_string)
-				ene_max_string_notzero = ene_max_string
-		      		flag = 1 	
-				if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
-					if flag == 1:
-						ene_max_string_notzero = ene_max_string_notzero[:5]
-				else:
-					flag = 0
-				ene_max_string = ene_max_string_notzero	
-	
+			ene_min_string = str(ene_min)	
+			ene_max_string = str(ene_max)	
 			ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 	
 
@@ -160,35 +95,8 @@ class DHSim:
 		if ene_range == 3:
 			ene_dis = 'LIN'
 	
-			ene_min_string = repr(ene_min)	
-			if type(ene_min) is int:
-				pass
-			else:
-				nstring = len(ene_min_string)
-				ene_min_string_notzero = ene_min_string
-		      		flag = 1 	
-				if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
-					if flag == 1:
-						ene_min_string_notzero = ene_min_string_notzero[:5]
-				else:
-					flag = 0
-				ene_min_string = ene_min_string_notzero
-
-	
-			ene_max_string = repr(ene_max)	
-			if type(ene_max) is int:
-				pass
-			else:
-				nstring = len(ene_max_string)
-				ene_max_string_notzero = ene_max_string
-		      		flag = 1 	
-				if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
-					if flag == 1:
-						ene_max_string_notzero = ene_max_string_notzero[:5]
-				else:
-					flag = 0
-				ene_max_string = ene_max_string_notzero	
-	
+			ene_min_string = str(ene_min)	
+			ene_max_string = str(ene_max)
 			ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 
 
@@ -735,7 +643,11 @@ class DHSim:
 		z_en_tr = np.array(z_en_tr)
 		x_ex_tr = np.array(x_ex_tr)
 		y_ex_tr = np.array(y_ex_tr)
-		z_ex_tr = np.array(z_ex_tr)	
+		z_ex_tr = np.array(z_ex_tr)
+		theta_ent_tr = np.array(theta_ent_tr)
+		phi_ent_tr = np.array(phi_ent_tr)
+		theta_exit_tr = np.array(theta_exit_tr)
+		phi_exit_tr = np.array(phi_exit_tr)
 		child_id_tr = np.array(child_id_tr)
 		proc_id_tr = np.array(proc_id_tr)
 		x_pos = np.array(x_pos)
@@ -799,7 +711,11 @@ class DHSim:
 		self.z_en_tr = z_en_tr 
 		self.x_ex_tr = x_ex_tr 
 		self.y_ex_tr = y_ex_tr 
-		self.z_ex_tr = z_ex_tr 
+		self.z_ex_tr = z_ex_tr
+		self.theta_ent_tr = theta_ent_tr
+		self.phi_ent_tr = phi_ent_tr
+		self.theta_exit_tr = theta_exit_tr
+		self.phi_exit_tr = phi_exit_tr
 		self.child_id_tr = child_id_tr 
 		self.proc_id_tr = proc_id_tr 
 		self.theta_ent_tr = theta_ent_tr 
@@ -1472,6 +1388,90 @@ class DHSim:
 
 		data.close()
 
+	####### S1 data format ##############
+
+	# IT WRITES THE STRIP DATA OF THE TRACKER FOR THE KALMAN INPUT #
+
+	def writing_S1(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+
+		if os.path.exists(self.outdir+'/'+self.sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
+			os.remove(self.outdir+'/'+self.sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
+			data = open(self.outdir+'/'+self.sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		else:
+			data = open(self.outdir+'/'+self.sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+
+
+		j=0
+		while j < len(self.Glob_event_id_test):
+			
+			where_event_eq = np.where(self.Glob_event_id_test == self.Glob_event_id_test[j])
+			where_event_eq = where_event_eq[0]
+				
+			Glob_Si_id_test_temp = self.Glob_Si_id_test[where_event_eq]
+			Glob_tray_id_test_temp  = self.Glob_tray_id_test[where_event_eq]
+			Glob_plane_id_test_temp  = self.Glob_plane_id_test[where_event_eq]
+			Glob_Strip_id_test_temp = self.Glob_Strip_id_test[where_event_eq]
+			Glob_pos_test_temp = self.Glob_pos_test[where_event_eq]
+			Glob_zpos_test_temp = self.Glob_zpos_test[where_event_eq]
+			Glob_energy_dep_test_temp = self.Glob_energy_dep_test[where_event_eq]
+			Glob_pair_flag_test_temp = self.Glob_pair_flag_test[where_event_eq]
+
+			# ------------------------------------
+				
+			# X VIEW
+
+			r = 0
+
+			where_x = np.where(Glob_Si_id_test_temp == 0)
+			where_x = where_x[0]				
+				
+			if len(where_x) != 0:				
+				while r < len(where_x):
+					data.write('{:d}\t'.format(self.Glob_event_id_test[j]))
+					data.write('{:d}\t'.format(theta_type))
+					data.write('{:d}\t'.format(phi_type))
+					data.write('{:s}\t'.format(self.ene_type))
+					data.write('{:d}\t'.format(Glob_plane_id_test_temp[where_x[r]]))
+					data.write('{:f}\t'.format(Glob_zpos_test_temp[where_x[r]]))
+					data.write('{:d}\t'.format(0))
+					data.write('{:d}\t'.format(Glob_Strip_id_test_temp[where_x[r]]))
+					data.write('{:f}\t'.format(Glob_pos_test_temp[where_x[r]]))
+					data.write('{:f}\t'.format(Glob_energy_dep_test_temp[where_x[r]]))
+					data.write('{:d}\n'.format(Glob_pair_flag_test_temp[where_x[r]]))
+
+					r = r + 1
+			# ------------------------------------
+
+			# Y VIEW
+
+			r = 0
+
+			where_y = np.where(Glob_Si_id_test_temp == 1)
+			where_y = where_y[0]				
+				
+			if len(where_y) != 0:				
+				while r < len(where_y):
+					data.write('{:d}\t'.format(self.Glob_event_id_test[j]))
+					data.write('{:d}\t'.format(theta_type))
+					data.write('{:d}\t'.format(phi_type))
+					data.write('{:s}\t'.format(self.ene_type))
+					data.write('{:d}\t'.format(Glob_plane_id_test_temp[where_y[r]]))
+					data.write('{:f}\t'.format(Glob_zpos_test_temp[where_y[r]]))
+					data.write('{:d}\t'.format(1))
+					data.write('{:d}\t'.format(Glob_Strip_id_test_temp[where_y[r]]))
+					data.write('{:f}\t'.format(Glob_pos_test_temp[where_y[r]]))
+					data.write('{:f}\t'.format(Glob_energy_dep_test_temp[where_y[r]]))
+					data.write('{:d}\n'.format(Glob_pair_flag_test_temp[where_y[r]]))
+
+					r = r + 1
+
+
+			j_max = max(where_event_eq)
+			j = j_max + 1
+
+
+		data.close()
+
 
 	##### AA cluster #####
 
@@ -1521,8 +1521,8 @@ class DHSim:
 					data.write('{:d}\t'.format(0))
 					data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
 					data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
-					data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
-					#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
+					data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
+					data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
 
 					r = r + 1
 			# ------------------------------------
@@ -1545,8 +1545,8 @@ class DHSim:
 					data.write('{:d}\t'.format(1))
 					data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
 					data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
-					data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
-					#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
+					data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
+					data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
 
 					r = r + 1
 
@@ -1598,7 +1598,7 @@ class DHSim:
 				
 			if len(where_x) != 0:				
 				while r < len(where_x):
-					if Glob_pair_flag_cluster_temp[where_x[r]] == 1 or Glob_pair_flag_cluster_temp[where_x[r]] == 3:
+					if Glob_pair_flag_cluster_temp[where_x[r]] == 1 or Glob_pair_flag_cluster_temp[where_x[r]] == 4:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1608,8 +1608,8 @@ class DHSim:
 						data.write('{:d}\t'.format(0))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
-						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
-						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
+						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
 				
 					r = r + 1
 			# ------------------------------------
@@ -1623,7 +1623,7 @@ class DHSim:
 				
 			if len(where_y) != 0:				
 				while r < len(where_y):
-					if Glob_pair_flag_cluster_temp[where_y[r]] == 1 or Glob_pair_flag_cluster_temp[where_y[r]] == 3:
+					if Glob_pair_flag_cluster_temp[where_y[r]] == 1 or Glob_pair_flag_cluster_temp[where_y[r]] == 4:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1633,8 +1633,8 @@ class DHSim:
 						data.write('{:d}\t'.format(1))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
-						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
-						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
+						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
 
 					r = r + 1
 
@@ -1687,7 +1687,7 @@ class DHSim:
 										   
 			if len(where_x) != 0:
 				while r < len(where_x):
-					if Glob_pair_flag_cluster_temp[where_x[r]] == 2 or Glob_pair_flag_cluster_temp[where_x[r]] == 4:
+					if Glob_pair_flag_cluster_temp[where_x[r]] == 2 or Glob_pair_flag_cluster_temp[where_x[r]] == 5:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1697,8 +1697,8 @@ class DHSim:
 						data.write('{:d}\t'.format(0))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
-						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
-						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
+						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
 												  
 					r = r + 1
 							
@@ -1713,7 +1713,7 @@ class DHSim:
 												  
 			if len(where_y) != 0:				
 				while r < len(where_y):
-					if Glob_pair_flag_cluster_temp[where_y[r]] == 2 or Glob_pair_flag_cluster_temp[where_y[r]] == 4:
+					if Glob_pair_flag_cluster_temp[where_y[r]] == 2 or Glob_pair_flag_cluster_temp[where_y[r]] == 5:
 						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
 						data.write('{:d}\t'.format(theta_type))
 						data.write('{:d}\t'.format(phi_type))
@@ -1723,8 +1723,8 @@ class DHSim:
 						data.write('{:d}\t'.format(1))
 						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
 						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
-						data.write('{:d}\n'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
-						#data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
+						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
 															 
 					r = r + 1
 															 
@@ -1734,6 +1734,93 @@ class DHSim:
 
 		data.close()
 	
+	######## AA cluster rayleigh ##############
+
+	# IT WRITES THE ONLY RAYLEIGH CLUSTER DATA OF THE TRACKER FOR THE KALMAN INPUT #
+
+	def writing_AA_cluster_rayleigh(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+
+		if os.path.exists(self.outdir+'/'+self.sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
+			os.remove(self.outdir+'/'+self.sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
+			data = open(self.outdir+'/'+self.sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+		else:
+			data = open(self.outdir+'/'+self.sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat', 'w')
+
+
+		totalstrips_before = 0
+		j=0
+		while j < len(self.Glob_event_id_cluster):
+			
+			where_event_eq = np.where(self.Glob_event_id_cluster == self.Glob_event_id_cluster[j])
+			where_event_eq = where_event_eq[0] 
+										   
+			Glob_Si_id_cluster_temp = self.Glob_Si_id_cluster[where_event_eq]
+			Glob_tray_id_cluster_temp  = self.Glob_tray_id_cluster[where_event_eq]
+			Glob_plane_id_cluster_temp  = self.Glob_plane_id_cluster[where_event_eq]
+			Glob_energy_dep_cluster_temp = self.Glob_energy_dep_cluster[where_event_eq]
+			Glob_pos_cluster_temp = self.Glob_pos_cluster[where_event_eq]
+			Glob_zpos_cluster_temp = self.Glob_zpos_cluster[where_event_eq]
+			Glob_pair_flag_cluster_temp = self.Glob_pair_flag_cluster[where_event_eq]
+			Glob_Strip_number_cluster_temp = self.Glob_Strip_number_cluster[where_event_eq]
+										   
+										   
+			# ------------------------------------
+										   
+			# X VIEW
+										   
+			r = 0
+
+			where_x = np.where(Glob_Si_id_cluster_temp == 0)
+			where_x = where_x[0]				
+										   
+			if len(where_x) != 0:
+				while r < len(where_x):
+					if Glob_pair_flag_cluster_temp[where_x[r]] == 3 or Glob_pair_flag_cluster_temp[where_x[r]] == 6:
+						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
+						data.write('{:d}\t'.format(theta_type))
+						data.write('{:d}\t'.format(phi_type))
+						data.write('{:s}\t'.format(self.ene_type))
+						data.write('{:d}\t'.format(Glob_plane_id_cluster_temp[where_x[r]]))
+						data.write('{:f}\t'.format(Glob_zpos_cluster_temp[where_x[r]]))
+						data.write('{:d}\t'.format(0))
+						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_x[r]]))
+						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_x[r]]))
+						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_x[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_x[r]]))
+												  
+					r = r + 1
+							
+			# ------------------------------------
+											
+			# Y VIEW
+												  
+			r = 0
+												  
+			where_y = np.where(Glob_Si_id_cluster_temp == 1)
+			where_y = where_y[0]				
+												  
+			if len(where_y) != 0:				
+				while r < len(where_y):
+					if Glob_pair_flag_cluster_temp[where_y[r]] == 3 or Glob_pair_flag_cluster_temp[where_y[r]] == 6:
+						data.write('{:d}\t'.format(self.Glob_event_id_cluster[j]))
+						data.write('{:d}\t'.format(theta_type))
+						data.write('{:d}\t'.format(phi_type))
+						data.write('{:s}\t'.format(self.ene_type))
+						data.write('{:d}\t'.format(Glob_plane_id_cluster_temp[where_y[r]]))
+						data.write('{:f}\t'.format(Glob_zpos_cluster_temp[where_y[r]]))
+						data.write('{:d}\t'.format(1))
+						data.write('{:f}\t'.format(Glob_pos_cluster_temp[where_y[r]]))
+						data.write('{:f}\t'.format(Glob_energy_dep_cluster_temp[where_y[r]]))
+						data.write('{:d}\t'.format(Glob_Strip_number_cluster_temp[where_y[r]]))
+						data.write('{:d}\n'.format(Glob_pair_flag_cluster_temp[where_y[r]]))
+															 
+					r = r + 1
+															 
+															 
+			j_max = max(where_event_eq)
+			j = j_max + 1
+
+		data.close()
 	
 	######### AA Fake #########
 
@@ -1877,7 +1964,7 @@ class DHSim:
      
 ######### FLAG EVENTS ##############
 
-	# IT FLAGS THE PRIMARY EVENT, SEPARATING COMPTON FROM PAIR #
+	# IT FLAGS THE PRIMARY EVENT, SEPARATING COMPTON FROM PAIR FROM RAYLEIGH FROM OTHER #
 	# IT SUMS THE ENERGY OF THE SAME EVENT FOR EVERY VOLUME #
 	# IT FLAGS THE SUMMED EVENT IF ONE HITS ARE IN THE SAME VOLUME OR IT FLAGS THE SUMMED EVENT IF THE HITS AREN'T IN THE SAME VOLUME  #
 	# IT PUTS EVERYTHING IN THE SAME ARRAY #
@@ -1912,30 +1999,54 @@ class DHSim:
 			child_id_temp = self.child_id_tr[where_event_eq]
 			proc_id_temp = self.proc_id_tr[where_event_eq]
 			gtime_temp = self.gtime_ent_tr[where_event_eq]
-			trk_id_temp = self.trk_id_tr[where_event_eq] 
+			trk_id_temp = self.trk_id_tr[where_event_eq]
+			theta_ent_id_temp = self.theta_ent_tr[where_event_eq]
+			phi_ent_id_temp = self.phi_ent_tr[where_event_eq]
+			theta_exit_id_temp = self.theta_exit_tr[where_event_eq]
+			phi_exit_id_temp = self.phi_exit_tr[where_event_eq]
 
 			where_pair = np.where((child_id_temp == 1) & (proc_id_temp == 7) & (trk_id_temp <= 3))
 			where_pair = where_pair[0]
-			where_compton = np.where((child_id_temp == 1) & (proc_id_temp == 3) & (trk_id_temp <= 2))
-			where_compton = where_compton[0]
-
+			where_compton = np.where((child_id_temp == 0) & (theta_ent_id_temp != theta_exit_id_temp) & (phi_ent_id_temp != phi_exit_id_temp) & (energy_dep_temp > 0.))
+			where_compton = where_compton[0]			
+			#where_compton = np.where((child_id_temp == 1) & (proc_id_temp == 3) & (trk_id_temp <= 2))
+			#where_compton = where_compton[0]
+			where_ray = np.where((child_id_temp == 0) & (theta_ent_id_temp != theta_exit_id_temp) & (phi_ent_id_temp != phi_exit_id_temp) & (energy_dep_temp == 0.))
+			where_ray = where_ray[0]
+			#where_ray = np.where((child_id_temp == 1) & (proc_id_temp == 9) & (trk_id_temp == 1))
+			#where_ray = where_ray[0]
+			
+			ispair = 0
+			iscompton = 0
+			isray = 0
+			isother = 0
+			gtime_pair = [10**9]
+			gtime_compton = [10**9]
+			gtime_ray = [10**9]
+			
 			if len(where_pair) != 0:
 				gtime_pair = gtime_temp[where_pair]
-				ispair = 1
 			else:
-				ispair = 0
+				gtime_pair = [10**9]
 
 			if len(where_compton) != 0:
 				gtime_compton = gtime_temp[where_compton]
-				iscompton = 1
 			else:
-				iscompton = 0
+				gtime_compton = [10**9]
 
-			if ispair == 1 and iscompton == 1:
-				if gtime_pair[0] < gtime_compton[0]:
-					iscompton = 0
-				if gtime_compton[0] < gtime_pair[0]:
-					ispair = 0
+			if len(where_ray) != 0:
+				gtime_ray = gtime_temp[where_ray]
+			else:
+				gtime_ray = [10**9]
+			
+			if ((gtime_pair[0] == 10**9) and (gtime_compton[0] == 10**9) and (gtime_ray[0] == 10**9)):
+				isother = 1
+			else:
+				gtime_array = [gtime_pair[0], gtime_compton[0], gtime_ray[0]]
+				proc_index = np.argmin(gtime_array)
+				if proc_index == 0: ispair = 1
+				if proc_index == 1: iscompton = 1
+				if proc_index == 2: isray = 1
 
 		
 			r = 0												
@@ -1943,6 +2054,8 @@ class DHSim:
 						
 				ispair_vol = 0
 				iscompton_vol = 0
+				isray_vol = 0
+				isother_vol = 0
 				isprimary_vol = 0
 	
 				where_vol_eq = np.where((vol_id_temp == vol_id_temp[r]) & (moth_id_temp == moth_id_temp[r]))										
@@ -1962,7 +2075,6 @@ class DHSim:
 				plane_id_tot_old = plane_id_temp[r]
 				energy_dep_tot_old = e_dep_temp_old
 
-
 				e_dep_temp.append(e_dep_temp_old)
 				event_id_tot.append(event_id_tot_old)
 				vol_id_tot.append(vol_id_tot_old)
@@ -1974,21 +2086,30 @@ class DHSim:
 				energy_dep_tot.append(energy_dep_tot_old)					
 					
 				#Searching for Pair/Compton events of secondary particles generated by the primary
+				#if another process is involved, the event is flagged as 0
 				#if one of hits in the same volume is a pair the summed event is flagged as 1
 				#if one of hits in the same volume is a compton the summed event is flagged as 2
-				#hits generated by the primary before pair interaction are flagged as 3
-				#hits generated by the primary after compton interaction are flagged as 4
+				#if one of hits in the same volume is a rayleigh the summed event is flagged as 3
+
 
 				all_child = child_id_temp[where_vol_eq]
 				all_trk = trk_id_temp[where_vol_eq]
 				all_proc = proc_id_temp[where_vol_eq]
 				all_gtime = gtime_temp[where_vol_eq]
+				all_theta_ent = theta_ent_id_temp[where_vol_eq]
+				all_phi_ent = phi_ent_id_temp[where_vol_eq]
+				all_theta_exit = theta_exit_id_temp[where_vol_eq]
+				all_phi_exit = phi_exit_id_temp[where_vol_eq]
+				
 
 				where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
 				where_pair_vol = where_pair_vol[0]
 
 				where_compton_vol = np.where((all_child == 1) & (all_proc == 3) & (all_trk <= 2))
 				where_compton_vol = where_compton_vol[0]
+
+				#where_ray_vol = np.where((all_child == 1) & (all_proc == 9) & (all_trk == 1))
+				#where_ray_vol = where_ray_vol[0]
 
 
 				if len(where_pair_vol) != 0 and ispair == 1:
@@ -2004,31 +2125,16 @@ class DHSim:
 				
 					pair_flag_tot.append(pair_flag_tot_old)	
 
-				where_primary = np.where(all_child == 0)
-				where_primary = where_primary[0]
-
-				if ispair == 1 and ispair_vol == 0:
-					if len(where_primary) != 0:
-						if all_gtime[where_primary[0]] < gtime_pair[0]:
-							pair_flag_tot_old = 3
-							isprimary_vol = 1
-							
-							pair_flag_tot.append(pair_flag_tot_old)
-
-
-				if iscompton == 1 and iscompton_vol == 0:
-					if len(where_primary) != 0:
-						if all_gtime[where_primary[0]] < gtime_compton[0]:
-							pair_flag_tot_old = 4
-							isprimary_vol = 1
-							
-							pair_flag_tot.append(pair_flag_tot_old)
-
-
-				if ispair_vol == 0 and iscompton_vol == 0 and isprimary_vol == 0:
-					pair_flag_tot_old = 0
-
-					pair_flag_tot.append(pair_flag_tot_old)
+				#if len(where_ray_vol) != 0 and isray == 1:
+				if ((len(where_pair_vol) == 0) and (len(where_compton_vol) == 0)):
+					if isray == 1:
+						pair_flag_tot_old = 3
+						isray_vol = 1
+						
+						pair_flag_tot.append(pair_flag_tot_old)	
+					else:				
+						pair_flag_tot_old = 0
+						pair_flag_tot.append(pair_flag_tot_old)
 
 				if len(where_other_vol) != 0:
 					vol_id_temp = vol_id_temp[where_other_vol]
@@ -2060,7 +2166,9 @@ class DHSim:
 		plane_id_tot = np.array(plane_id_tot)
 		energy_dep_tot = np.array(energy_dep_tot)
 		pair_flag_tot = np.array(pair_flag_tot)
-
+		
+		self.event_id_tot_tr_raw = event_id_tot
+		self.pair_flag_tot_tr_raw = pair_flag_tot
 
 		event_id_tot_temp = np.zeros(2*len(event_id_tot), dtype = np.int64)
 		vol_id_tot_temp = np.zeros(2*len(event_id_tot), dtype = np.int64)
@@ -2405,75 +2513,6 @@ class DHSim:
 		self.plane_id_tot = plane_id_tot
 		self.energy_dep_tot = energy_dep_tot
 		self.pair_flag_tot = pair_flag_tot
-		''''
-		if os.path.exists('prova.dat'):
-			os.remove('prova.dat')
-			data = open('prova.dat', 'w')
-		else:
-			data = open('prova.dat', 'w')
-
-
-		j=0
-		while j < len(self.event_id_tot):
-			
-			where_event_eq = np.where(self.event_id_tot == self.event_id_tot[j])
-			where_event_eq = where_event_eq[0]
-				
-			Si_id_tot_temp = self.Si_id_tot[where_event_eq]
-			tray_id_tot_temp  = self.tray_id_tot[where_event_eq]
-			plane_id_tot_temp  = self.plane_id_tot[where_event_eq]
-			Strip_id_tot_temp = self.Strip_id_tot[where_event_eq]
-			vol_id_tot_temp = self.vol_id_tot[where_event_eq]
-			moth_id_tot_temp = self.moth_id_tot[where_event_eq]
-			energy_dep_tot_temp = self.energy_dep_tot[where_event_eq]
-			pair_flag_tot_temp = self.pair_flag_tot[where_event_eq]
-
-			# ------------------------------------
-				
-			# X VIEW
-
-			r = 0
-
-			where_x = np.where(Si_id_tot_temp == 0)
-			where_x = where_x[0]				
-				
-			if len(where_x) != 0:				
-				while r < len(where_x):
-					data.write('{:d}\t'.format(self.event_id_tot[j]))
-					data.write('{:d}\t'.format(plane_id_tot_temp[where_x[r]]))
-					data.write('{:d}\t'.format(0))
-					data.write('{:d}\t'.format(Strip_id_tot_temp[where_x[r]]))
-					data.write('{:f}\t'.format(energy_dep_tot_temp[where_x[r]]))
-					data.write('{:f}\n'.format(pair_flag_tot_temp[where_x[r]]))
-
-					r = r + 1
-			# ------------------------------------
-
-			# Y VIEW
-
-			r = 0
-
-			where_y = np.where(Si_id_tot_temp == 1)
-			where_y = where_y[0]				
-				
-			if len(where_y) != 0:				
-				while r < len(where_y):
-					data.write('{:d}\t'.format(self.event_id_tot[j]))
-					data.write('{:d}\t'.format(plane_id_tot_temp[where_y[r]]))
-					data.write('{:d}\t'.format(1))
-					data.write('{:d}\t'.format(Strip_id_tot_temp[where_y[r]]))
-					data.write('{:f}\t'.format(energy_dep_tot_temp[where_y[r]]))
-					data.write('{:f}\n'.format(pair_flag_tot_temp[where_y[r]]))
-
-					r = r + 1
-
-
-			j_max = max(where_event_eq)
-			j = j_max + 1
-
-
-		data.close()
-		'''
 
 		# apply the energy thresold
 
@@ -3935,47 +3974,76 @@ class DHSim:
 			proc_id_temp_cal = self.proc_id_cal[where_event_eq]
 			gtime_temp_cal = self.gtime_ent_cal[where_event_eq]
 
+			where_trk_event_cal = np.where(self.event_id_tot_tr_raw == self.event_id_cal[j])
+			where_trk_event_cal = where_trk_event_cal[0]
+			if (where_trk_event_cal.size):
+				cal_event_flag = self.pair_flag_tot_tr_raw[where_trk_event_cal]
+			else:
+				cal_event_flag = 0
+			
+			"""
 			where_pair = np.where((child_id_temp_cal == 1) & (proc_id_temp_cal == 7) & (trk_id_temp_cal <= 3))
 			where_pair = where_pair[0]
-
 			where_compton = np.where((child_id_temp_cal == 1) & (proc_id_temp_cal == 3) & (trk_id_temp_cal <= 2))
 			where_compton = where_compton[0]
-
+			where_ray = np.where((child_id_temp_cal == 1) & (proc_id_temp_cal == 9) & (trk_id_temp_cal == 1))
+			where_ray = where_ray[0]
+			
+			ispair = 0
+			iscompton = 0
+			isray = 0
+			isother = 0
+			gtime_pair = [10**9]
+			gtime_compton = [10**9]
+			gtime_ray = [10**9]
+			
 			if len(where_pair) != 0:
-				gtime_pair = gtime_temp_cal[where_pair]
-				ispair = 1
+				gtime_pair = gtime_temp[where_pair]
+				#ispair = 1
 			else:
-				ispair = 0
+				gtime_pair = [10**9]
+				#ispair = 0
 
 			if len(where_compton) != 0:
-				gtime_compton = gtime_temp_cal[where_compton]
-				iscompton = 1
+				gtime_compton = gtime_temp[where_compton]
+				#iscompton = 1
 			else:
-				iscompton = 0
+				gtime_compton = [10**9]
+				#iscompton = 0
 
-  
-			if ispair == 1 and iscompton == 1:
-				if gtime_pair[0] < gtime_compton[0]:
-					iscompton = 0
-
-				if gtime_compton[0] < gtime_pair[0]:
-					ispair = 0
+			if len(where_ray) != 0:
+				gtime_ray = gtime_temp[where_ray]
+				#isray = 1
+			else:
+				gtime_ray = [10**9]
+				#isray = 0
+			
+			if ((gtime_pair[0] == 10**9) and (gtime_compton[0] == 10**9) and (gtime_ray[0] == 10**9)):
+				isother = 1
+			else:
+				gtime_array = [gtime_pair[0], gtime_compton[0], gtime_ray[0]]
+				proc_index = np.argmin(gtime_array)
+				if proc_index == 0: ispair = 1
+				if proc_index == 1: iscompton = 1
+				if proc_index == 2: isray = 1
+			"""
 
 			r = 0
 			while 1:
-
 				ispair_vol = 0
 				iscompton_vol = 0
+				isray_vol = 0
+				isother_vol = 0
 				isprimary_vol = 0
-					 
-				where_vol_eq = np.where(vol_id_temp_cal == vol_id_temp_cal[r])
-				where_vol_eq = where_vol_eq[0]
+	
+				where_vol_eq = np.where((vol_id_temp_cal == vol_id_temp_cal[r]) & (moth_id_temp_cal == moth_id_temp_cal[r]))										
+				where_vol_eq = where_vol_eq[0]	
 
-				where_other_vol = np.where(vol_id_temp_cal != vol_id_temp_cal[r])
+				where_other_vol = np.where((vol_id_temp_cal != vol_id_temp_cal[r]) | (moth_id_temp_cal != moth_id_temp_cal[r]))
 				where_other_vol = where_other_vol[0]
-
+				
 				bar_ene_tot_temp = np.sum(bar_ene_temp[where_vol_eq])
-	 
+				
 				if bar_ene_tot_temp >= self.E_th_cal:
 					event_id_tot_cal_old = self.event_id_cal[j]
 					vol_id_tot_cal_old = vol_id_temp_cal[r]
@@ -3987,66 +4055,52 @@ class DHSim:
 					vol_id_tot_cal.append(vol_id_tot_cal_old)
 					bar_id_tot.append(bar_id_tot_old )
 					moth_id_tot_cal.append(moth_id_tot_cal_old)
-					bar_ene_tot.append(bar_ene_tot_old) 
-
-
+					bar_ene_tot.append(bar_ene_tot_old) 					
+					
 					#Searching for Pair/Compton events of secondary particles generated by the primary
+					#if another process is involved, the event is flagged as 0
 					#if one of hits in the same volume is a pair the summed event is flagged as 1
 					#if one of hits in the same volume is a compton the summed event is flagged as 2
-					#hits generated by the primary are flagged as 3
+					#if one of hits in the same volume is a rayleigh the summed event is flagged as 3
+
 					all_child = child_id_temp_cal[where_vol_eq]
 					all_trk = trk_id_temp_cal[where_vol_eq]
 					all_proc = proc_id_temp_cal[where_vol_eq]
 					all_gtime = gtime_temp_cal[where_vol_eq]
-        
+					
 					where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
 					where_pair_vol = where_pair_vol[0]
-
-					where_compton_vol = np.where((all_child == 1) & (all_proc == 3) & (all_trk <= 2))
-					where_compton_vol = where_compton_vol[0]
-
-					if len(where_pair_vol) != 0 and ispair == 1:
-						pair_flag_tot_old = 1
-						ispair_vol = 1
-
-						pair_flag_tot_cal.append(pair_flag_tot_old)	
-	 
-	
-					if len(where_compton_vol) != 0 and iscompton == 1:
-						pair_flag_tot_old = 2
-						iscompton_vol = 1
-				
-						pair_flag_tot_cal.append(pair_flag_tot_old)	
-
-					where_primary = np.where(all_child == 0)
-					where_primary = where_primary[0]
-
-					if ispair == 1 and  ispair_vol == 0:
-						if len(where_primary) != 0:
-							if all_gtime[where_primary[0]] < gtime_pair[0]:
-								pair_flag_tot_old = 3
-								isprimary_vol = 1
-							
-								pair_flag_tot_cal.append(pair_flag_tot_old)
-
-
-					if iscompton == 1 and  iscompton_vol == 0:
-						if len(where_primary) != 0:
-							if all_gtime[where_primary[0]] < gtime_compton[0]:
-								pair_flag_tot_old = 4
-								isprimary_vol = 1
-							
-								pair_flag_tot_cal.append(pair_flag_tot_old)
-
-
-					if ispair_vol == 0 and iscompton_vol == 0 and isprimary_vol == 0:
-						pair_flag_tot_old = 0
-
-						pair_flag_tot_cal.append(pair_flag_tot_old)
-
-
 					
-				if where_other_vol != []:
+					where_compton_vol = np.where(((all_child == 1) & (all_proc == 3) & (all_trk == 2)) or ((all_child == 0) & (all_trk == 1)))
+					where_compton_vol = where_compton_vol[0]
+					
+					#where_ray_vol = np.where((all_child == 1) & (all_proc == 9) & (all_trk == 1))
+					#where_ray_vol = where_ray_vol[0]
+					
+					if len(where_pair_vol) != 0 and cal_event_flag == 1:
+						pair_flag_tot_old = cal_event_flag
+						ispair_vol = 1
+						
+						pair_flag_tot_cal.append(pair_flag_tot_old)	
+						
+					if len(where_compton_vol) != 0 and cal_event_flag == 2:
+						pair_flag_tot_old = cal_event_flag
+						iscompton_vol = 1
+						
+						pair_flag_tot_cal.append(pair_flag_tot_old)	
+			
+					if ((len(where_pair_vol) == 0) and (len(where_compton_vol) == 0)):
+						if cal_event_flag == 3:
+							pair_flag_tot_old = cal_event_flag
+							isray_vol = 1
+							
+							pair_flag_tot_cal.append(cal_event_flag)	
+						else:
+							pair_flag_tot_old = 0
+							pair_flag_tot_cal.append(pair_flag_tot_old)
+
+
+				if len(where_other_vol) != 0:
 					vol_id_temp_cal = vol_id_temp_cal[where_other_vol]
 					moth_id_temp_cal = moth_id_temp_cal[where_other_vol]
 					bar_ene_temp = bar_ene_temp[where_other_vol]
@@ -4054,9 +4108,10 @@ class DHSim:
 					child_id_temp_cal = child_id_temp_cal[where_other_vol]
 					proc_id_temp_cal = proc_id_temp_cal[where_other_vol]
 					gtime_temp_cal = gtime_temp_cal[where_other_vol]
-
+				
 				else:
 					break
+						
 
 			j_max = max(where_event_eq)
 			j = j_max + 1
@@ -4079,7 +4134,7 @@ class DHSim:
 	
 	def compton_cal(self):
 
-		where_compton_cal = np.where((self.pair_flag_tot_cal == 2) | (self.pair_flag_tot_cal == 4))
+		where_compton_cal = np.where(self.pair_flag_tot_cal == 2)
 		where_compton_cal = where_compton_cal[0]
 
 		if len(where_compton_cal) != 0:
@@ -4102,7 +4157,7 @@ class DHSim:
 		
 	def pair_cal(self):
 
-		where_pair_cal = np.where((self.pair_flag_tot_cal == 1) | (self.pair_flag_tot_cal == 3))
+		where_pair_cal = np.where(self.pair_flag_tot_cal == 1)
 		where_pair_cal = where_pair_cal[0]
 
 		if len(where_pair_cal) != 0:
@@ -4123,6 +4178,29 @@ class DHSim:
 
 		self.where_pair_cal = where_pair_cal
 
+	def ray_cal(self):
+
+		where_ray_cal = np.where(self.ray_flag_tot_cal == 3)
+		where_ray_cal = where_ray_cal[0]
+
+		if len(where_ray_cal) != 0:
+			event_id_tot_cal_ray = self.event_id_tot_cal[where_ray_cal]
+			bar_id_tot_ray = self.bar_id_tot[where_ray_cal]
+			bar_ene_tot_ray = self.bar_ene_tot[where_ray_cal]
+			pair_flag_tot_cal_ray = self.pair_flag_tot_cal[where_ray_cal]
+
+			self.event_id_tot_cal_ray = event_id_tot_cal_ray
+			self.bar_id_tot_ray = bar_id_tot_ray
+			self.bar_ene_tot_ray = bar_ene_tot_ray
+			self.pair_flag_tot_cal_ray = pair_flag_tot_cal_ray
+		
+
+
+		else:
+			print('No Rayleigh CAL events found')
+
+		self.where_ray_cal = where_ray_cal
+		
 	################################
 
 	# IT SUMS THE ENERGY FOR EVERY EVENT #  
@@ -4192,46 +4270,77 @@ class DHSim:
 			proc_id_temp_ac = self.proc_id_ac[where_event_eq]
 			gtime_temp_ac = self.gtime_ent_ac[where_event_eq]
 
+
+			where_trk_event_ac = np.where(self.event_id_tot_tr_raw == self.event_id_ac[j])
+			where_trk_event_ac = where_trk_event_ac[0]
+			if (where_trk_event_ac.size):
+				ac_event_flag = self.pair_flag_tot_tr_raw[where_trk_event_ac]
+			else:
+				ac_event_flag = 0
+				
+			"""
 			where_pair = np.where((child_id_temp_ac == 1) & (proc_id_temp_ac == 7) & (trk_id_temp_ac <= 3))
 			where_pair = where_pair[0]
-			
 			where_compton = np.where((child_id_temp_ac == 1) & (proc_id_temp_ac == 3) & (trk_id_temp_ac <= 2))
 			where_compton = where_compton[0]
-
+			where_ray = np.where((child_id_temp_ac == 1) & (proc_id_temp_ac == 9) & (trk_id_temp_ac == 1))
+			where_ray = where_ray[0]
+			
+			ispair = 0
+			iscompton = 0
+			isray = 0
+			isother = 0
+			gtime_pair = [10**9]
+			gtime_compton = [10**9]
+			gtime_ray = [10**9]
+			
 			if len(where_pair) != 0:
-				gtime_pair = gtime_temp_ac[where_pair]
-				ispair = 1
+				gtime_pair = gtime_temp[where_pair]
+				#ispair = 1
 			else:
-				ispair = 0
+				gtime_pair = [10**9]
+				#ispair = 0
 
 			if len(where_compton) != 0:
-				gtime_compton = gtime_temp_ac[where_compton]
-				iscompton = 1
+				gtime_compton = gtime_temp[where_compton]
+				#iscompton = 1
 			else:
-				iscompton = 0
+				gtime_compton = [10**9]
+				#iscompton = 0
 
-  
-			if ispair == 1 and iscompton == 1:
-				if gtime_pair[0] < gtime_compton[0]:
-					iscompton = 0
-
-				if gtime_compton[0] < gtime_pair[0]:
-					ispair = 0
+			if len(where_ray) != 0:
+				gtime_ray = gtime_temp[where_ray]
+				#isray = 1
+			else:
+				gtime_ray = [10**9]
+				#isray = 0
 			
+			if ((gtime_pair[0] == 10**9) and (gtime_compton[0] == 10**9) and (gtime_ray[0] == 10**9)):
+				isother = 1
+			else:
+				gtime_array = [gtime_pair[0], gtime_compton[0], gtime_ray[0]]
+				proc_index = np.argmin(gtime_array)
+				if proc_index == 0: ispair = 1
+				if proc_index == 1: iscompton = 1
+				if proc_index == 2: isray = 1
+			"""
+
 
 			r = 0
 			while 1:
 
 				ispair_vol = 0
 				iscompton_vol = 0
+				isray_vol = 0
+				isother_vol = 0
 				isprimary_vol = 0
-
+	
 				where_vol_eq = np.where(vol_id_temp_ac == vol_id_temp_ac[r])
 				where_vol_eq = where_vol_eq[0]
 
 				where_other_vol = np.where(vol_id_temp_ac != vol_id_temp_ac[r])
 				where_other_vol = where_other_vol[0]
-
+				
 				event_id_tot_ac_old = self.event_id_ac[j]
 				vol_id_tot_ac_old = vol_id_temp_ac[r]
 				moth_id_tot_ac_old = moth_id_temp_ac[r]
@@ -4240,63 +4349,49 @@ class DHSim:
 				event_id_tot_ac.append(event_id_tot_ac_old)
 				vol_id_tot_ac.append(vol_id_tot_ac_old)
 				moth_id_tot_ac.append(moth_id_tot_ac_old)
-				energy_dep_tot_ac.append(energy_dep_tot_ac_old)
-
-
+				energy_dep_tot_ac.append(energy_dep_tot_ac_old)				
+				
 				#Searching for Pair/Compton events of secondary particles generated by the primary
+				#if another process is involved, the event is flagged as 0
 				#if one of hits in the same volume is a pair the summed event is flagged as 1
 				#if one of hits in the same volume is a compton the summed event is flagged as 2
-				#hits generated by the primary are flagged as 3
+				#if one of hits in the same volume is a rayleigh the summed event is flagged as 3
+				
 				all_child = child_id_temp_ac[where_vol_eq]
 				all_trk = trk_id_temp_ac[where_vol_eq]
 				all_proc = proc_id_temp_ac[where_vol_eq]
 				all_gtime = gtime_temp_ac[where_vol_eq]
-        
+				
 				where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
 				where_pair_vol = where_pair_vol[0]
-
-				where_compton_vol = np.where((all_child == 1) & (all_proc == 3) & (all_trk <= 2))
-				where_compton_vol = where_compton_vol[0]
-
-				if len(where_pair_vol) != 0 and ispair == 1:
-					pair_flag_tot_old = 1
-					ispair_vol = 1
-
-					pair_flag_tot_ac.append(pair_flag_tot_old)	
-	 
-	
-				if len(where_compton_vol) != 0 and iscompton == 1:
-					pair_flag_tot_old = 2
-					iscompton_vol = 1
 				
+				where_compton_vol = np.where(((all_child == 1) & (all_proc == 3) & (all_trk == 2)) or ((all_child == 0) & (all_trk == 1)))
+				where_compton_vol = where_compton_vol[0]
+				
+				#where_ray_vol = np.where((all_child == 1) & (all_proc == 9) & (all_trk == 1))
+				#where_ray_vol = where_ray_vol[0]
+				
+				if len(where_pair_vol) != 0 and ac_event_flag == 1:
+					pair_flag_tot_old = ac_event_flag
+					ispair_vol = 1
+					
 					pair_flag_tot_ac.append(pair_flag_tot_old)	
-
-				where_primary = np.where(all_child == 0)
-				where_primary = where_primary[0]
-
-				if ispair == 1 and  ispair_vol == 0:
-					if len(where_primary) != 0:
-						if all_gtime[where_primary[0]] < gtime_pair[0]:
-							pair_flag_tot_old = 3
-							isprimary_vol = 1
-							
-							pair_flag_tot_ac.append(pair_flag_tot_old)
-
-
-				if iscompton == 1 and  iscompton_vol == 0:
-					if len(where_primary) != 0:
-						if all_gtime[where_primary[0]] < gtime_compton[0]:
-							pair_flag_tot_old = 4
-							isprimary_vol = 1
-							
-							pair_flag_tot_ac.append(pair_flag_tot_old)
-
-
-				if ispair_vol == 0 and iscompton_vol == 0 and isprimary_vol == 0:
-					pair_flag_tot_old = 0
-
-					pair_flag_tot_ac.append(pair_flag_tot_old)
-
+					
+				if len(where_compton_vol) != 0 and ac_event_flag == 1:
+					pair_flag_tot_old = ac_event_flag
+					iscompton_vol = 1
+						
+					pair_flag_tot_ac.append(pair_flag_tot_old)	
+					
+				if ((len(where_pair_vol) == 0) and (len(where_compton_vol) == 0)):
+					if ac_event_flag == 3:
+						pair_flag_tot_old = ac_event_flag
+						isray_vol = 1
+						
+						pair_flag_tot_ac.append(pair_flag_tot_old)	
+					else:
+						pair_flag_tot_old = 0
+						pair_flag_tot_ac.append(pair_flag_tot_old)
 
 				if len(where_other_vol) != 0:
 					vol_id_temp_ac = vol_id_temp_ac[where_other_vol]
@@ -4306,7 +4401,7 @@ class DHSim:
 					child_id_temp_ac = child_id_temp_ac[where_other_vol]
 					proc_id_temp_ac = proc_id_temp_ac[where_other_vol]
 					gtime_temp_ac = gtime_temp_ac[where_other_vol]
-
+				
 				else:
 					break
 
@@ -4399,7 +4494,7 @@ class DHSim:
 	
 	def compton_ac(self):
 
-		where_compton_ac = np.where((self.pair_flag_tot_ac == 2) | (self.pair_flag_tot_ac == 4))
+		where_compton_ac = np.where(self.pair_flag_tot_ac == 2)
 		where_compton_ac = where_compton_ac[0]
 
 		if len(where_compton_ac) != 0:
@@ -4424,7 +4519,7 @@ class DHSim:
 		
 	def pair_ac(self):
 
-		where_pair_ac = np.where((self.pair_flag_tot_ac == 1) | (self.pair_flag_tot_ac == 3))
+		where_pair_ac = np.where(self.pair_flag_tot_ac == 1)
 		where_pair_ac = where_pair_ac[0]
 	
 
@@ -4447,4 +4542,27 @@ class DHSim:
 
 		self.where_pair_ac = where_pair_ac
 
+	def ray_ac(self):
 
+		where_ray_ac = np.where(self.pair_flag_tot_ac == 3)
+		where_ray_ac = where_ray_ac[0]
+	
+
+		if len(where_ray_ac) != 0:
+			event_id_tot_ac_ray = self.event_id_tot_ac[where_ray_ac]
+			AC_panel_ray = self.AC_panel[where_ray_ac]
+			AC_subpanel_ray = self.AC_subpanel[where_ray_ac]
+			energy_dep_tot_ac_ray = self.energy_dep_tot_ac[where_ray_ac]
+			pair_flag_tot_ac_ray = self.pair_flag_tot_ac[where_ray_ac]
+  			
+			self.event_id_tot_ac_ray = event_id_tot_ac_ray
+			self.AC_panel_ray = AC_panel_ray 
+			self.AC_subpanel_ray = AC_subpanel_ray 
+			self.energy_dep_tot_ac_ray = energy_dep_tot_ac_ray 
+			self.pair_flag_tot_ac_ray = pair_flag_tot_ac_ray 
+
+
+		else:
+			print('No Rayleigh AC events found')
+
+		self.where_ray_ac = where_ray_ac

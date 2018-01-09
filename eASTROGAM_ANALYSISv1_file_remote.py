@@ -23,8 +23,8 @@ py_list = int(sys.argv[4])               # Enter the Physics List [0 = QGSP_BERT
 N_in = int(sys.argv[5])                  # Enter the number of emitted particles:
 part_type = sys.argv[6]                  # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
 ene_range = int(sys.argv[7])             # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
-ene_min = int(sys.argv[8])               # Enter miminum energy [MeV]:
-ene_max = int(sys.argv[9])               # Enter maximum energy [MeV]:
+ene_min = sys.argv[8]              		 # Enter miminum energy [MeV]:
+ene_max = sys.argv[9]               	 # Enter maximum energy [MeV]:
 ang_type = sys.argv[10]                  # Enter the angular distribution [e.g. UNI, ISO]:
 theta_type = int(sys.argv[11])           # Enter theta:
 phi_type = int(sys.argv[12])             # Enter phi:
@@ -40,9 +40,8 @@ energy_thresh = int(sys.argv[21])        # Enter energy threshold [keV]:
 ifile = int(sys.argv[22])		 # Enter the initial number of FITS files
 n_fits = int(sys.argv[23])               # Enter the final number of FITS files :
 
+
 dhseASTROGAM = DHSim()
-
-
 
 ### parametri iniziali
 
@@ -268,6 +267,26 @@ while ifile <= n_fits:
 									   
 			dhseASTROGAM.writing_AA_cluster_compton(N_in, part_type, ang_type, theta_type, phi_type, ifile)
 
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+			print('         ASCII data format for AA input - rayleigh')
+			print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+											   
+			# ASCII Columns:
+			# - c1 = event ID
+			# - c2 = theta input
+			# - c3 = phi input
+			# - c4 = energy input
+			# - c5 = plane ID
+			# - c6 = Pos Z
+			# - c7 = X/Y flag (X = 0, Y = 1)
+			# - c8 = Cluster position (reference system center at the Silicon layer center)
+			# - c9 = energy deposition (keV)
+			# - c10 = number of strips composing the cluster
+			# - c11 = pair flag (3 = rayleigh)
+									   
+			dhseASTROGAM.writing_AA_cluster_rayleigh(N_in, part_type, ang_type, theta_type, phi_type, ifile)
+
+
 			####################
 			#Angular resolution
 			###################
@@ -305,6 +324,11 @@ while ifile <= n_fits:
 		
 		if len(dhseASTROGAM.where_pair_cal) != 0:
 			dhseASTROGAM.writing_G4_cal_pair(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
+
+		dhseASTROGAM.ray_cal()
+		
+		if len(dhseASTROGAM.where_ray_cal) != 0:
+			dhseASTROGAM.writing_G4_cal_ray(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
 		
 		dhseASTROGAM.cal_sum()
 		
@@ -338,6 +362,11 @@ while ifile <= n_fits:
 		
 		if len(dhseASTROGAM.where_pair_ac) != 0:
 			dhseASTROGAM.writing_G4_ac_pair(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
+
+		dhseASTROGAM.ray_ac()
+		
+		if len(dhseASTROGAM.where_ray_ac) != 0:
+			dhseASTROGAM.writing_G4_ac_ray(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
 
 
 ############    next fits file   ####################

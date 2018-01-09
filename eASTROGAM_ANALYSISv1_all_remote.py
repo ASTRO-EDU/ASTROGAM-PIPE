@@ -23,8 +23,8 @@ py_list = int(sys.argv[4])               # Enter the Physics List [0 = QGSP_BERT
 N_in = int(sys.argv[5])                  # Enter the number of emitted particles:
 part_type = sys.argv[6]                  # Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
 ene_range = int(sys.argv[7])             # Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
-ene_min = int(sys.argv[8])               # Enter miminum energy [MeV]:
-ene_max = int(sys.argv[9])               # Enter maximum energy [MeV]:
+ene_min = sys.argv[8]               	 # Enter miminum energy [MeV]:
+ene_max = sys.argv[9]                    # Enter maximum energy [MeV]:
 ang_type = sys.argv[10]                  # Enter the angular distribution [e.g. UNI, ISO]:
 theta_type = int(sys.argv[11])           # Enter theta:
 phi_type = int(sys.argv[12])             # Enter phi:
@@ -39,6 +39,7 @@ passive_flag = int(sys.argv[20])         # Is Passive present? [0 = false, 1 = t
 energy_thresh = int(sys.argv[21])        # Enter energy threshold [keV]:
 ifile = int(sys.argv[22])		 	  	 # Enter the initial number of FITS files:
 n_fits = int(sys.argv[23])               # Enter the final number of FITS files:
+
 
 
 if sim_type != 0 and sim_type != 1 and sim_type != 2 and sim_type != 3 and sim_type != 4 and sim_type != 5:
@@ -83,9 +84,20 @@ if astrogam_version=='V1.1':
 	sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
 
 
+if (ene_min[0] == '0'):
+	ene_min = np.round(float(ene_min), 1)
+else:
+	ene_min = int(ene_min)
+	
+if (ene_max[0] == '0'):
+	ene_max = np.round(float(ene_max), 1)
+else:
+	ene_max = int(ene_max)
+
 if ene_range == 0:
 	ene_dis = 'MONO'
-	ene_type = ene_min
+	ene_type = str(ene_min)
+	"""
 	if ene_type >= 1:
 		ene_type = repr(ene_type)
 	if ene_type < 1:
@@ -96,29 +108,31 @@ if ene_range == 0:
 	else:	
 		nstring = len(ene_type)
 		ene_type_notzero = ene_type
-      		flag = 1 
-		
-		#for ichar_reverse in range(0, nstring):
-			#ichar = (nstring-1) - ichar_reverse
+			flag = 1 
+	
+
 		if ene_type[0] == '0' or  ene_type[0] == '.':
 			if flag == 1:
 				ene_type_notzero = ene_type_notzero[:5]
 		else:
 			flag = 0
 		ene_type = ene_type_notzero
-	
+	"""
+
 
 
 if ene_range == 1:
 	ene_dis = 'POW'
-	
-	ene_min_string = repr(ene_min)	
+
+	ene_min_string = str(ene_min)	
+	ene_max_string = str(ene_max)	
+	"""
 	if type(ene_min) is int:
 		pass
 	else:
 		nstring = len(ene_min_string)
 		ene_min_string_notzero = ene_min_string
-      		flag = 1 	
+			flag = 1 	
 		if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
 			if flag == 1:
 				ene_min_string_notzero = ene_min_string_notzero[:5]
@@ -126,36 +140,39 @@ if ene_range == 1:
 			flag = 0
 		ene_min_string = ene_min_string_notzero
 
-	
+
 	ene_max_string = repr(ene_max)	
 	if type(ene_max) is int:
 		pass
 	else:
 		nstring = len(ene_max_string)
 		ene_max_string_notzero = ene_max_string
-      		flag = 1 	
+			flag = 1 	
 		if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
 			if flag == 1:
 				ene_max_string_notzero = ene_max_string_notzero[:5]
 		else:
 			flag = 0
 		ene_max_string = ene_max_string_notzero	
-	
+	"""
 	ene_type = str(ene_min_string)+'-'+str(ene_max_string)
-	
+
 
 
 
 if ene_range == 2:
 	ene_dis = 'EXP'
+
+	ene_min_string = str(ene_min)	
+	ene_max_string = str(ene_max)	
 	
-	ene_min_string = repr(ene_min)	
+	"""
 	if type(ene_min) is int:
 		pass
 	else:
 		nstring = len(ene_min_string)
 		ene_min_string_notzero = ene_min_string
-      		flag = 1 	
+			flag = 1 	
 		if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
 			if flag == 1:
 				ene_min_string_notzero = ene_min_string_notzero[:5]
@@ -163,35 +180,37 @@ if ene_range == 2:
 			flag = 0
 		ene_min_string = ene_min_string_notzero
 
-	
+
 	ene_max_string = repr(ene_max)	
 	if type(ene_max) is int:
 		pass
 	else:
 		nstring = len(ene_max_string)
 		ene_max_string_notzero = ene_max_string
-      		flag = 1 	
+			flag = 1 	
 		if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
 			if flag == 1:
 				ene_max_string_notzero = ene_max_string_notzero[:5]
 		else:
 			flag = 0
 		ene_max_string = ene_max_string_notzero	
-	
+	"""
 	ene_type = str(ene_min_string)+'-'+str(ene_max_string)
-	
+
 
 
 if ene_range == 3:
 	ene_dis = 'LIN'
-	
-	ene_min_string = repr(ene_min)	
+
+	ene_min_string = str(ene_min)	
+	ene_max_string = str(ene_max)
+	"""	
 	if type(ene_min) is int:
 		pass
 	else:
 		nstring = len(ene_min_string)
 		ene_min_string_notzero = ene_min_string
-      		flag = 1 	
+			flag = 1 	
 		if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
 			if flag == 1:
 				ene_min_string_notzero = ene_min_string_notzero[:5]
@@ -199,21 +218,21 @@ if ene_range == 3:
 			flag = 0
 		ene_min_string = ene_min_string_notzero
 
-	
+
 	ene_max_string = repr(ene_max)	
 	if type(ene_max) is int:
 		pass
 	else:
 		nstring = len(ene_max_string)
 		ene_max_string_notzero = ene_max_string
-      		flag = 1 	
+			flag = 1 	
 		if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
 			if flag == 1:
 				ene_max_string_notzero = ene_max_string_notzero[:5]
 		else:
 			flag = 0
 		ene_max_string = ene_max_string_notzero	
-	
+	"""
 	ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 
 
@@ -404,6 +423,19 @@ if isStrip == 1:
 	aa_kalman_compton_strip_number = []
 	aa_kalman_compton_pair = []
 
+	# sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat')
+	aa_kalman_ray_event_id = []
+	aa_kalman_ray_theta_in = []
+	aa_kalman_ray_phi_in = []
+	aa_kalman_ray_ene_in = []
+	aa_kalman_ray_plane_id = []
+	aa_kalman_ray_zpos = []
+	aa_kalman_ray_si_id = []
+	aa_kalman_ray_pos = []
+	aa_kalman_ray_edep = []
+	aa_kalman_ray_strip_number = []
+	aa_kalman_ray_pair = []
+	
 else:
 	# sim_tag+'_AA_FAKE_eASTROGAM_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat')
 	aa_fake_event_id = []
@@ -455,6 +487,12 @@ if cal_flag == 1:
 	calInput_bar_ene_tot_pair = []
 	calInput_pair_flag_tot_pair = []
 
+	# G4.CAL.RAYLEIGH.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+	calInput_event_id_tot_ray = []
+	calInput_bar_id_tot_ray = []
+	calInput_bar_ene_tot_ray = []
+	calInput_pair_flag_tot_ray = []
+	
 	# SUM.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
 	calInputSum_event_id_tot = []
 	calInputSum_bar_ene_tot = []
@@ -496,7 +534,13 @@ if ac_flag == 1:
 	acInput_AC_subpanel_pair = []
 	acInput_energy_dep_tot_pair = []
 	acInput_pair_flag_tot_pair = []
-	
+
+	# G4.AC.RAYLEIGH.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+	acInput_event_id_tot_ray = []
+	acInput_AC_panel_ray = []
+	acInput_AC_subpanel_ray = []
+	acInput_energy_dep_tot_ray = []
+	acInput_pair_flag_tot_ray = []	
 ############################################### Creazione file
 
 
@@ -651,6 +695,42 @@ while ifile <= n_fits:
 		
 		
 		table_aa_kalman_cluster_compton.close()
+
+		filenamedat_aa_kalman_ray = filepath+sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat'
+		
+		table_aa_kalman_cluster_ray = open(filenamedat_aa_kalman_ray)
+		
+		lst = []
+		
+		for line in table_aa_kalman_cluster_ray:
+			lst += [line.split()]
+		
+		event_ID = [x[0] for x in lst]
+		theta_input = [x[1] for x in lst]
+		phi_input = [x[2] for x in lst]
+		energy_input = [x[3] for x in lst]
+		plane_ID = [x[4] for x in lst]
+		Pos_Z = [x[5] for x in lst]
+		X_Y_flag = [x[6] for x in lst]
+		Cluster_position = [x[7] for x in lst]
+		energy_deposition = [x[8] for x in lst]
+		number_of_strips_composing_the_cluster = [x[9] for x in lst]
+		pair_flag = [x[10] for x in lst]
+		
+		aa_kalman_ray_event_id.append(event_ID)
+		aa_kalman_ray_theta_in.append(theta_input)
+		aa_kalman_ray_phi_in.append(phi_input)
+		aa_kalman_ray_ene_in.append(energy_input)
+		aa_kalman_ray_plane_id.append(plane_ID)
+		aa_kalman_ray_zpos.append(Pos_Z)
+		aa_kalman_ray_si_id.append(X_Y_flag)
+		aa_kalman_ray_pos.append(Cluster_position)
+		aa_kalman_ray_edep.append(energy_deposition)
+		aa_kalman_ray_strip_number.append(number_of_strips_composing_the_cluster)
+		aa_kalman_ray_pair.append(pair_flag)
+		
+		
+		table_aa_kalman_cluster_ray.close()
 
 
 		filenamefits_raw = fits.open(filepath+'G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
@@ -905,6 +985,28 @@ while ifile <= n_fits:
 		else:
 			pass
 
+		if os.path.exists(filepath+'G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
+
+
+			filenamefits_cal_ray = fits.open(filepath+'G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+   
+			tbdata = filenamefits_cal_ray[1].data
+
+			calInput_event_id_tot_ray_temp = tbdata.field('EVT_ID')
+			calInput_bar_id_tot_ray_temp = tbdata.field('BAR_ID')
+			calInput_bar_ene_tot_ray_temp = tbdata.field('BAR_ENERGY')
+			calInput_pair_flag_tot_ray_temp = tbdata.field('PAIR_FLAG')
+
+
+			calInput_event_id_tot_ray.append(calInput_event_id_tot_ray_temp)
+			calInput_bar_id_tot_ray.append(calInput_bar_id_tot_ray_temp)
+			calInput_bar_ene_tot_ray.append(calInput_bar_ene_tot_ray_temp)
+			calInput_pair_flag_tot_ray.append(calInput_pair_flag_tot_ray_temp)
+
+			filenamefits_cal_ray.close()
+
+		else:
+			pass
 
 		filenamefits_cal_sum = fits.open(filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
@@ -1026,6 +1128,31 @@ while ifile <= n_fits:
 
 		else:
 			pass
+			
+		if os.path.exists(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
+
+			filenamefits_ac_ray = fits.open(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+   
+			tbdata = filenamefits_ac_ray[1].data
+
+			acInput_event_id_tot_ray_temp = tbdata.field('EVT_ID')
+			acInput_AC_panel_ray_temp = tbdata.field('AC_PANEL')
+			acInput_AC_subpanel_ray_temp = tbdata.field('AC_SUBPANEL')
+			acInput_energy_dep_tot_ray_temp = tbdata.field('E_DEP')
+			acInput_pair_flag_tot_ray_temp = tbdata.field('PAIR_FLAG')
+
+
+			acInput_event_id_tot_ray.append(acInput_event_id_tot_ray_temp)
+			acInput_AC_panel_ray.append(acInput_AC_panel_ray_temp)
+			acInput_AC_subpanel_ray.append(acInput_AC_subpanel_ray_temp)
+			acInput_energy_dep_tot_ray.append(acInput_energy_dep_tot_ray_temp)
+			acInput_pair_flag_tot_ray.append(acInput_pair_flag_tot_ray_temp)
+
+			filenamefits_ac_ray.close()		
+		
+		else:
+			pass
+
 				
 #############################################
 
@@ -1132,6 +1259,29 @@ aa_kalman_compton_edep = np.array((aa_kalman_compton_edep), dtype=np.float64)
 aa_kalman_compton_strip_number = np.array((aa_kalman_compton_strip_number), dtype=np.int64)
 aa_kalman_compton_pair = np.array((aa_kalman_compton_pair), dtype=np.int64)
 
+aa_kalman_ray_event_id = np.ma.concatenate(aa_kalman_ray_event_id)
+aa_kalman_ray_theta_in = np.ma.concatenate(aa_kalman_ray_theta_in)
+aa_kalman_ray_phi_in = np.ma.concatenate(aa_kalman_ray_phi_in)
+aa_kalman_ray_ene_in = np.ma.concatenate(aa_kalman_ray_ene_in)
+aa_kalman_ray_plane_id = np.ma.concatenate(aa_kalman_ray_plane_id)
+aa_kalman_ray_zpos = np.ma.concatenate(aa_kalman_ray_zpos)
+aa_kalman_ray_si_id = np.ma.concatenate(aa_kalman_ray_si_id)
+aa_kalman_ray_pos = np.ma.concatenate(aa_kalman_ray_pos)
+aa_kalman_ray_edep = np.ma.concatenate(aa_kalman_ray_edep)
+aa_kalman_ray_strip_number = np.ma.concatenate(aa_kalman_ray_strip_number)
+aa_kalman_ray_pair = np.ma.concatenate(aa_kalman_ray_pair)
+
+aa_kalman_ray_event_id = np.array((aa_kalman_ray_event_id), dtype=np.int64)
+aa_kalman_ray_theta_in = np.array((aa_kalman_ray_theta_in), dtype=np.int64)
+aa_kalman_ray_phi_in = np.array((aa_kalman_ray_phi_in), dtype=np.int64)
+aa_kalman_ray_ene_in = np.array(aa_kalman_ray_ene_in)
+aa_kalman_ray_plane_id = np.array((aa_kalman_ray_plane_id), dtype=np.int64)
+aa_kalman_ray_zpos = np.array((aa_kalman_ray_zpos), dtype=np.float64)
+aa_kalman_ray_si_id = np.array((aa_kalman_ray_si_id), dtype=np.int64)
+aa_kalman_ray_pos = np.array((aa_kalman_ray_pos), dtype=np.float64)
+aa_kalman_ray_edep = np.array((aa_kalman_ray_edep), dtype=np.float64)
+aa_kalman_ray_strip_number = np.array((aa_kalman_ray_strip_number), dtype=np.int64)
+aa_kalman_ray_pair = np.array((aa_kalman_ray_pair), dtype=np.int64)
 
 rawData_event_id = np.ma.concatenate(rawData_event_id)
 rawData_tray_id = np.ma.concatenate(rawData_tray_id)
@@ -1295,7 +1445,6 @@ if cal_flag == 1:
 	calInput_bar_ene_tot_compton = np.array(calInput_bar_ene_tot_compton)
 	calInput_pair_flag_tot_compton = np.array(calInput_pair_flag_tot_compton)
 
-
 	calInput_event_id_tot_pair = np.ma.concatenate(calInput_event_id_tot_pair)
 	calInput_bar_id_tot_pair = np.ma.concatenate(calInput_bar_id_tot_pair)
 	calInput_bar_ene_tot_pair = np.ma.concatenate(calInput_bar_ene_tot_pair)
@@ -1305,6 +1454,14 @@ if cal_flag == 1:
 	calInput_bar_ene_tot_pair = np.array(calInput_bar_ene_tot_pair)
 	calInput_pair_flag_tot_pair = np.array(calInput_pair_flag_tot_pair)
 
+	calInput_event_id_tot_ray = np.ma.concatenate(calInput_event_id_tot_ray)
+	calInput_bar_id_tot_ray = np.ma.concatenate(calInput_bar_id_tot_ray)
+	calInput_bar_ene_tot_ray = np.ma.concatenate(calInput_bar_ene_tot_ray)
+	calInput_pair_flag_tot_ray = np.ma.concatenate(calInput_pair_flag_tot_ray)	
+	calInput_event_id_tot_ray = np.array(calInput_event_id_tot_ray)
+	calInput_bar_id_tot_ray = np.array(calInput_bar_id_tot_ray)
+	calInput_bar_ene_tot_ray = np.array(calInput_bar_ene_tot_ray)
+	calInput_pair_flag_tot_ray = np.array(calInput_pair_flag_tot_ray)
 
 	calInputSum_event_id_tot = np.ma.concatenate(calInputSum_event_id_tot)
 	calInputSum_bar_ene_tot = np.ma.concatenate(calInputSum_bar_ene_tot)
@@ -1372,6 +1529,11 @@ if ac_flag == 1:
 	acInput_energy_dep_tot_compton = np.array(acInput_energy_dep_tot_compton)
 	acInput_pair_flag_tot_compton = np.array(acInput_pair_flag_tot_compton)
 
+	acInput_event_id_tot_ray = np.ma.concatenate(acInput_event_id_tot_ray)
+	acInput_AC_panel_ray = np.ma.concatenate(acInput_AC_panel_ray)
+	acInput_AC_subpanel_ray = np.ma.concatenate(acInput_AC_subpanel_ray)
+	acInput_energy_dep_tot_ray = np.ma.concatenate(acInput_energy_dep_tot_ray)
+	acInput_pair_flag_tot_ray = np.ma.concatenate(acInput_pair_flag_tot_ray)
 
 
 	acInput_event_id_tot_pair = np.ma.concatenate(acInput_event_id_tot_pair)
@@ -1483,6 +1645,27 @@ if isStrip == 1:
 
 	data.close()
 
+	if os.path.exists(filepath+sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat'):
+		os.remove(filepath+sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat')
+		data = open(filepath+sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat', 'w')
+	else:
+		data = open(filepath+sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat', 'w')
+
+	for r in range(len(aa_kalman_ray_event_id)):
+		
+		data.write('{:d}\t'.format(aa_kalman_ray_event_id[r]))
+		data.write('{:d}\t'.format(aa_kalman_ray_theta_in[r]))
+		data.write('{:d}\t'.format(aa_kalman_ray_phi_in[r]))
+		data.write('{:s}\t'.format(aa_kalman_ray_ene_in[r]))
+		data.write('{:d}\t'.format(aa_kalman_ray_plane_id[r]))
+		data.write('{:f}\t'.format(aa_kalman_ray_zpos[r]))
+		data.write('{:d}\t'.format(aa_kalman_ray_si_id[r]))
+		data.write('{:f}\t'.format(aa_kalman_ray_pos[r]))
+		data.write('{:f}\t'.format(aa_kalman_ray_edep[r]))
+		data.write('{:d}\t'.format(aa_kalman_ray_strip_number[r]))
+		data.write('{:d}\n'.format(aa_kalman_ray_pair[r]))
+
+	data.close()
 else:
 
 	if os.path.exists(filepath+'AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+str(N_in)+part_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'_'+pol_string+'all.dat'):
@@ -1765,6 +1948,34 @@ if cal_flag == 1:
 
 
 
+	col1 = fits.Column(name='EVT_ID', format='I', array=calInput_event_id_tot_ray)	
+	col2 = fits.Column(name='BAR_ID', format='I', array=calInput_bar_id_tot_ray)
+	col3 = fits.Column(name='BAR_ENERGY', format='F20.15', array=calInput_bar_ene_tot_ray)
+	col4 = fits.Column(name='PAIR_FLAG', format='I', array=calInput_pair_flag_tot_ray)
+		
+	cols = fits.ColDefs([col1,col2,col3,col4])
+	tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+	if os.path.exists(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits'):
+		os.remove(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits')
+		tbhdu.writeto(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits')
+	else:
+		tbhdu.writeto(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits')
+
+	fits.setval(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+	fits.setval(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits', 'COMMENT', value='N_in =  ' +str(N_in), ext=1)
+
+	fits.setval(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits', 'COMMENT', value='Energy     = '+ene_type, ext=1)
+
+	fits.setval(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits', 'COMMENT', value='Theta     = '+str(theta_type), ext=1)
+
+	fits.setval(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
+
+	fits.setval(outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'all.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
+
+
 
 	col1 = fits.Column(name='EVT_ID', format='I', array=calInputSum_event_id_tot)	
 	col2 = fits.Column(name='BAR_ENERGY', format='F20.15', array=calInputSum_bar_ene_tot)
@@ -1933,6 +2144,35 @@ if ac_flag == 1:
 	fits.setval(filepath+'G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 
+	col1 = fits.Column(name='EVT_ID', format='I', array=acInput_event_id_tot_ray)	
+	col2 = fits.Column(name='AC_PANEL', format='A', array=acInput_AC_panel_ray)
+	col3 = fits.Column(name='AC_SUBPANEL', format='I', array=acInput_AC_subpanel_ray)
+	col4 = fits.Column(name='E_DEP', format='F20.15', array=acInput_energy_dep_tot_ray)
+	col4 = fits.Column(name='PAIR_FLAG', format='I', array=acInput_energy_dep_tot_ray)
+
+		
+	cols = fits.ColDefs([col1,col2,col3,col4])
+	tbhdu = fits.BinTableHDU.from_columns(cols)			
+		
+		
+	if os.path.exists(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits'):
+		os.remove(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits')
+		tbhdu.writeto(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits')
+	else:
+		tbhdu.writeto(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits')
+
+
+	fits.setval(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='eASTROGAM '+astrogam_version+' Geant4 simulation', ext=1)
+
+	fits.setval(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='N_in =  ' +str(N_in), ext=1)
+
+	fits.setval(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='Energy     = '+ene_type, ext=1)
+
+	fits.setval(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='Theta     = '+str(theta_type), ext=1)
+
+	fits.setval(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='Phi     = '+str(phi_type), ext=1)
+
+	fits.setval(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 
 
