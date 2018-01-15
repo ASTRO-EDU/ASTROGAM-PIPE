@@ -436,6 +436,15 @@ if isStrip == 1:
 	aa_kalman_ray_strip_number = []
 	aa_kalman_ray_pair = []
 	
+	# sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'_TRACKER.dat')
+	S1_event_id_trk = []
+	S1_type_trk = []
+	S1_e_dep_trk = []
+	S1_volume_id_trk = []
+	S1_x_trk = []
+	S1_y_trk = []
+	S1_z_trk = []
+	
 else:
 	# sim_tag+'_AA_FAKE_eASTROGAM_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'.dat')
 	aa_fake_event_id = []
@@ -496,6 +505,16 @@ if cal_flag == 1:
 	# SUM.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
 	calInputSum_event_id_tot = []
 	calInputSum_bar_ene_tot = []
+	
+	# sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'_CAL.dat')
+	S1_event_id_cal = []
+	S1_type_cal = []
+	S1_e_dep_cal = []
+	S1_volume_id_cal = []
+	S1_x_cal = []
+	S1_y_cal = []
+	S1_z_cal = []
+
 
 if ac_flag == 1:
 	# G4.RAW.AC.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
@@ -541,6 +560,16 @@ if ac_flag == 1:
 	acInput_AC_subpanel_ray = []
 	acInput_energy_dep_tot_ray = []
 	acInput_pair_flag_tot_ray = []	
+	
+	# sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'_AC.dat')
+	S1_event_id_ac = []
+	S1_type_ac = []
+	S1_e_dep_ac = []
+	S1_volume_id_ac = []
+	S1_x_ac = []
+	S1_y_ac = []
+	S1_z_ac = []	
+
 ############################################### Creazione file
 
 
@@ -732,6 +761,33 @@ while ifile <= n_fits:
 		
 		table_aa_kalman_cluster_ray.close()
 
+		filenamedat_S1_trk = filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'_TRACKER.dat'
+
+		table_S1_trk = open(filenamedat_S1_trk)
+		
+		lst = []
+		
+		for line in table_S1_trk:
+			lst += [line.split()]
+		
+		event_ID = [x[0] for x in lst]
+		type = [x[1] for x in lst]
+		Edep = [x[2] for x in lst]
+		VolumeID = [x[3] for x in lst]
+		X_pos = [x[4] for x in lst]
+		Y_pos = [x[5] for x in lst]
+		Z_pos = [x[6] for x in lst]
+		
+		S1_event_id_trk.append(event_ID)
+		S1_type_trk.append(type)
+		S1_e_dep_trk.append(Edep)
+		S1_volume_id_trk.append(VolumeID)
+		S1_x_trk.append(X_pos)
+		S1_y_trk.append(Y_pos)
+		S1_z_trk.append(Z_pos)
+		
+		
+		table_S1_trk.close()
 
 		filenamefits_raw = fits.open(filepath+'G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
@@ -1019,6 +1075,32 @@ while ifile <= n_fits:
 		calInputSum_bar_ene_tot.append(calInputSum_bar_ene_tot_temp)
 
 		filenamefits_cal_sum.close()
+		
+		
+		filenamedat_S1_cal = filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'_CAL.dat'
+
+		table_S1_cal = open(filenamedat_S1_cal)
+		
+		lst = []
+		
+		for line in table_S1_cal:
+			lst += [line.split()]
+		
+		event_ID = [x[0] for x in lst]
+		type = [x[1] for x in lst]
+		Edep = [x[2] for x in lst]
+		VolumeID = [x[3] for x in lst]
+		X_pos = [x[4] for x in lst]
+		Y_pos = [x[5] for x in lst]
+		Z_pos = [x[6] for x in lst]
+		
+		S1_event_id_cal.append(event_ID)
+		S1_type_cal.append(type)
+		S1_e_dep_cal.append(Edep)
+		S1_volume_id_cal.append(VolumeID)
+		S1_x_cal.append(X_pos)
+		S1_y_cal.append(Y_pos)
+		S1_z_cal.append(Z_pos)
 
 
 	if ac_flag == 1:
@@ -1153,6 +1235,31 @@ while ifile <= n_fits:
 		else:
 			pass
 
+		filenamedat_S1_ac = filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'_AC.dat'
+
+		table_S1_ac = open(filenamedat_S1_ac)
+		
+		lst = []
+		
+		for line in table_S1_ac:
+			lst += [line.split()]
+		
+		event_ID = [x[0] for x in lst]
+		type = [x[1] for x in lst]
+		Edep = [x[2] for x in lst]
+		VolumeID = [x[3] for x in lst]
+		X_pos = [x[4] for x in lst]
+		Y_pos = [x[5] for x in lst]
+		Z_pos = [x[6] for x in lst]
+		
+		S1_event_id_ac.append(event_ID)
+		S1_type_ac.append(type)
+		S1_e_dep_ac.append(Edep)
+		S1_volume_id_ac.append(VolumeID)
+		S1_x_ac.append(X_pos)
+		S1_y_ac.append(Y_pos)
+		S1_z_ac.append(Z_pos)
+
 				
 #############################################
 
@@ -1283,6 +1390,22 @@ aa_kalman_ray_edep = np.array((aa_kalman_ray_edep), dtype=np.float64)
 aa_kalman_ray_strip_number = np.array((aa_kalman_ray_strip_number), dtype=np.int64)
 aa_kalman_ray_pair = np.array((aa_kalman_ray_pair), dtype=np.int64)
 
+S1_event_id_trk = np.ma.concatenate(S1_event_id_trk)
+S1_type_trk = np.ma.concatenate(S1_type_trk)
+S1_e_dep_trk = np.ma.concatenate(S1_e_dep_trk)
+S1_volume_id_trk = np.ma.concatenate(S1_volume_id_trk)
+S1_x_trk = np.ma.concatenate(S1_x_trk)
+S1_y_trk = np.ma.concatenate(S1_y_trk)
+S1_z_trk = np.ma.concatenate(S1_z_trk)
+
+S1_event_id_trk = np.array((S1_event_id_trk), dtype=np.int64)
+S1_type_trk = np.array((S1_type_trk), dtype=np.int64)
+S1_e_dep_trk = np.array((S1_e_dep_trk), dtype=np.float64)
+S1_volume_id_trk = np.array((S1_volume_id_trk), dtype=np.int64)
+S1_x_trk = np.array((S1_x_trk), dtype=np.float64)
+S1_y_trk = np.array((S1_y_trk), dtype=np.float64)
+S1_z_trk = np.array((S1_z_trk), dtype=np.float64)
+
 rawData_event_id = np.ma.concatenate(rawData_event_id)
 rawData_tray_id = np.ma.concatenate(rawData_tray_id)
 rawData_plane_id = np.ma.concatenate(rawData_plane_id)
@@ -1410,6 +1533,7 @@ if cal_flag == 1:
 	rawData_vol_id_cal = np.ma.concatenate(rawData_vol_id_cal)
 	rawData_moth_id_cal = np.ma.concatenate(rawData_moth_id_cal)
 	rawData_part_id_cal = np.ma.concatenate(rawData_part_id_cal)
+	
 	rawData_event_id_cal = np.array(rawData_event_id_cal)
 	rawData_energy_dep_cal = np.array(rawData_energy_dep_cal)
 	rawData_ent_x_cal = np.array(rawData_ent_x_cal)
@@ -1425,52 +1549,78 @@ if cal_flag == 1:
 	rawData_moth_id_cal = np.array(rawData_moth_id_cal)
 	rawData_part_id_cal = np.array(rawData_part_id_cal)
 
-
+	
 	calInput_event_id_tot = np.ma.concatenate(calInput_event_id_tot)
 	calInput_bar_id_tot = np.ma.concatenate(calInput_bar_id_tot)
 	calInput_bar_ene_tot = np.ma.concatenate(calInput_bar_ene_tot)
 	calInput_pair_flag_tot = np.ma.concatenate(calInput_pair_flag_tot)	
+	
 	calInput_event_id_tot = np.array(calInput_event_id_tot)
 	calInput_bar_id_tot = np.array(calInput_bar_id_tot)
 	calInput_bar_ene_tot = np.array(calInput_bar_ene_tot)
 	calInput_pair_flag_tot = np.array(calInput_pair_flag_tot)
-
-
-	calInput_event_id_tot_compton = np.ma.concatenate(calInput_event_id_tot_compton)
-	calInput_bar_id_tot_compton = np.ma.concatenate(calInput_bar_id_tot_compton)
-	calInput_bar_ene_tot_compton = np.ma.concatenate(calInput_bar_ene_tot_compton)
-	calInput_pair_flag_tot_compton = np.ma.concatenate(calInput_pair_flag_tot_compton)	
+	
+	if (len(calInput_event_id_tot_compton) > 0):
+		calInput_event_id_tot_compton = np.ma.concatenate(calInput_event_id_tot_compton)
+		calInput_bar_id_tot_compton = np.ma.concatenate(calInput_bar_id_tot_compton)
+		calInput_bar_ene_tot_compton = np.ma.concatenate(calInput_bar_ene_tot_compton)
+		calInput_pair_flag_tot_compton = np.ma.concatenate(calInput_pair_flag_tot_compton)	
+	
 	calInput_event_id_tot_compton = np.array(calInput_event_id_tot_compton)
 	calInput_bar_id_tot_compton = np.array(calInput_bar_id_tot_compton)
 	calInput_bar_ene_tot_compton = np.array(calInput_bar_ene_tot_compton)
 	calInput_pair_flag_tot_compton = np.array(calInput_pair_flag_tot_compton)
 
-	calInput_event_id_tot_pair = np.ma.concatenate(calInput_event_id_tot_pair)
-	calInput_bar_id_tot_pair = np.ma.concatenate(calInput_bar_id_tot_pair)
-	calInput_bar_ene_tot_pair = np.ma.concatenate(calInput_bar_ene_tot_pair)
-	calInput_pair_flag_tot_pair = np.ma.concatenate(calInput_pair_flag_tot_pair)	
+	if (len(calInput_event_id_tot_pair) > 0):
+		calInput_event_id_tot_pair = np.ma.concatenate(calInput_event_id_tot_pair)
+		calInput_bar_id_tot_pair = np.ma.concatenate(calInput_bar_id_tot_pair)
+		calInput_bar_ene_tot_pair = np.ma.concatenate(calInput_bar_ene_tot_pair)
+		calInput_pair_flag_tot_pair = np.ma.concatenate(calInput_pair_flag_tot_pair)	
+	
 	calInput_event_id_tot_pair = np.array(calInput_event_id_tot_pair)
 	calInput_bar_id_tot_pair = np.array(calInput_bar_id_tot_pair)
 	calInput_bar_ene_tot_pair = np.array(calInput_bar_ene_tot_pair)
 	calInput_pair_flag_tot_pair = np.array(calInput_pair_flag_tot_pair)
 
-	calInput_event_id_tot_ray = np.ma.concatenate(calInput_event_id_tot_ray)
-	calInput_bar_id_tot_ray = np.ma.concatenate(calInput_bar_id_tot_ray)
-	calInput_bar_ene_tot_ray = np.ma.concatenate(calInput_bar_ene_tot_ray)
-	calInput_pair_flag_tot_ray = np.ma.concatenate(calInput_pair_flag_tot_ray)	
+	if (len(calInput_event_id_tot_ray) > 0):
+		calInput_event_id_tot_ray = np.ma.concatenate(calInput_event_id_tot_ray)
+		calInput_bar_id_tot_ray = np.ma.concatenate(calInput_bar_id_tot_ray)
+		calInput_bar_ene_tot_ray = np.ma.concatenate(calInput_bar_ene_tot_ray)
+		calInput_pair_flag_tot_ray = np.ma.concatenate(calInput_pair_flag_tot_ray)	
+	
 	calInput_event_id_tot_ray = np.array(calInput_event_id_tot_ray)
 	calInput_bar_id_tot_ray = np.array(calInput_bar_id_tot_ray)
 	calInput_bar_ene_tot_ray = np.array(calInput_bar_ene_tot_ray)
 	calInput_pair_flag_tot_ray = np.array(calInput_pair_flag_tot_ray)
 
+	
 	calInputSum_event_id_tot = np.ma.concatenate(calInputSum_event_id_tot)
 	calInputSum_bar_ene_tot = np.ma.concatenate(calInputSum_bar_ene_tot)
+	
 	calInputSum_event_id_tot = np.array(calInputSum_event_id_tot)
 	calInputSum_bar_ene_tot = np.array(calInputSum_bar_ene_tot)
-
+	
+	
+	
+	S1_event_id_cal = np.ma.concatenate(S1_event_id_cal)
+	S1_type_cal = np.ma.concatenate(S1_type_cal)
+	S1_e_dep_cal = np.ma.concatenate(S1_e_dep_cal)
+	S1_volume_id_cal = np.ma.concatenate(S1_volume_id_cal)
+	S1_x_cal = np.ma.concatenate(S1_x_cal)
+	S1_y_cal = np.ma.concatenate(S1_y_cal)
+	S1_z_cal = np.ma.concatenate(S1_z_cal)
+	
+	S1_event_id_cal = np.array((S1_event_id_cal), dtype=np.int64)
+	S1_type_cal = np.array((S1_type_cal), dtype=np.int64)
+	S1_e_dep_cal = np.array((S1_e_dep_cal), dtype=np.float64)
+	S1_volume_id_cal = np.array((S1_volume_id_cal), dtype=np.int64)
+	S1_x_cal = np.array((S1_x_cal), dtype=np.float64)
+	S1_y_cal = np.array((S1_y_cal), dtype=np.float64)
+	S1_z_cal = np.array((S1_z_cal), dtype=np.float64)
 
 if ac_flag == 1:
 
+	
 	rawData_event_id_ac = np.ma.concatenate(rawData_event_id_ac)
 	rawData_energy_dep_ac = np.ma.concatenate(rawData_energy_dep_ac)
 	rawData_ent_x_ac = np.ma.concatenate(rawData_ent_x_ac)
@@ -1485,6 +1635,7 @@ if ac_flag == 1:
 	rawData_vol_id_ac = np.ma.concatenate(rawData_vol_id_ac)
 	rawData_moth_id_ac = np.ma.concatenate(rawData_moth_id_ac)
 	rawData_part_id_ac = np.ma.concatenate(rawData_part_id_ac)
+	
 
 	rawData_event_id_ac = np.array(rawData_event_id_ac)
 	rawData_energy_dep_ac = np.array(rawData_energy_dep_ac)
@@ -1503,12 +1654,14 @@ if ac_flag == 1:
 
 
 
+	
 	acInput_event_id_tot = np.ma.concatenate(acInput_event_id_tot)
 	acInput_AC_panel = np.ma.concatenate(acInput_AC_panel)
 	acInput_AC_subpanel = np.ma.concatenate(acInput_AC_subpanel)
 	acInput_energy_dep_tot = np.ma.concatenate(acInput_energy_dep_tot)
 	acInput_pair_flag_tot = np.ma.concatenate(acInput_pair_flag_tot)
 	
+		
 	acInput_event_id_tot = np.array(acInput_event_id_tot)
 	acInput_AC_panel = np.array(acInput_AC_panel)
 	acInput_AC_subpanel = np.array(acInput_AC_subpanel)
@@ -1516,12 +1669,13 @@ if ac_flag == 1:
 	acInput_pair_flag_tot = np.array(acInput_pair_flag_tot)
 
 
-
-	acInput_event_id_tot_compton = np.ma.concatenate(acInput_event_id_tot_compton)
-	acInput_AC_panel_compton = np.ma.concatenate(acInput_AC_panel_compton)
-	acInput_AC_subpanel_compton = np.ma.concatenate(acInput_AC_subpanel_compton)
-	acInput_energy_dep_tot_compton = np.ma.concatenate(acInput_energy_dep_tot_compton)
-	acInput_pair_flag_tot_compton = np.ma.concatenate(acInput_pair_flag_tot_compton)
+	if (len(acInput_event_id_tot_compton) > 0):
+		acInput_event_id_tot_compton = np.ma.concatenate(acInput_event_id_tot_compton)
+		acInput_AC_panel_compton = np.ma.concatenate(acInput_AC_panel_compton)
+		acInput_AC_subpanel_compton = np.ma.concatenate(acInput_AC_subpanel_compton)
+		acInput_energy_dep_tot_compton = np.ma.concatenate(acInput_energy_dep_tot_compton)
+		acInput_pair_flag_tot_compton = np.ma.concatenate(acInput_pair_flag_tot_compton)
+	
 
 	acInput_event_id_tot_compton = np.array(acInput_event_id_tot_compton)
 	acInput_AC_panel_compton = np.array(acInput_AC_panel_compton)
@@ -1529,24 +1683,49 @@ if ac_flag == 1:
 	acInput_energy_dep_tot_compton = np.array(acInput_energy_dep_tot_compton)
 	acInput_pair_flag_tot_compton = np.array(acInput_pair_flag_tot_compton)
 
-	acInput_event_id_tot_ray = np.ma.concatenate(acInput_event_id_tot_ray)
-	acInput_AC_panel_ray = np.ma.concatenate(acInput_AC_panel_ray)
-	acInput_AC_subpanel_ray = np.ma.concatenate(acInput_AC_subpanel_ray)
-	acInput_energy_dep_tot_ray = np.ma.concatenate(acInput_energy_dep_tot_ray)
-	acInput_pair_flag_tot_ray = np.ma.concatenate(acInput_pair_flag_tot_ray)
+	if (len(acInput_event_id_tot_ray) > 0):	
+		acInput_event_id_tot_ray = np.ma.concatenate(acInput_event_id_tot_ray)
+		acInput_AC_panel_ray = np.ma.concatenate(acInput_AC_panel_ray)
+		acInput_AC_subpanel_ray = np.ma.concatenate(acInput_AC_subpanel_ray)
+		acInput_energy_dep_tot_ray = np.ma.concatenate(acInput_energy_dep_tot_ray)
+		acInput_pair_flag_tot_ray = np.ma.concatenate(acInput_pair_flag_tot_ray)	
 
-
-	acInput_event_id_tot_pair = np.ma.concatenate(acInput_event_id_tot_pair)
-	acInput_AC_panel_pair = np.ma.concatenate(acInput_AC_panel_pair)
-	acInput_AC_subpanel_pair = np.ma.concatenate(acInput_AC_subpanel_pair)
-	acInput_energy_dep_tot_pair = np.ma.concatenate(acInput_energy_dep_tot_pair)
-	acInput_pair_flag_tot_pair = np.ma.concatenate(acInput_pair_flag_tot_pair)
+	acInput_event_id_tot_ray = np.array(acInput_event_id_tot_ray)
+	acInput_AC_panel_ray = np.array(acInput_AC_panel_ray)
+	acInput_AC_subpanel_ray = np.array(acInput_AC_subpanel_ray)
+	acInput_energy_dep_tot_ray = np.array(acInput_energy_dep_tot_ray)
+	acInput_pair_flag_tot_ray = np.array(acInput_pair_flag_tot_ray)
+	
+	if (len(acInput_event_id_tot_pair) > 0):	
+		acInput_event_id_tot_pair = np.ma.concatenate(acInput_event_id_tot_pair)
+		acInput_AC_panel_pair = np.ma.concatenate(acInput_AC_panel_pair)
+		acInput_AC_subpanel_pair = np.ma.concatenate(acInput_AC_subpanel_pair)
+		acInput_energy_dep_tot_pair = np.ma.concatenate(acInput_energy_dep_tot_pair)
+		acInput_pair_flag_tot_pair = np.ma.concatenate(acInput_pair_flag_tot_pair)
+	
 
 	acInput_event_id_tot_pair = np.array(acInput_event_id_tot_pair)
 	acInput_AC_panel_pair = np.array(acInput_AC_panel_pair)
 	acInput_AC_subpanel_pair = np.array(acInput_AC_subpanel_pair)
 	acInput_energy_dep_tot_pair = np.array(acInput_energy_dep_tot_pair)
 	acInput_pair_flag_tot_pair = np.array(acInput_pair_flag_tot_pair)
+	
+	
+	S1_event_id_ac = np.ma.concatenate(S1_event_id_ac)
+	S1_type_ac = np.ma.concatenate(S1_type_ac)
+	S1_e_dep_ac = np.ma.concatenate(S1_e_dep_ac)
+	S1_volume_id_ac = np.ma.concatenate(S1_volume_id_ac)
+	S1_x_ac = np.ma.concatenate(S1_x_ac)
+	S1_y_ac = np.ma.concatenate(S1_y_ac)
+	S1_z_ac = np.ma.concatenate(S1_z_ac)
+	
+	S1_event_id_ac = np.array((S1_event_id_ac), dtype=np.int64)
+	S1_type_ac = np.array((S1_type_ac), dtype=np.int64)
+	S1_e_dep_ac = np.array((S1_e_dep_ac), dtype=np.float64)
+	S1_volume_id_ac = np.array((S1_volume_id_ac), dtype=np.int64)
+	S1_x_ac = np.array((S1_x_ac), dtype=np.float64)
+	S1_y_ac = np.array((S1_y_ac), dtype=np.float64)
+	S1_z_ac = np.array((S1_z_ac), dtype=np.float64)
 
 ############################### Scrittura file
 
@@ -1820,18 +1999,19 @@ if isStrip == 1:
 
 if cal_flag == 1:
 
-	col1 = fits.Column(name='EVT_ID', format='I', array=rawData_event_id_cal)	
-	col2 = fits.Column(name='E_DEP', format='F20.5', array=rawData_energy_dep_cal)
-	col3 = fits.Column(name='X_ENT', format='F20.5', array=rawData_ent_x_cal)
-	col4 = fits.Column(name='Y_ENT', format='F20.5', array=rawData_ent_y_cal)
-	col5 = fits.Column(name='Z_ENT', format='F20.5', array=rawData_ent_z_cal)
-	col6 = fits.Column(name='X_EXIT', format='F20.5', array=rawData_exit_x_cal)
-	col7 = fits.Column(name='Y_EXIT', format='F20.5', array=rawData_exit_y_cal)
-	col8 = fits.Column(name='Z_EXIT', format='F20.5', array=rawData_exit_z_cal)
-	col9 = fits.Column(name='PART_ID', format='I', array=rawData_part_id_cal)
-	col10 = fits.Column(name='TRK_ID', format='I', array=rawData_trk_id_cal)
-	col11 = fits.Column(name='CHILD_ID', format='I', array=rawData_child_id_cal)
-	col12 = fits.Column(name='PROC_ID', format='I', array=rawData_proc_id_cal)
+	col1 = fits.Column(name='EVT_ID', format='IJ', array=rawData_event_id_cal)	
+	col2 = fits.Column(name='E_DEP', format='1D', array=rawData_energy_dep_cal)
+	col3 = fits.Column(name='X_ENT', format='1D', array=rawData_ent_x_cal)
+	col4 = fits.Column(name='Y_ENT', format='1D', array=rawData_ent_y_cal)
+	col5 = fits.Column(name='Z_ENT', format='1D', array=rawData_ent_z_cal)
+	col6 = fits.Column(name='X_EXIT', format='1D', array=rawData_exit_x_cal)
+	col7 = fits.Column(name='Y_EXIT', format='1D', array=rawData_exit_y_cal)
+	col8 = fits.Column(name='Z_EXIT', format='1D', array=rawData_exit_z_cal)
+	col9 = fits.Column(name='PART_ID', format='IJ', array=rawData_part_id_cal)
+	col10 = fits.Column(name='TRK_ID', format='IJ', array=rawData_trk_id_cal)
+	col11 = fits.Column(name='CHILD_ID', format='IJ', array=rawData_child_id_cal)
+	col12 = fits.Column(name='PROC_ID', format='IJ', array=rawData_proc_id_cal)
+
 		
 	cols = fits.ColDefs([col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12])
 	tbhdu = fits.BinTableHDU.from_columns(cols)			
@@ -2176,8 +2356,134 @@ if ac_flag == 1:
 
 
 
+if isStrip == 1:
+
+	if os.path.exists(filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat'):
+		os.remove(filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat')
+
+		data = open(filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat', 'w')
+	else:
+		data = open(filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+'dat', 'w')
 
 
+	if ((cal_flag == 0) & (ac_flag == 0)):
+
+		for r in range(len(S1_event_id_trk)):
+		
+			data.write('{:10d}\t'.format(S1_event_id_trk[r]))
+			data.write('{:10d}\t'.format(S1_type_trk[r]))
+			data.write('{:10.5f}\t'.format(S1_e_dep_trk[r]))
+			data.write('{:10d}\t'.format(S1_volume_id_trk[r]))
+			data.write('{:10.5f}\t'.format(S1_x_trk[r]))
+			data.write('{:10.5f}\t'.format(S1_y_trk[r]))
+			data.write('{:10.5f}\n'.format(S1_z_trk[r]))
+		
+		data.close()
+
+	
+	if ((cal_flag == 1) & (ac_flag == 0)):
+	
+		S1_event_id = np.concatenate([S1_event_id_trk, S1_event_id_cal])
+		S1_type = np.concatenate([S1_type_trk, S1_type_cal])
+		S1_e_dep = np.concatenate([S1_e_dep_trk, S1_e_dep_cal])
+		S1_volume_id = np.concatenate([S1_volume_id_trk, S1_volume_id_cal])
+		S1_x = np.concatenate([S1_x_trk, S1_x_cal])
+		S1_y = np.concatenate([S1_y_trk, S1_y_cal])
+		S1_z = np.concatenate([S1_z_trk, S1_z_cal])
+		
+		id_sort = np.argsort(S1_event_id)
+		S1_event_id_sort = S1_event_id[id_sort]
+		S1_type_sort = S1_type[id_sort]
+		S1_e_dep_sort = S1_e_dep[id_sort]
+		S1_volume_id_sort = S1_volume_id[id_sort]
+		S1_x_sort = S1_x[id_sort]
+		S1_y_sort = S1_y[id_sort]
+		S1_z_sort = S1_z[id_sort]
+				
+		for r in range(len(S1_event_id_sort)):
+		
+			data.write('{:10d}\t'.format(S1_event_id_sort[r]))
+			data.write('{:10d}\t'.format(S1_type_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_e_dep_sort[r]))
+			data.write('{:10d}\t'.format(S1_volume_id_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_x_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_y_sort[r]))
+			data.write('{:10.5f}\n'.format(S1_z_sort[r]))
+			
+		data.close()
+
+	if ((cal_flag == 0) & (ac_flag == 1)):
+	
+		S1_event_id = np.concatenate([S1_event_id_trk, S1_event_id_ac])
+		S1_type = np.concatenate([S1_type_trk, S1_type_ac])
+		S1_e_dep = np.concatenate([S1_e_dep_trk, S1_e_dep_ac])
+		S1_volume_id = np.concatenate([S1_volume_id_trk, S1_volume_id_ac])
+		S1_x = np.concatenate([S1_x_trk, S1_x_ac])
+		S1_y = np.concatenate([S1_y_trk, S1_y_ac])
+		S1_z = np.concatenate([S1_z_trk, S1_z_ac])
+		
+		id_sort = np.argsort(S1_event_id)
+		S1_event_id_sort = S1_event_id[id_sort]
+		S1_type_sort = S1_type[id_sort]
+		S1_e_dep_sort = S1_e_dep[id_sort]
+		S1_volume_id_sort = S1_volume_id[id_sort]
+		S1_x_sort = S1_x[id_sort]
+		S1_y_sort = S1_y[id_sort]
+		S1_z_sort = S1_z[id_sort]
+				
+		for r in range(len(S1_event_id_sort)):
+		
+			data.write('{:10d}\t'.format(S1_event_id_sort[r]))
+			data.write('{:10d}\t'.format(S1_type_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_e_dep_sort[r]))
+			data.write('{:10d}\t'.format(S1_volume_id_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_x_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_y_sort[r]))
+			data.write('{:10.5f}\n'.format(S1_z_sort[r]))
+			
+		data.close()
+
+	
+	if ((cal_flag == 1) & (ac_flag == 1)):
+
+
+		S1_event_id = np.concatenate([S1_event_id_trk, S1_event_id_cal])
+		S1_type = np.concatenate([S1_type_trk, S1_type_cal])
+		S1_e_dep = np.concatenate([S1_e_dep_trk, S1_e_dep_cal])
+		S1_volume_id = np.concatenate([S1_volume_id_trk, S1_volume_id_cal])
+		S1_x = np.concatenate([S1_x_trk, S1_x_cal])
+		S1_y = np.concatenate([S1_y_trk, S1_y_cal])
+		S1_z = np.concatenate([S1_z_trk, S1_z_cal])
+		
+		S1_event_id = np.concatenate([S1_event_id, S1_event_id_ac])
+		S1_type = np.concatenate([S1_type, S1_type_ac])
+		S1_e_dep = np.concatenate([S1_e_dep, S1_e_dep_ac])
+		S1_volume_id = np.concatenate([S1_volume_id, S1_volume_id_ac])
+		S1_x = np.concatenate([S1_x, S1_x_ac])
+		S1_y = np.concatenate([S1_y, S1_y_ac])
+		S1_z = np.concatenate([S1_z, S1_z_ac])
+		
+		
+		id_sort = np.argsort(S1_event_id)
+		S1_event_id_sort = S1_event_id[id_sort]
+		S1_type_sort = S1_type[id_sort]
+		S1_e_dep_sort = S1_e_dep[id_sort]
+		S1_volume_id_sort = S1_volume_id[id_sort]
+		S1_x_sort = S1_x[id_sort]
+		S1_y_sort = S1_y[id_sort]
+		S1_z_sort = S1_z[id_sort]
+				
+		for r in range(len(S1_event_id_sort)):
+		
+			data.write('{:10d}\t'.format(S1_event_id_sort[r]))
+			data.write('{:10d}\t'.format(S1_type_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_e_dep_sort[r]))
+			data.write('{:10d}\t'.format(S1_volume_id_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_x_sort[r]))
+			data.write('{:10.5f}\t'.format(S1_y_sort[r]))
+			data.write('{:10.5f}\n'.format(S1_z_sort[r]))
+			
+		data.close()
 
 
 

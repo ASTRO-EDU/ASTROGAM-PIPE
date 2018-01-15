@@ -123,7 +123,7 @@ while ifile <= n_fits:
 			# Introducing the noise in every strip
 			#################
 			
-			dhseASTROGAM.noise()
+			#dhseASTROGAM.noise()
 
 			#
 			# Summing the energy along the strip and applying the energy threshold
@@ -285,6 +285,17 @@ while ifile <= n_fits:
 			# - c11 = pair flag (3 = rayleigh)
 									   
 			dhseASTROGAM.writing_AA_cluster_rayleigh(N_in, part_type, ang_type, theta_type, phi_type, ifile)
+			
+			
+			####### S1 data format ##############
+			# ID Type Edep VolumeID X Y Z
+			# - ID = Event ID
+			# - Type = event flag
+			# - Edep = energy deposited in the strip/calorimeter bar
+			# - volume ID = unique ID for the volume
+			# - X, Y, Z = position of the center of the volume
+
+			dhseASTROGAM.writing_S1_trk(N_in, part_type, ang_type, theta_type, phi_type, ifile)
 
 
 			####################
@@ -334,6 +345,9 @@ while ifile <= n_fits:
 		
 		dhseASTROGAM.writing_cal_sum(astrogam_version, N_in, part_type, theta_type, phi_type, ifile)
 		
+		dhseASTROGAM.writing_S1_cal(N_in, part_type, ang_type, theta_type, phi_type, ifile)
+
+		
 
 	if ac_flag == 1:
 
@@ -352,6 +366,8 @@ while ifile <= n_fits:
 		dhseASTROGAM.AC_analysis()
 
 		dhseASTROGAM.writing_G4ac(astrogam_version, N_in, part_type, theta_type, phi_type, ifile)
+		
+		dhseASTROGAM.writing_S1_ac(N_in, part_type, ang_type, theta_type, phi_type, ifile)
 
 		dhseASTROGAM.compton_ac()
 		
@@ -367,6 +383,8 @@ while ifile <= n_fits:
 		
 		if len(dhseASTROGAM.where_ray_ac) != 0:
 			dhseASTROGAM.writing_G4_ac_ray(astrogam_version, N_in, part_type, theta_type, phi_type, ifile) 
+			
+
 
 
 ############    next fits file   ####################

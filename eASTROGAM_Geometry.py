@@ -1,3 +1,27 @@
+"""
+ eASTROGAM_Geometry.py  -  description
+ ---------------------------------------------------------------------------------
+ building the look-up table for the e-ASTROGAM simulation analysis
+ ---------------------------------------------------------------------------------
+ copyright            : (C) 2017 V. Fioretti, G. Giannella, S. Guidotti
+ email                : fioretti@iasfbo.inaf.it
+ ----------------------------------------------
+ Usage:
+ python eASTROGAM_Geometry.py <version> 
+ example:
+ python eASTROGAM_Geometry.py V1.1
+ ---------------------------------------------------------------------------------
+ Parameters:
+ - version: e-ASTROGAM geometry version
+ --------------------------------------------------------------------------------
+ Caveats:
+ None
+ ---------------------------------------------------------------------------------
+ Modification history:
+ - 2017/12/14: bugs fixing
+"""
+
+
 from astropy.io import fits
 import numpy as np
 import matplotlib.pyplot as plt
@@ -250,7 +274,7 @@ if os.path.exists(outdir+'ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.
 else:
 	tbhdu.writeto(outdir+'ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS')
 
-fits.setval(outdir+'ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', 'COMMENT', value='Creator = Giovanni Giannella & Simone Guidotti', ext=1)
+fits.setval(outdir+'ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', 'COMMENT', value='Creator = V. Fioretti', ext=1)
 fits.setval(outdir+'ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', 'COMMENT', value='eASTROGAM release = '+astrogam_version, ext=1)
 
 
@@ -278,7 +302,7 @@ if os.path.exists(outdir+'ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.
 else:
 	tbhdu.writeto(outdir+'ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS')
 
-fits.setval(outdir+'ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', 'COMMENT', value='Creator = Giovanni Giannella & Simone Guidotti', ext=1)
+fits.setval(outdir+'ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', 'COMMENT', value='Creator = V. Fioretti', ext=1)
 fits.setval(outdir+'ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', 'COMMENT', value='eASTROGAM release = '+astrogam_version, ext=1)
 
 
