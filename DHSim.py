@@ -2262,6 +2262,10 @@ class DHSim:
 					else:				
 						pair_flag_tot_old = 0
 						pair_flag_tot.append(pair_flag_tot_old)
+				else:
+					if ((len(where_pair_vol) != 0 and ispair == 0) | (len(where_compton_vol) != 0 and iscompton == 0)):
+						pair_flag_tot_old = 0
+						pair_flag_tot.append(pair_flag_tot_old)
 
 				if len(where_other_vol) != 0:
 					vol_id_temp = vol_id_temp[where_other_vol]
@@ -4196,6 +4200,9 @@ class DHSim:
 					all_proc = proc_id_temp_cal[where_vol_eq]
 					all_gtime = gtime_temp_cal[where_vol_eq]
 					
+					ispair_vol = 0
+					iscompton_vol = 0					
+					
 					where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
 					where_pair_vol = where_pair_vol[0]
 					
@@ -4219,19 +4226,23 @@ class DHSim:
 						iscompton_vol = 1
 						
 						pair_flag_tot_cal.append(pair_flag_tot_old)	
-			
-					if ((len(where_pair_vol) == 0) & (len(where_compton_vol) == 0)):
-						where_ray_in_trk = np.where(cal_event_flag == 3)
-						where_ray_in_trk = where_ray_in_trk[0]						
-						if (len(where_ray_in_trk) != 0):
-							pair_flag_tot_old = 3
-							isray_vol = 1
+						
+					if ((ispair_vol == 0) and (iscompton_vol == 0)):
+						if ((len(where_pair_vol) == 0) & (len(where_compton_vol) == 0)):
+							where_ray_in_trk = np.where(cal_event_flag == 3)
+							where_ray_in_trk = where_ray_in_trk[0]						
+							if (len(where_ray_in_trk) != 0):
+								pair_flag_tot_old = 3
+								isray_vol = 1
 							
-							pair_flag_tot_cal.append(pair_flag_tot_old)	
+								pair_flag_tot_cal.append(pair_flag_tot_old)	
+							else:
+								pair_flag_tot_old = 0
+								pair_flag_tot_cal.append(pair_flag_tot_old)
 						else:
-							pair_flag_tot_old = 0
-							pair_flag_tot_cal.append(pair_flag_tot_old)
-
+							if ((len(where_pair_vol) != 0 & (len(where_pair_in_trk) == 0)) | (len(where_compton_vol) != 0 & (len(where_compton_in_trk) == 0))):
+								pair_flag_tot_old = 0
+								pair_flag_tot_cal.append(pair_flag_tot_old)
 
 				if len(where_other_vol) != 0:
 					vol_id_temp_cal = vol_id_temp_cal[where_other_vol]
@@ -4495,6 +4506,9 @@ class DHSim:
 				all_proc = proc_id_temp_ac[where_vol_eq]
 				all_gtime = gtime_temp_ac[where_vol_eq]
 				
+				ispair_vol = 0
+				iscompton_vol = 0
+				
 				where_pair_vol = np.where((all_child == 1) & (all_proc == 7) & (all_trk <= 3))
 				where_pair_vol = where_pair_vol[0]
 				
@@ -4520,17 +4534,23 @@ class DHSim:
 					
 					pair_flag_tot_ac.append(pair_flag_tot_old)	
 		
-				if ((len(where_pair_vol) == 0) & (len(where_compton_vol) == 0)):
-					where_ray_in_trk = np.where(ac_event_flag == 3)
-					where_ray_in_trk = where_ray_in_trk[0]						
-					if (len(where_ray_in_trk) != 0):
-						pair_flag_tot_old = 3
-						isray_vol = 1
+				if ((ispair_vol == 0) & (iscompton_vol == 0)):
+					if ((len(where_pair_vol) == 0) & (len(where_compton_vol) == 0)):
+						where_ray_in_trk = np.where(ac_event_flag == 3)
+						where_ray_in_trk = where_ray_in_trk[0]						
+						if (len(where_ray_in_trk) != 0):
+							pair_flag_tot_old = 3
+							isray_vol = 1
 						
-						pair_flag_tot_ac.append(pair_flag_tot_old)	
+							pair_flag_tot_ac.append(pair_flag_tot_old)	
+						else:
+							pair_flag_tot_old = 0
+							pair_flag_tot_ac.append(pair_flag_tot_old)
 					else:
-						pair_flag_tot_old = 0
-						pair_flag_tot_ac.append(pair_flag_tot_old)
+						if ((len(where_pair_vol) != 0 & (len(where_pair_in_trk) == 0)) | (len(where_compton_vol) != 0 & (len(where_compton_in_trk) == 0))):
+							pair_flag_tot_old = 0
+							pair_flag_tot_ac.append(pair_flag_tot_old)
+					
 
 				if len(where_other_vol) != 0:
 					vol_id_temp_ac = vol_id_temp_ac[where_other_vol]
