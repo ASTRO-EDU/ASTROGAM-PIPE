@@ -142,7 +142,7 @@ while ifile <= n_fits:
 			dhseASTROGAM.index_uniq()
 
 			
-	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
 
 		if isStrip == 1:
 

@@ -16,7 +16,7 @@ sys.argv[0] = 'eASTROGAM_ANALYSISv1_all_remote.py'
 #     parametri iniziali     #
 ##############################
 
-astrogam_version = sys.argv[1]           # Enter eASTROGAM release (e.g. V1.0):
+astrogam_version = sys.argv[1]           # Enter eASTROGAM release (e.g. V1.0, V2.0):
 bogemms_tag = int(sys.argv[2])           # Enter BoGEMMS release (e.g. 211):
 sim_type = int(sys.argv[3])              # Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 5: G400]:
 py_list = int(sys.argv[4])               # Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
@@ -302,7 +302,7 @@ if passive_flag == 0:
 if passive_flag == 1:
 	dir_passive = '/WithPassive'
 
-if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
+if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
 	if isStrip == 0:
 		stripDir = 'NoPixel/'
 	if isStrip == 1 and repli == 0:

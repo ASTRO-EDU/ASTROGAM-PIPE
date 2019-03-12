@@ -165,7 +165,7 @@ class DHSim:
 		if passive_flag == 1:
 			dir_passive = '/WithPassive'
 
-		if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
+		if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
 			if isStrip == 0:
 				stripDir = 'NoPixel/'
 			if isStrip == 1 and repli == 0:
@@ -184,7 +184,7 @@ class DHSim:
 
 		# setting specific agile version variables
 
-		if astrogam_version=='V1.0' or astrogam_version=='V1.1':
+		if astrogam_version=='V1.0' or astrogam_version=='V1.1' or astrogam_version=='V2.0':
 			# --------> volume ID
 			tracker_top_vol_start = 1090000
 			tracker_bottom_vol_start = 1000000
@@ -196,12 +196,36 @@ class DHSim:
 			if astrogam_version=='V1.0':				
 				cal_vol_start = 50000
 				cal_vol_end = 58463
+                # --------> design
+                N_tray = 56
+                N_plane = N_tray*1
+                N_strip = 3840
+                tray_side = 92.16 #cm
+                strip_side = tray_side/N_strip
+
 
 			if astrogam_version=='V1.1':				
 				cal_vol_start = 50000
 				cal_vol_end = 83855
-
-			ac_vol_start = 301
+                N_tray = 56
+                # --------> design
+                N_tray = 56
+                N_plane = N_tray*1
+                N_strip = 3840
+                tray_side = 92.16 #cm
+                strip_side = tray_side/N_strip
+            
+            if astrogam_version=='V2.0':
+				cal_vol_start = 50000
+				cal_vol_end = 50783
+                # --------> design
+                N_tray = 25
+                N_plane = N_tray*1
+                N_strip = 1152
+                tray_side = 27.648 #cm
+                strip_side = tray_side/N_strip
+                    
+            ac_vol_start = 301
 			ac_vol_end = 350
 
 			panel_S = [301, 302, 303]
@@ -210,12 +234,6 @@ class DHSim:
 			panel_B = [331, 332, 333]
 			panel_top = 340
 
-			# --------> design
-			N_tray = 56
-			N_plane = N_tray*1
-			N_strip = 3840
-			tray_side = 92.16 #cm
-			strip_side = tray_side/N_strip
 
 			# --------> processing
 			# accoppiamento capacitivo
@@ -4108,7 +4126,7 @@ class DHSim:
 
 			where_trk_event_cal = np.where(self.event_id_tot_tr_raw == self.event_id_cal[j])
 			where_trk_event_cal = where_trk_event_cal[0]
-			if (where_trk_event_cal.size):
+			if (where_trk_event_cal[0].size):
 				cal_event_flag = self.pair_flag_tot_tr_raw[where_trk_event_cal]
 			else:
 				cal_event_flag = 0
@@ -4417,7 +4435,7 @@ class DHSim:
 
 			where_trk_event_ac = np.where(self.event_id_tot_tr_raw == self.event_id_ac[j])
 			where_trk_event_ac = where_trk_event_ac[0]
-			if (where_trk_event_ac.size):
+			if (where_trk_event_ac[0].size):
 				ac_event_flag = self.pair_flag_tot_tr_raw[where_trk_event_ac]
 			else:
 				ac_event_flag = 0
