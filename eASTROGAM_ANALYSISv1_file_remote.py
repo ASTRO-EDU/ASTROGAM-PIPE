@@ -40,6 +40,7 @@ energy_thresh = int(sys.argv[21])        # Enter energy threshold [keV]:
 ifile = int(sys.argv[22])		 # Enter the initial number of FITS files
 n_fits = int(sys.argv[23])               # Enter the final number of FITS files :
 
+print astrogam_version
 
 dhseASTROGAM = DHSim()
 
@@ -65,7 +66,7 @@ while ifile <= n_fits:
 	#%                             Processing the tracker                          %
 	#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
 
 		# From Tracker volume ID to strip and tray ID and conversion from tray ID (starting from bottom) to plane ID (starting from the top)
 
@@ -76,7 +77,7 @@ while ifile <= n_fits:
 	print('           Saving the Tracker raw hits (fits and .dat)      ')
 	print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
-	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
 		
 		dhseASTROGAM.writing_G4raw(N_in, part_type, theta_type, phi_type, ifile, astrogam_version)		
 

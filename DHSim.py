@@ -10,192 +10,192 @@ import time
 import sys
 
 class DHSim:
-
-
-
 ### parameter function ###########
-	
-	# PARAMETERS DEFINITION: it keeps the input parameters from eASTROGAM_ANALYSIS_INPUT AND RETURNS THE STRINGS FOR THE OUTPUTS #
 
-	def parameter(self, sim_type, py_list, part_type, ene_range, pol_type, source_g, isStrip, repli, cal_flag, ac_flag, astrogam_version, bogemms_tag, ene_min, ene_max , passive_flag, energy_thresh):
+    # PARAMETERS DEFINITION: it keeps the input parameters from eASTROGAM_ANALYSIS_INPUT AND RETURNS THE STRINGS FOR THE OUTPUTS #
 
-		if sim_type != 0 and sim_type != 1 and sim_type != 2 and sim_type != 3 and sim_type != 4 and sim_type != 5:
+    def parameter(self, sim_type, py_list, part_type, ene_range, pol_type, source_g, isStrip, repli, cal_flag, ac_flag, astrogam_version, bogemms_tag, ene_min, ene_max , passive_flag, energy_thresh):
+
+        if sim_type != 0 and sim_type != 1 and sim_type != 2 and sim_type != 3 and sim_type != 4 and sim_type != 5:
 			exit('Error: sim_type could be 0 (Mono) - 1 (Range) - 2 (Chen) - 3 (Vela) - 4 (Crab) - 5 (G400)')
 
-		if py_list != 0 and py_list != 100 and py_list != 300 and py_list != 400:
+        if py_list != 0 and py_list != 100 and py_list != 300 and py_list != 400:
 			exit('Error: py_list could be 0 (QGSP_BERT_EMV) - 100 (ARGO) - 300 (FERMI) - 400 (ASTROMEV)')
 
-		if part_type != "ph" and part_type != "mu" and part_type != "g" and part_type != "p" and part_type != "el":
+        if part_type != "ph" and part_type != "mu" and part_type != "g" and part_type != "p" and part_type != "el":
 			exit('Error: part_type be ph (photons) - mu (muons) - g (geantino) - p (proton) - el (electron)')
 
-		if ene_range != 0 and ene_range != 1 and ene_range != 2 and ene_range != 3:
+        if ene_range != 0 and ene_range != 1 and ene_range != 2 and ene_range != 3:
 			exit('Error: ene_range could be 0 (MONO) - 1 (POW) - 2 (EXP) - 3 (LIN)')
 
-		if pol_type != 0 and pol_type != 1:
+        if pol_type != 0 and pol_type != 1:
 			exit('Error: pol_type could be 0 (false) - 1 (true)')
 
-		if source_g != 0 and source_g != 1:
+        if source_g != 0 and source_g != 1:
 			exit('Error: source_g could be 0 (Point) - 1 (Plane)')
 
-		if isStrip != 0 and isStrip != 1:
+        if isStrip != 0 and isStrip != 1:
 			exit('Error: isStrip could be 0 (false) - 1 (true)')
 
-		if repli != 0 and repli != 1:
+        if repli != 0 and repli != 1:
 			exit('Error: repli could be 0 (false) - 1 (true)')
 
-		if cal_flag != 0 and cal_flag != 1:
+        if cal_flag != 0 and cal_flag != 1:
 			exit('Error: cal_flag could be 0 (false) - 1 (true)')
 
-		if ac_flag != 0 and ac_flag != 1:
+        if ac_flag != 0 and ac_flag != 1:
 			exit('Error: ac_flag could be 0 (false) - 1 (true)')
 
-
-		if astrogam_version=='V1.0':
+        if astrogam_version=='V1.0':
 			astrogam_tag = '01'
 			sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'0102'
 
-		if astrogam_version=='V1.1':
+        if astrogam_version=='V1.1':
 			astrogam_tag = '11'
 			sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
-			
-		if (ene_min[0] == '0'):
-			ene_min = np.round(float(ene_min), 1)
-		else:
-			ene_min = int(ene_min)
-			
-		if (ene_max[0] == '0'):
-			ene_max = np.round(float(ene_max), 1)
-		else:
-			ene_max = int(ene_max)
 
-		if ene_range == 0:
-			ene_dis = 'MONO'
-			ene_type = str(ene_min)
+        if astrogam_version=='V2.0':
+            astrogam_tag = '20'
+            sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
 
+        if (ene_min[0] == '0'):
+            ene_min = np.round(float(ene_min), 1)
+        else:
+            ene_min = int(ene_min)
+            
+        if (ene_max[0] == '0'):
+            ene_max = np.round(float(ene_max), 1)
+        else:
+            ene_max = int(ene_max)
 
-		if ene_range == 1:
-			ene_dis = 'POW'
-	
-			ene_min_string = str(ene_min)	
-			ene_max_string = str(ene_max)	
-			ene_type = str(ene_min_string)+'-'+str(ene_max_string)
-	
+        if ene_range == 0:
+            ene_dis = 'MONO'
+            ene_type = str(ene_min)
 
 
+        if ene_range == 1:
+            ene_dis = 'POW'
 
-		if ene_range == 2:
-			ene_dis = 'EXP'
-	
-			ene_min_string = str(ene_min)	
-			ene_max_string = str(ene_max)	
-			ene_type = str(ene_min_string)+'-'+str(ene_max_string)
-	
+            ene_min_string = str(ene_min)	
+            ene_max_string = str(ene_max)	
+            ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 
 
-		if ene_range == 3:
-			ene_dis = 'LIN'
-	
-			ene_min_string = str(ene_min)	
-			ene_max_string = str(ene_max)
-			ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 
 
-		if py_list == 0: 
-			py_dir = 'QGSP_BERT_EMV'
-			py_name = 'QGSP_BERT_EMV'
+        if ene_range == 2:
+            ene_dis = 'EXP'
 
-		if py_list == 100:
-			py_dir = '100List'
-			py_name = '100List'
-
-		if py_list == 300:
-			py_dir = '300List'
-			py_name = '300List'
-
-		if py_list == 400:
-			py_dir = 'ASTROMEV'
-			py_name = 'ASTROMEV'
+            ene_min_string = str(ene_min)	
+            ene_max_string = str(ene_max)	
+            ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 
 
-		if sim_type == 0:
-			sim_name = 'MONO'
 
-		if sim_type == 1:
-			sim_name = 'RANGE'
+        if ene_range == 3:
+            ene_dis = 'LIN'
 
-		if sim_type == 2:
-			sim_name = 'CHEN'
-
-		if sim_type == 3:
-			sim_name = 'VELA'
-
-		if sim_type == 4:
-			sim_name = 'CRAB'
-
-		if sim_type == 5:
-			sim_name = 'G400'
+            ene_min_string = str(ene_min)	
+            ene_max_string = str(ene_max)
+            ene_type = str(ene_min_string)+'-'+str(ene_max_string)
 
 
-		if pol_type == 1:
-			pol_string = str(repr(pol_angle))+'POL.'
-		else: 
-			pol_string = ''
+        if py_list == 0: 
+            py_dir = 'QGSP_BERT_EMV'
+            py_name = 'QGSP_BERT_EMV'
+
+        if py_list == 100:
+            py_dir = '100List'
+            py_name = '100List'
+
+        if py_list == 300:
+            py_dir = '300List'
+            py_name = '300List'
+
+        if py_list == 400:
+            py_dir = 'ASTROMEV'
+            py_name = 'ASTROMEV'
 
 
-		if source_g == 0:
-			sdir = '/Point'
-			sname = 'Point'
+        if sim_type == 0:
+            sim_name = 'MONO'
 
-		if source_g == 1:
-			sdir = '/Plane'
-			sname = 'Plane'
+        if sim_type == 1:
+            sim_name = 'RANGE'
+
+        if sim_type == 2:
+            sim_name = 'CHEN'
+
+        if sim_type == 3:
+            sim_name = 'VELA'
+
+        if sim_type == 4:
+            sim_name = 'CRAB'
+
+        if sim_type == 5:
+            sim_name = 'G400'
 
 
-		if cal_flag == 0 and ac_flag == 0:
-			dir_cal = '/OnlyTracker'
-		if cal_flag == 1 and ac_flag == 0:
-			dir_cal = '/onlyCAL'
-		if cal_flag == 0 and ac_flag == 1:
-			dir_cal = '/onlyAC'
-		if cal_flag == 1 and ac_flag == 1:
-			dir_cal = ''
+        if pol_type == 1:
+            pol_string = str(repr(pol_angle))+'POL.'
+        else: 
+            pol_string = ''
 
-		if passive_flag == 0:
-			dir_passive = ''
-		if passive_flag == 1:
-			dir_passive = '/WithPassive'
 
-		if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
-			if isStrip == 0:
-				stripDir = 'NoPixel/'
-			if isStrip == 1 and repli == 0:
-				stripDir = 'PixelNoRepli/'
-			if isStrip == 1 and repli == 1:
-				stripDir = 'PixelRepli/'
-    
-			if isStrip == 0:
-				stripname = 'NOPIXEL'
-			if isStrip == 1 and repli == 0:
-				stripname = 'PIXEL'
-			if isStrip == 1 and repli == 1:
-				stripname = 'PIXEL.REPLI'
+        if source_g == 0:
+            sdir = '/Point'
+            sname = 'Point'
+
+        if source_g == 1:
+            sdir = '/Plane'
+            sname = 'Plane'
+
+
+        if cal_flag == 0 and ac_flag == 0:
+            dir_cal = '/OnlyTracker'
+        if cal_flag == 1 and ac_flag == 0:
+            dir_cal = '/onlyCAL'
+        if cal_flag == 0 and ac_flag == 1:
+            dir_cal = '/onlyAC'
+        if cal_flag == 1 and ac_flag == 1:
+            dir_cal = ''
+
+        if passive_flag == 0:
+            dir_passive = ''
+        if passive_flag == 1:
+            dir_passive = '/WithPassive'
+
+        if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
+            if isStrip == 0:
+                stripDir = 'NoPixel/'
+            if isStrip == 1 and repli == 0:
+                stripDir = 'PixelNoRepli/'
+            if isStrip == 1 and repli == 1:
+                stripDir = 'PixelRepli/'
+
+            if isStrip == 0:
+                stripname = 'NOPIXEL'
+            if isStrip == 1 and repli == 0:
+                stripname = 'PIXEL'
+            if isStrip == 1 and repli == 1:
+                stripname = 'PIXEL.REPLI'
 
 
 
 		# setting specific agile version variables
+        if astrogam_version=='V1.0' or astrogam_version=='V1.1' or astrogam_version=='V2.0':
+            # --------> volume ID
+            tracker_top_vol_start = 1090000
+            tracker_bottom_vol_start = 1000000
+            tracker_top_bot_diff = 90000
+            # for the S1 format
+            x_layer_id = 90000
+            y_layer_id = 80000
 
-		if astrogam_version=='V1.0' or astrogam_version=='V1.1' or astrogam_version=='V2.0':
-			# --------> volume ID
-			tracker_top_vol_start = 1090000
-			tracker_bottom_vol_start = 1000000
-			tracker_top_bot_diff = 90000
-			# for the S1 format
-			x_layer_id = 90000
-			y_layer_id = 80000
 
             if astrogam_version=='V1.0':
-				cal_vol_start = 50000
-				cal_vol_end = 58463
+                cal_vol_start = 50000
+                cal_vol_end = 58463
                 # --------> design
                 N_tray = 56
                 N_plane = N_tray*1
@@ -204,8 +204,8 @@ class DHSim:
                 strip_side = tray_side/N_strip
 
             if astrogam_version=='V1.1':
-				cal_vol_start = 50000
-				cal_vol_end = 83855
+                cal_vol_start = 50000
+                cal_vol_end = 83855
                 N_tray = 56
                 # --------> design
                 N_tray = 56
@@ -215,76 +215,74 @@ class DHSim:
                 strip_side = tray_side/N_strip
 
             if astrogam_version=='V2.0':
-				cal_vol_start = 50000
-				cal_vol_end = 50783
+                cal_vol_start = 50000
+                cal_vol_end = 50783
                 # --------> design
                 N_tray = 25
                 N_plane = N_tray*1
                 N_strip = 1152
                 tray_side = 27.648 #cm
                 strip_side = tray_side/N_strip
-                    
+
             ac_vol_start = 301
-			ac_vol_end = 350
+            ac_vol_end = 350
 
-			panel_S = [301, 302, 303]
-			panel_D = [311, 312, 313]
-			panel_F = [321, 322, 323]
-			panel_B = [331, 332, 333]
-			panel_top = 340
+            panel_S = [301, 302, 303]
+            panel_D = [311, 312, 313]
+            panel_F = [321, 322, 323]
+            panel_B = [331, 332, 333]
+            panel_top = 340
 
 
-			# --------> processing
-			# accoppiamento capacitivo
-			# acap = [0.035, 0.045, 0.095, 0.115, 0.38, 1., 0.38, 0.115, 0.095, 0.045, 0.035]
-			
-			# tracker energy threshold (0.25 MIP)
-			E_th = float(energy_thresh)  # keV
+            # --------> processing
+            # accoppiamento capacitivo
+            # acap = [0.035, 0.045, 0.095, 0.115, 0.38, 1., 0.38, 0.115, 0.095, 0.045, 0.035]
 
-			E_th_cal = 30. # keV
+            # tracker energy threshold (0.25 MIP)
+            E_th = float(energy_thresh)  # keV
+
+            E_th_cal = 30. # keV
 		
 		
-		self.astrogam_tag = astrogam_tag
-		self.sim_tag = sim_tag
-		self.ene_type = ene_type
-		self.py_dir = py_dir
-		self.py_name = py_name 
-		self.sim_name = sim_name 
-		self.pol_string = pol_string 
-		self.sdir = sdir
-		self.sname = sname 
-		self.dir_cal = dir_cal 
-		self.dir_passive = dir_passive 
-		self.stripDir = stripDir 
-		self.stripname = stripname 
-		self.tracker_top_vol_start = tracker_top_vol_start 
-		self.tracker_bottom_vol_start = tracker_bottom_vol_start 
-		self.tracker_top_bot_diff = tracker_top_bot_diff
-		self.x_layer_id = x_layer_id
-		self.y_layer_id = y_layer_id
-		self.cal_vol_start = cal_vol_start 
-		self.cal_vol_end = cal_vol_end 
-		self.ac_vol_start = ac_vol_start 
-		self.ac_vol_end = ac_vol_end 
-		self.panel_S = panel_S 
-		self.panel_D = panel_D 
-		self.panel_F = panel_F 
-		self.panel_B = panel_B 
-		self.panel_top = panel_top 
-		self.N_tray = N_tray 
-		self.N_plane = N_plane 
-		self.N_strip = N_strip 
-		self.tray_side = tray_side
-		self.strip_side = strip_side 
-		self.E_th = E_th
-		self.E_th_cal = E_th_cal
-		self.ene_dis = ene_dis
+        self.astrogam_tag = astrogam_tag
+        self.sim_tag = sim_tag
+        self.ene_type = ene_type
+        self.py_dir = py_dir
+        self.py_name = py_name
+        self.sim_name = sim_name
+        self.pol_string = pol_string
+        self.sdir = sdir
+        self.sname = sname
+        self.dir_cal = dir_cal
+        self.dir_passive = dir_passive
+        self.stripDir = stripDir
+        self.stripname = stripname
+        self.tracker_top_vol_start = tracker_top_vol_start
+        self.tracker_bottom_vol_start = tracker_bottom_vol_start
+        self.tracker_top_bot_diff = tracker_top_bot_diff
+        self.x_layer_id = x_layer_id
+        self.y_layer_id = y_layer_id
+        self.cal_vol_start = cal_vol_start
+        self.cal_vol_end = cal_vol_end
+        self.ac_vol_start = ac_vol_start
+        self.ac_vol_end = ac_vol_end
+        self.panel_S = panel_S
+        self.panel_D = panel_D
+        self.panel_F = panel_F
+        self.panel_B = panel_B
+        self.panel_top = panel_top
+        self.N_tray = N_tray
+        self.N_plane = N_plane
+        self.N_strip = N_strip
+        self.tray_side = tray_side
+        self.strip_side = strip_side
+        self.E_th = E_th
+        self.E_th_cal = E_th_cal
+        self.ene_dis = ene_dis
  		
 ####### FILEPATH #########
-
-	# IT RETURNS THE SIMULATION PATH #
-
-	def get_filepath(self, astrogam_version, theta_type, N_in, part_type):
+    # IT RETURNS THE SIMULATION PATH #
+    def get_filepath(self, astrogam_version, theta_type, N_in, part_type):
 	
 		filepath = './input_eASTROGAM'+astrogam_version+self.sdir+'/theta'+str(theta_type)+'/'+self.stripDir+self.py_dir+self.dir_cal+self.dir_passive+'/'+self.ene_type+'MeV.'+self.sim_name+'.'+str(theta_type)+'theta.'+self.pol_string+str(N_in)+part_type
 
@@ -294,10 +292,8 @@ class DHSim:
 
 
 ########## OUTDIR ######
-
-	# IT RETURNS THE PATH OF THE OUTPUT DIRECTORY #
-
-	def get_outdir(self, astrogam_version, theta_type, N_in, part_type, energy_thresh):
+    # IT RETURNS THE PATH OF THE OUTPUT DIRECTORY #
+    def get_outdir(self, astrogam_version, theta_type, N_in, part_type, energy_thresh):
 
 
 		outdir = ('./output_eASTROGAM'+astrogam_version+self.sdir+'/theta'+str(theta_type)+'/'+self.stripDir+self.py_dir+'/'+str(self.sim_name)+'/'+str(self.ene_type)+'MeV/'+str(N_in)+part_type+self.dir_cal+self.dir_passive+'/'+str(energy_thresh)+'keV')
@@ -308,10 +304,8 @@ class DHSim:
 			out_dir = os.makedirs(outdir,0777)
 		
 ##### READING FITS ###########
-
-	# IT READS THE FITS FILE GENERATED BY BOGEMMS AND CREATES THE ARRAYS FOR THE TRACKER, THE CALORIMETER AND THE ANTICOINCIDENCE CONSIDERING ONLY THE EVENTS WITH DEPOSITED ENERGY > 0#
-
-	def reading_fits(self, ifile, cal_flag, ac_flag, part_type, isStrip):
+    # IT READS THE FITS FILE GENERATED BY BOGEMMS AND CREATES THE ARRAYS FOR THE TRACKER, THE CALORIMETER AND THE ANTICOINCIDENCE CONSIDERING ONLY THE EVENTS WITH DEPOSITED ENERGY > 0#
+    def reading_fits(self, ifile, cal_flag, ac_flag, part_type, isStrip):
 
 		t = fits.open(self.filepath+'/xyz.'+str(ifile)+'.fits.gz')
    
@@ -793,10 +787,8 @@ class DHSim:
 		
 
 ########## CONVERSION TRAY AND PLANE
-
-	# IT CREATES THE STRIP ID, PLANE ID AND TRAY ID ARRAYS #
-
-	def conversion(self, isStrip, repli):
+    # IT CREATES THE STRIP ID, PLANE ID AND TRAY ID ARRAYS #
+    def conversion(self, isStrip, repli):
 
 		# From Tracker volume ID to strip
 
@@ -852,12 +844,10 @@ class DHSim:
 
 	
 ####### WRITING #########
-
-	###### G4_raw.fits  ########
-
-	# IT WRITES THE FITS FILE WITH RAW DATA OF THE TRACKER #  
-
-	def writing_G4raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
+    ###### G4_raw.fits  ########
+    # IT WRITES THE FITS FILE WITH RAW DATA OF THE TRACKER #
+    
+    def writing_G4raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
 
 		
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tr)	
@@ -904,11 +894,10 @@ class DHSim:
 
 		fits.setval(self.outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
 		
-	#### L0.fits  ############
+    #### L0.fits  ############
+    # IT WRITES THE FITS FILE WITH STRIP DATA OF THE TRACKER #
 
-	# IT WRITES THE FITS FILE WITH STRIP DATA OF THE TRACKER #  
-
-	def writing_L0(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_L0(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.Glob_event_id_test)	
@@ -950,11 +939,10 @@ class DHSim:
 		fits.setval(self.outdir+'/L0.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
 	
 
-	############ L05.fits  #####################
+    ############ L05.fits  #####################
+    # IT WRITES THE FITS FILE WITH CLUSTER DATA OF THE TRACKER #
 
-	# IT WRITES THE FITS FILE WITH CLUSTER DATA OF THE TRACKER #  
-
-	def writing_L05(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_L05(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 		col1 = fits.Column(name='EVT_ID', format='J', array=self.Glob_event_id_cluster)	
 		col2 = fits.Column(name='TRAY_ID', format='I', array=self.Glob_tray_id_cluster)
@@ -992,11 +980,10 @@ class DHSim:
 		fits.setval(self.outdir+'/L0.5.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = keV', ext=1)
 			
 
-	###### cal_raw.fits  ########
+    ###### cal_raw.fits  ########
+    # IT WRITES THE FITS FILE WITH RAW DATA OF THE CALORIMETER #
 
-	# IT WRITES THE FITS FILE WITH RAW DATA OF THE CALORIMETER #  
-
-	def writing_cal_raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
+    def writing_cal_raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
 
 		
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_cal)	
@@ -1041,11 +1028,10 @@ class DHSim:
 
 
 			
-	#############  G4_Cal.fits  #############
+    #############  G4_Cal.fits  #############
+    # IT WRITES THE FITS FILE WITH BARS DATA OF THE CALORIMETER, CONSIDERING THE FLAGGED COMPTON/PAIR EVENTS #
 
-	# IT WRITES THE FITS FILE WITH BARS DATA OF THE CALORIMETER, CONSIDERING THE FLAGGED COMPTON/PAIR EVENTS #  
-  
-	def writing_G4cal(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4cal(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal)	
 		col2 = fits.Column(name='BAR_ID', format='I', array=self.bar_id_tot)
@@ -1075,11 +1061,10 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 
-	####### COMPTON/PAIR/RAYLEIGH CAL EVENTS FITS #########
+    ####### COMPTON/PAIR/RAYLEIGH CAL EVENTS FITS #########
+    # IT WRITES THE FITS FILE WITH BARS DATA OF THE CALORIMETER, CONSIDERING THE SEPARATED COMPTON EVENTS BY PAIR PRODUCTION ONES #
 
-	# IT WRITES THE FITS FILE WITH BARS DATA OF THE CALORIMETER, CONSIDERING THE SEPARATED COMPTON EVENTS BY PAIR PRODUCTION ONES #  
-	
-	def writing_G4_cal_compton(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4_cal_compton(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 		
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal_compton)	
 		col2 = fits.Column(name='BAR_ID', format='I', array=self.bar_id_tot_compton)
@@ -1109,7 +1094,7 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 		
 
-	def writing_G4_cal_pair(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4_cal_pair(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 	
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal_pair)	
 		col2 = fits.Column(name='BAR_ID', format='I', array=self.bar_id_tot_pair)
@@ -1138,7 +1123,7 @@ class DHSim:
 
 		fits.setval(self.outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
-	def writing_G4_cal_ray(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4_cal_ray(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 		
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal_ray)	
 		col2 = fits.Column(name='BAR_ID', format='I', array=self.bar_id_tot_ray)
@@ -1168,11 +1153,10 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 			
-	######### Cal Sum.fits  ##################
+    ######### Cal Sum.fits  ##################
+    # IT WRITES THE FITS FILE WITH BARS DATA OF THE CALORIMETER, CONSIDERING THE SUMMING ENERGY FOR EVERY EVENT #
 
-	# IT WRITES THE FITS FILE WITH BARS DATA OF THE CALORIMETER, CONSIDERING THE SUMMING ENERGY FOR EVERY EVENT #  
-  
-	def writing_cal_sum(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_cal_sum(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_cal_sum)	
 		col2 = fits.Column(name='BAR_ENERGY', format='F20.15', array=self.bar_ene_tot_sum)
@@ -1200,16 +1184,15 @@ class DHSim:
 		fits.setval(self.outdir+'/SUM.CAL.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 
-	####### S1 data format ##############
-
-	# ID Type Edep VolumeID X Y Z
+    ####### S1 data format ##############
+    # ID Type Edep VolumeID X Y Z
 	# - ID = Event ID
 	# - Type = event flag
 	# - Edep = energy deposited in the strip/calorimeter bar
 	# - volume ID = 
 	# - X, Y, Z = position of the center of the volume
 
-	def writing_S1_cal(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_S1_cal(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_S1_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'_CAL.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_S1_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'_CAL.dat')
@@ -1231,11 +1214,10 @@ class DHSim:
 		data.close()
 
 
-	###### AC_raw.fits  ########
+    ###### AC_raw.fits  ########
+    # IT WRITES THE FITS FILE WITH RAW DATA OF THE ANTICOINCIDENCE #
 
-	# IT WRITES THE FITS FILE WITH RAW DATA OF THE ANTICOINCIDENCE #  
-
-	def writing_ac_raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
+    def writing_ac_raw(self, N_in, part_type, theta_type, phi_type, ifile, astrogam_version):
 		
 		
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_ac)	
@@ -1281,11 +1263,10 @@ class DHSim:
 
 
 
-	########## G4_AC.fits #################
+    ########## G4_AC.fits #################
+    # IT WRITES THE FITS FILE WITH PANELS DATA OF THE ANTICOINCIDENCE, CONSIDERING THE FLAGGED COMPTON/PAIR/RAYLEIGH EVENTS #
 
-	# IT WRITES THE FITS FILE WITH PANELS DATA OF THE ANTICOINCIDENCE, CONSIDERING THE FLAGGED COMPTON/PAIR/RAYLEIGH EVENTS #  
-
-	def writing_G4ac(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4ac(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_ac)	
 		col2 = fits.Column(name='AC_PANEL', format='A', array=self.AC_panel)
@@ -1318,11 +1299,10 @@ class DHSim:
 
 
 
-	####### COMPTON/PAIR AC EVENTS FITS #########
+    ####### COMPTON/PAIR AC EVENTS FITS #########
+    # IT WRITES THE FITS FILE WITH PANELS DATA OF THE ANTICOINCIDENCE, CONSIDERING THE SEPARATED COMPTON EVENTS BY PAIR PRODUCTION ONES #
 
-	# IT WRITES THE FITS FILE WITH PANELS DATA OF THE ANTICOINCIDENCE, CONSIDERING THE SEPARATED COMPTON EVENTS BY PAIR PRODUCTION ONES #  
-	
-	def writing_G4_ac_compton(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4_ac_compton(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 		
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_ac_compton)	
 		col2 = fits.Column(name='AC_PANEL', format='A', array=self.AC_panel_compton)
@@ -1353,7 +1333,7 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 		
 
-	def writing_G4_ac_pair(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4_ac_pair(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 	
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_ac_pair)	
 		col2 = fits.Column(name='AC_PANEL', format='A', array=self.AC_panel_pair)
@@ -1384,7 +1364,7 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 
-	def writing_G4_ac_ray(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_G4_ac_ray(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 		
 		col1 = fits.Column(name='EVT_ID', format='I', array=self.event_id_tot_ac_ray)	
 		col2 = fits.Column(name='AC_PANEL', format='A', array=self.AC_panel_ray)
@@ -1415,16 +1395,16 @@ class DHSim:
 		fits.setval(self.outdir+'/G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.fits', 'COMMENT', value='Energy unit = GeV', ext=1)
 
 
-	####### S1 data format ##############
+    ####### S1 data format ##############
 
-	# ID Type Edep VolumeID X Y Z
-	# - ID = Event ID
-	# - Type = event flag
-	# - Edep = energy deposited in the strip/calorimeter bar
-	# - volume ID = unique ID for the volume
-	# - X, Y, Z = position of the center of the volume
+    # ID Type Edep VolumeID X Y Z
+    # - ID = Event ID
+    # - Type = event flag
+    # - Edep = energy deposited in the strip/calorimeter bar
+    # - volume ID = unique ID for the volume
+    # - X, Y, Z = position of the center of the volume
 
-	def writing_S1_ac(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_S1_ac(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_S1_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'_AC.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_S1_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'_AC.dat')
@@ -1447,7 +1427,7 @@ class DHSim:
 
 	# IT WRITES THE STRIP DATA OF THE TRACKER FOR THE KALMAN INPUT #
 
-	def writing_AA_strip(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_AA_strip(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_STRIP_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
@@ -1536,7 +1516,7 @@ class DHSim:
 	# - volume ID = 
 	# - X, Y, Z = position of the center of the volume
 
-	def writing_S1_trk(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_S1_trk(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_S1_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'_TRACKER.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_S1_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'_TRACKER.dat')
@@ -1621,7 +1601,7 @@ class DHSim:
 
 	# IT WRITES THE CLUSTER DATA OF THE TRACKER FOR THE KALMAN INPUT #
 
-	def writing_AA_cluster(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_AA_cluster(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_CLUSTER_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
@@ -1705,7 +1685,7 @@ class DHSim:
 
 	# IT WRITES THE ONLY PAIRS CLUSTER DATA OF THE TRACKER FOR THE KALMAN INPUT #
 
-	def writing_AA_cluster_pairs(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_AA_cluster_pairs(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_CLUSTER_PAIR_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_CLUSTER_PAIR_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
@@ -1794,7 +1774,7 @@ class DHSim:
 
 	# IT WRITES THE ONLY COMPTON CLUSTER DATA OF THE TRACKER FOR THE KALMAN INPUT #
 
-	def writing_AA_cluster_compton(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_AA_cluster_compton(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_CLUSTER_COMPTON_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_CLUSTER_COMPTON_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
@@ -1882,7 +1862,7 @@ class DHSim:
 
 	# IT WRITES THE ONLY RAYLEIGH CLUSTER DATA OF THE TRACKER FOR THE KALMAN INPUT #
 
-	def writing_AA_cluster_rayleigh(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def writing_AA_cluster_rayleigh(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/'+self.sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
 			os.remove(self.outdir+'/'+self.sim_tag+'_CLUSTER_RAYLEIGH_'+str(N_in)+part_type+'_'+self.sname+'_'+self.ene_dis+'_'+ang_type+'_'+self.ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
@@ -1970,7 +1950,7 @@ class DHSim:
 
 	# IT WRITES THE RAW DATA OF THE TRACKER WHEN THE STRIPS AREN'T ACTIVED #
 
-	def writing_AA_fake(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def writing_AA_fake(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 		if os.path.exists(self.outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat'):
 			os.remove(self.outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'.'+self.py_name+'.'+self.sim_name+'.'+self.stripname+'.'+self.sname+'.'+str(N_in)+part_type+'.'+self.ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+self.pol_string+str(ifile)+'.dat')
@@ -2044,11 +2024,11 @@ class DHSim:
 		data.close()			
 
 
-############# LOADING GEOM ################
+    ############# LOADING GEOM ################
 
 	# IT LOADS THE LUT GENERATED BY eASTROGAM_GEOMETRY
 
-	def loading_geom(self, astrogam_version):
+    def loading_geom(self, astrogam_version):
 
 		filename_x_top = './conf/ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS'
 		filename_y_top = './conf/ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS'
@@ -2113,7 +2093,7 @@ class DHSim:
 	# IT FLAGS THE SUMMED EVENT IF ONE HITS ARE IN THE SAME VOLUME OR IT FLAGS THE SUMMED EVENT IF THE HITS AREN'T IN THE SAME VOLUME  #
 	# IT PUTS EVERYTHING IN THE SAME ARRAY #
 
-	def flag_events(self):
+    def flag_events(self):
 
 		e_dep_temp = [] 		
 		event_id_tot = []
@@ -2365,7 +2345,7 @@ class DHSim:
 		self.pair_flag_tot_temp = pair_flag_tot_temp
 
 
-	def acap(self):
+    def acap(self):
 		event_id_tot_list = []
 		vol_id_tot_list = []
 		moth_id_tot_list = []
@@ -2452,7 +2432,7 @@ class DHSim:
 		self.pair_flag_tot_temp = pair_flag_tot_temp
 
 
-	def noise(self):
+    def noise(self):
 		### 1keV di noise per ogni strip ---> *1000 (eV) ---> /2.35 (FWHM) ---> /3.6 (conv) ----> 118 e- 
 		keV = 1.
 		noise = keV*1000/2.35/3.6
@@ -2519,7 +2499,7 @@ class DHSim:
 
 	# Summing the energy along the strip 
 
-	def summing_energy(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
+    def summing_energy(self, astrogam_version, N_in, part_type, theta_type, phi_type, ifile):
 
 		e_dep_temp = [] 		
 		event_id_tot = []
@@ -2664,7 +2644,7 @@ class DHSim:
 
 		# apply the energy thresold
 
-	def energy_threshold(self):
+    def energy_threshold(self):
 			
 		where_eth = np.where(self.energy_dep_tot >= self.E_th)
 		where_eth = where_eth[0]
@@ -2694,7 +2674,7 @@ class DHSim:
 
 	# IT CREATES AN ARRAY IN WHICH THE EVENT ID IS WRITTEN ONLY ONE TIME #	
 
-	def index_uniq(self):							
+    def index_uniq(self):
 									
 		event_id_tot_index = []							
 									
@@ -2726,7 +2706,7 @@ class DHSim:
 
 	# IT ANALYZES EVERY STRIP #
 	
-	def strip_analysis(self):
+    def strip_analysis(self):
 
 
 		#Total number of strips
@@ -2868,7 +2848,7 @@ class DHSim:
 
 	# IT CONSIDERS THE STRIP WHERE THE ENERGY IS DEPOSITED TO BUILD THE L0 OUTPUT #
 
-	def build_L0(self):
+    def build_L0(self):
 
 		Glob_event_id_test = []
 		Glob_vol_id_test = []
@@ -3145,7 +3125,7 @@ class DHSim:
 
 	# IT MAKES THE CLUSTER BY THE BARICENTER METHOD #
 
-	def L05_cluster_x(self): 		
+    def L05_cluster_x(self):
 			
 		Glob_event_id_x_top_cluster = []
 		Glob_Si_id_x_top_cluster = []
@@ -3373,7 +3353,7 @@ class DHSim:
 		self.Glob_pair_flag_x_top_cluster = Glob_pair_flag_x_top_cluster
 
 
-	def L05_cluster_y(self): 		
+    def L05_cluster_y(self):
 	
 
 
@@ -3603,7 +3583,7 @@ class DHSim:
 
 	# IT PUTS THE X AND Y VIEW OF THE CLUSTER IN THE SAME ARRAY FOR THE L0.5 OUTPUT #	
 	
-	def merging(self):
+    def merging(self):
 
 		Glob_event_id_cluster = []
 		Glob_Si_id_cluster = []
@@ -3832,7 +3812,7 @@ class DHSim:
 		#It computes the discards between the position of the cluster and the hit in every plane in order to show the energy resolution of the tracker
 		
 	##Cluster.dat
-	def resolution(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
+    def resolution(self, N_in, part_type, ang_type, theta_type, phi_type, ifile):
 		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 		print('                 Tracker Resolution   ')
 		print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -4094,7 +4074,7 @@ class DHSim:
 	# IT SUMS THE ENERGY OF THE SAME EVENT FOR EVERY VOLUME #
 	# IT FLAGS THE SUMMED EVENT IF ONE HITS ARE IN THE SAME VOLUME OR IT FLAGS THE SUMMED EVENT IF THE HITS AREN'T IN THE SAME VOLUME  #
 
-	def G4_cal(self):
+    def G4_cal(self):
 
 		bar_ene = self.energy_dep_cal
 
@@ -4293,7 +4273,7 @@ class DHSim:
 	
 	# IT SEPARATES THE COMPTON EVENTS FROM THE PAIR PRODUCTION ONES
 	
-	def compton_cal(self):
+    def compton_cal(self):
 
 		where_compton_cal = np.where(self.pair_flag_tot_cal == 2)
 		where_compton_cal = where_compton_cal[0]
@@ -4316,7 +4296,7 @@ class DHSim:
 		self.where_compton_cal = where_compton_cal 
 
 		
-	def pair_cal(self):
+    def pair_cal(self):
 
 		where_pair_cal = np.where(self.pair_flag_tot_cal == 1)
 		where_pair_cal = where_pair_cal[0]
@@ -4339,7 +4319,7 @@ class DHSim:
 
 		self.where_pair_cal = where_pair_cal
 
-	def ray_cal(self):
+    def ray_cal(self):
 
 		where_ray_cal = np.where(self.pair_flag_tot_cal == 3)
 		where_ray_cal = where_ray_cal[0]
@@ -4366,7 +4346,7 @@ class DHSim:
 
 	# IT SUMS THE ENERGY FOR EVERY EVENT #  
 
-	def cal_sum(self):
+    def cal_sum(self):
 
 		event_id_tot_cal_sum = []
 		bar_ene_tot_sum = []
@@ -4403,7 +4383,7 @@ class DHSim:
 	# IT FLAGS THE SUMMED EVENT IF ONE HITS ARE IN THE SAME VOLUME OR IT FLAGS THE SUMMED EVENT IF THE HITS AREN'T IN THE SAME VOLUME  #
 	# IT CREATES THE AC PANEL AND SUBPANEL ID
 
-	def AC_analysis(self):
+    def AC_analysis(self):
 
 		N_trig_ac = 0
 
@@ -4670,7 +4650,7 @@ class DHSim:
 
 	# IT SEPARATES THE COMPTON EVENTS FROM THE PAIR PRODUCTION ONES
 	
-	def compton_ac(self):
+    def compton_ac(self):
 
 		where_compton_ac = np.where(self.pair_flag_tot_ac == 2)
 		where_compton_ac = where_compton_ac[0]
@@ -4695,7 +4675,7 @@ class DHSim:
 		self.where_compton_ac = where_compton_ac 
 
 		
-	def pair_ac(self):
+    def pair_ac(self):
 
 		where_pair_ac = np.where(self.pair_flag_tot_ac == 1)
 		where_pair_ac = where_pair_ac[0]
@@ -4720,7 +4700,7 @@ class DHSim:
 
 		self.where_pair_ac = where_pair_ac
 
-	def ray_ac(self):
+    def ray_ac(self):
 
 		where_ray_ac = np.where(self.pair_flag_tot_ac == 3)
 		where_ray_ac = where_ray_ac[0]
