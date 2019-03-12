@@ -192,8 +192,8 @@ class DHSim:
 			# for the S1 format
 			x_layer_id = 90000
 			y_layer_id = 80000
-			
-			if astrogam_version=='V1.0':				
+
+            if astrogam_version=='V1.0':
 				cal_vol_start = 50000
 				cal_vol_end = 58463
                 # --------> design
@@ -203,8 +203,7 @@ class DHSim:
                 tray_side = 92.16 #cm
                 strip_side = tray_side/N_strip
 
-
-			if astrogam_version=='V1.1':				
+            if astrogam_version=='V1.1':
 				cal_vol_start = 50000
 				cal_vol_end = 83855
                 N_tray = 56
@@ -214,7 +213,7 @@ class DHSim:
                 N_strip = 3840
                 tray_side = 92.16 #cm
                 strip_side = tray_side/N_strip
-            
+
             if astrogam_version=='V2.0':
 				cal_vol_start = 50000
 				cal_vol_end = 50783
