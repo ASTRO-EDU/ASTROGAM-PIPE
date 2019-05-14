@@ -62,7 +62,7 @@ class DHSim:
             ene_min = np.round(float(ene_min), 1)
         else:
             ene_min_float = float(ene_min)
-            if ene_min_float.is_integer()):
+            if ene_min_float.is_integer():
                 ene_min = int(ene_min_float)
             else:
                 ene_min = np.round(ene_min_float, 1)
@@ -71,7 +71,7 @@ class DHSim:
             ene_max = np.round(float(ene_max), 1)
         else:
             ene_max_float = float(ene_max)
-            if ene_max_float.is_integer()):
+            if ene_max_float.is_integer():
                 ene_max = int(ene_max_float)
             else:
                 ene_max = np.round(ene_max_float, 1)
