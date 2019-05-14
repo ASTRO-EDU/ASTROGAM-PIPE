@@ -61,12 +61,20 @@ class DHSim:
         if (ene_min[0] == '0'):
             ene_min = np.round(float(ene_min), 1)
         else:
-            ene_min = int(ene_min)
-            
+            ene_min_float = float(ene_min)
+            if ene_min_float.is_integer()):
+                ene_min = int(ene_min_float)
+            else:
+                ene_min = np.round(ene_min_float, 1)
+    
         if (ene_max[0] == '0'):
             ene_max = np.round(float(ene_max), 1)
         else:
-            ene_max = int(ene_max)
+            ene_max_float = float(ene_max)
+            if ene_max_float.is_integer()):
+                ene_max = int(ene_max_float)
+            else:
+                ene_max = np.round(ene_max_float, 1)
 
         if ene_range == 0:
             ene_dis = 'MONO'
@@ -78,7 +86,7 @@ class DHSim:
 
             ene_min_string = str(ene_min)	
             ene_max_string = str(ene_max)	
-            ene_type = str(ene_min_string)+'-'+str(ene_max_string)
+            ene_type = str(ene_min_string)+'.'+str(ene_max_string)
 
 
 
@@ -88,7 +96,7 @@ class DHSim:
 
             ene_min_string = str(ene_min)	
             ene_max_string = str(ene_max)	
-            ene_type = str(ene_min_string)+'-'+str(ene_max_string)
+            ene_type = str(ene_min_string)+'.'+str(ene_max_string)
 
 
 
@@ -97,7 +105,7 @@ class DHSim:
 
             ene_min_string = str(ene_min)	
             ene_max_string = str(ene_max)
-            ene_type = str(ene_min_string)+'-'+str(ene_max_string)
+            ene_type = str(ene_min_string)+'.'+str(ene_max_string)
 
 
         if py_list == 0: 
