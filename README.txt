@@ -1,8 +1,8 @@
 ####e_ASTROGAM_Analysis   
 
-RELEASE: Version 1.1.4   10/03/2017
+RELEASE: Version 1.1.5   14/04/2020
 
-AUTHORS:  G. Giannella  &  S. Guidotti
+AUTHORS:  V. Fioretti, G. Giannella  &  S. Guidotti
 
 ADAPTED FROM: V. Fioretti IDL-based eASTROGAM analysis pipeline
 
