@@ -240,7 +240,7 @@ class DHSim:
                 cal_vol_start = 50000
                 cal_vol_end = 51443
                 # --------> design
-                N_tray = 50
+                N_tray = 60
                 N_plane = N_tray*1
                 N_strip = 760
                 tray_side = 38.0 #cm
