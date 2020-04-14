@@ -109,28 +109,6 @@ else:
 if ene_range == 0:
 	ene_dis = 'MONO'
 	ene_type = str(ene_min)
-	"""
-	if ene_type >= 1:
-		ene_type = repr(ene_type)
-	if ene_type < 1:
-		ene_type = repr(ene_type)
-		ene_type = ene_type[:5]
-	if type(ene_type) is int:
-		pass
-	else:	
-		nstring = len(ene_type)
-		ene_type_notzero = ene_type
-			flag = 1 
-	
-
-		if ene_type[0] == '0' or  ene_type[0] == '.':
-			if flag == 1:
-				ene_type_notzero = ene_type_notzero[:5]
-		else:
-			flag = 0
-		ene_type = ene_type_notzero
-	"""
-
 
 
 if ene_range == 1:
@@ -138,35 +116,7 @@ if ene_range == 1:
 
 	ene_min_string = str(ene_min)	
 	ene_max_string = str(ene_max)	
-	"""
-	if type(ene_min) is int:
-		pass
-	else:
-		nstring = len(ene_min_string)
-		ene_min_string_notzero = ene_min_string
-			flag = 1 	
-		if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
-			if flag == 1:
-				ene_min_string_notzero = ene_min_string_notzero[:5]
-		else:
-			flag = 0
-		ene_min_string = ene_min_string_notzero
 
-
-	ene_max_string = repr(ene_max)	
-	if type(ene_max) is int:
-		pass
-	else:
-		nstring = len(ene_max_string)
-		ene_max_string_notzero = ene_max_string
-			flag = 1 	
-		if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
-			if flag == 1:
-				ene_max_string_notzero = ene_max_string_notzero[:5]
-		else:
-			flag = 0
-		ene_max_string = ene_max_string_notzero	
-	"""
 	ene_type = str(ene_min_string)+'.'+str(ene_max_string)
 
 
@@ -177,36 +127,7 @@ if ene_range == 2:
 
 	ene_min_string = str(ene_min)	
 	ene_max_string = str(ene_max)	
-	
-	"""
-	if type(ene_min) is int:
-		pass
-	else:
-		nstring = len(ene_min_string)
-		ene_min_string_notzero = ene_min_string
-			flag = 1 	
-		if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
-			if flag == 1:
-				ene_min_string_notzero = ene_min_string_notzero[:5]
-		else:
-			flag = 0
-		ene_min_string = ene_min_string_notzero
 
-
-	ene_max_string = repr(ene_max)	
-	if type(ene_max) is int:
-		pass
-	else:
-		nstring = len(ene_max_string)
-		ene_max_string_notzero = ene_max_string
-			flag = 1 	
-		if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
-			if flag == 1:
-				ene_max_string_notzero = ene_max_string_notzero[:5]
-		else:
-			flag = 0
-		ene_max_string = ene_max_string_notzero	
-	"""
 	ene_type = str(ene_min_string)+'.'+str(ene_max_string)
 
 
@@ -216,35 +137,7 @@ if ene_range == 3:
 
 	ene_min_string = str(ene_min)	
 	ene_max_string = str(ene_max)
-	"""	
-	if type(ene_min) is int:
-		pass
-	else:
-		nstring = len(ene_min_string)
-		ene_min_string_notzero = ene_min_string
-			flag = 1 	
-		if ene_min_string[0] == '0' or  ene_min_string[0] == '.':
-			if flag == 1:
-				ene_min_string_notzero = ene_min_string_notzero[:5]
-		else:
-			flag = 0
-		ene_min_string = ene_min_string_notzero
 
-
-	ene_max_string = repr(ene_max)	
-	if type(ene_max) is int:
-		pass
-	else:
-		nstring = len(ene_max_string)
-		ene_max_string_notzero = ene_max_string
-			flag = 1 	
-		if ene_max_string[0] == '0' or  ene_max_string[0] == '.':
-			if flag == 1:
-				ene_max_string_notzero = ene_max_string_notzero[:5]
-		else:
-			flag = 0
-		ene_max_string = ene_max_string_notzero	
-	"""
 	ene_type = str(ene_min_string)+'.'+str(ene_max_string)
 
 

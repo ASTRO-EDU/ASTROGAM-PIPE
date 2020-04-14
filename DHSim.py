@@ -191,7 +191,7 @@ class DHSim:
 
 
 		# setting specific agile version variables
-        if astrogam_version=='V1.0' or astrogam_version=='V1.1' or astrogam_version=='V2.0':
+        if astrogam_version=='V1.0' or astrogam_version=='V1.1' or astrogam_version=='V2.0' or astrogam_version=='V10.0':
             # --------> volume ID
             tracker_top_vol_start = 1090000
             tracker_bottom_vol_start = 1000000
@@ -230,6 +230,16 @@ class DHSim:
                 N_plane = N_tray*1
                 N_strip = 1152
                 tray_side = 27.648 #cm
+                strip_side = tray_side/N_strip
+
+            if astrogam_version=='V10.0':
+                cal_vol_start = 50000
+                cal_vol_end = 51443
+                # --------> design
+                N_tray = 50
+                N_plane = N_tray*1
+                N_strip = 760
+                tray_side = 38.0 #cm
                 strip_side = tray_side/N_strip
 
             ac_vol_start = 301
