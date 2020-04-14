@@ -177,7 +177,7 @@ class DHSim:
         if passive_flag == 1:
             dir_passive = '/WithPassive'
 
-        if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0':
+        if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0' or astrogam_version=='V10.0':
             if isStrip == 0:
                 stripDir = 'NoPixel/'
             if isStrip == 1 and repli == 0:
