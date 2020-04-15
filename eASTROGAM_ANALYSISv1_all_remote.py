@@ -83,10 +83,13 @@ if astrogam_version=='V1.1':
 	astrogam_tag = '11'
 	sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
 
-
 if astrogam_version=='V2.0':
     astrogam_tag = '20'
     sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
+
+if astrogam_version=='V10.0':
+    astrogam_tag = '10'
+    sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'021'
 
 if (ene_min[0] == '0'):
 	ene_min = np.round(float(ene_min), 1)
