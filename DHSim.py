@@ -4436,7 +4436,7 @@ class DHSim:
 
 			where_trk_event_ac = np.where(self.event_id_tot_tr_raw == self.event_id_ac[j])
 			where_trk_event_ac = where_trk_event_ac[0]
-			if (where_trk_event_ac[0].size):
+			if (where_trk_event_ac.size):
 				ac_event_flag = self.pair_flag_tot_tr_raw[where_trk_event_ac]
 			else:
 				ac_event_flag = 0
