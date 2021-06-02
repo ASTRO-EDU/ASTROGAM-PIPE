@@ -4127,7 +4127,7 @@ class DHSim:
 
 			where_trk_event_cal = np.where(self.event_id_tot_tr_raw == self.event_id_cal[j])
 			where_trk_event_cal = where_trk_event_cal[0]
-			if (where_trk_event_cal[0].size):
+			if (where_trk_event_cal.size):
 				cal_event_flag = self.pair_flag_tot_tr_raw[where_trk_event_cal]
 			else:
 				cal_event_flag = 0
