@@ -4283,6 +4283,8 @@ class DHSim:
 		bar_id_tot = np.array((bar_id_tot), dtype = np.int64)
 		bar_ene_tot = np.array(bar_ene_tot)
 		pair_flag_tot_cal = np.array(pair_flag_tot_cal)
+		
+		print "DEBUG!!!!!!!!!!! ", len(event_id_tot_cal), len(pair_flag_tot_cal)
 
 
 		self.event_id_tot_cal = event_id_tot_cal 
@@ -4300,7 +4302,7 @@ class DHSim:
 		where_compton_cal = np.where(self.pair_flag_tot_cal == 2)
 		where_compton_cal = where_compton_cal[0]
 
-		if len(where_compton_cal) != 0:
+		if where_compton_cal.size:
 			event_id_tot_cal_compton = self.event_id_tot_cal[where_compton_cal]
 			bar_id_tot_compton = self.bar_id_tot[where_compton_cal]
 			bar_ene_tot_compton = self.bar_ene_tot[where_compton_cal]
@@ -4323,7 +4325,7 @@ class DHSim:
 		where_pair_cal = np.where(self.pair_flag_tot_cal == 1)
 		where_pair_cal = where_pair_cal[0]
 
-		if len(where_pair_cal) != 0:
+		if where_pair_cal.size:
 			event_id_tot_cal_pair = self.event_id_tot_cal[where_pair_cal]
 			bar_id_tot_pair = self.bar_id_tot[where_pair_cal]
 			bar_ene_tot_pair = self.bar_ene_tot[where_pair_cal]
@@ -4346,7 +4348,7 @@ class DHSim:
 		where_ray_cal = np.where(self.pair_flag_tot_cal == 3)
 		where_ray_cal = where_ray_cal[0]
 
-		if len(where_ray_cal) != 0:
+		if where_ray_cal.size:
 			event_id_tot_cal_ray = self.event_id_tot_cal[where_ray_cal]
 			bar_id_tot_ray = self.bar_id_tot[where_ray_cal]
 			bar_ene_tot_ray = self.bar_ene_tot[where_ray_cal]
