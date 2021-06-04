@@ -4243,13 +4243,14 @@ class DHSim:
 					where_compton_in_trk = np.where(cal_event_flag == 2)
 					where_compton_in_trk = where_compton_in_trk[0]						
 					if len(where_compton_vol) != 0 & (len(where_compton_in_trk) != 0):
-						pair_flag_tot_old = 2
-						iscompton_vol = 1
+						if ispair_vol == 0:
+							pair_flag_tot_old = 2
+							iscompton_vol = 1
 						
-						pair_flag_tot_cal.append(pair_flag_tot_old)	
-						print "flag ", pair_flag_tot_old
+							pair_flag_tot_cal.append(pair_flag_tot_old)	
+							print "flag ", pair_flag_tot_old
 						
-					if ((ispair_vol == 0) and (iscompton_vol == 0)):
+					if ((ispair_vol == 0) & (iscompton_vol == 0)):
 						if ((len(where_pair_vol) == 0) & (len(where_compton_vol) == 0)):
 							where_ray_in_trk = np.where(cal_event_flag == 3)
 							where_ray_in_trk = where_ray_in_trk[0]						
