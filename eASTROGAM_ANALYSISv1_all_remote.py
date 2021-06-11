@@ -999,7 +999,7 @@ while ifile <= n_fits:
 
 	if ac_flag == 1:
    
-		tbdata = fits.getdata(filepath+'G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
+        tbdata = fits.getdata(filepath+'G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 		rawData_event_id_ac_temp = tbdata.field('EVT_ID')
 		rawData_vol_id_ac_temp = tbdata.field('VOL_ID')
@@ -1053,7 +1053,7 @@ while ifile <= n_fits:
 
 		if os.path.exists(filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
    
-			tbdata = fits.getdata(filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
+            tbdata = fits.getdata(filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 
 			acInput_event_id_tot_compton_temp = tbdata.field('EVT_ID')
