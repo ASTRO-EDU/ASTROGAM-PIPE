@@ -40,7 +40,7 @@ energy_thresh = int(sys.argv[21])        # Enter energy threshold [keV]:
 ifile = int(sys.argv[22])		 	  	 # Enter the initial number of FITS files:
 n_fits = int(sys.argv[23])               # Enter the final number of FITS files:
 sumcal = int(sys.argv[24])               # summing cal file:
-sumac = int(sys.argv[26])                # summing ac file:
+sumac = int(sys.argv[25])                # summing ac file:
 
 
 
