@@ -917,14 +917,11 @@ while ifile <= n_fits:
 			calInput_pair_flag_tot_compton.append(calInput_pair_flag_tot_compton_temp)
 
 			del tbdata
-            filenamefits_cal_compton.close()
-
+			filenamefits_cal_compton.close()
+		
 		else:
 			pass
-
-
-
-
+			
 		if os.path.exists(filepath+'G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
 
 
@@ -943,6 +940,7 @@ while ifile <= n_fits:
 			calInput_bar_ene_tot_pair.append(calInput_bar_ene_tot_pair_temp)
 			calInput_pair_flag_tot_pair.append(calInput_pair_flag_tot_pair_temp)
 
+			del tbdata
 			filenamefits_cal_pair.close()
 
 		else:
@@ -966,6 +964,7 @@ while ifile <= n_fits:
 			calInput_bar_ene_tot_ray.append(calInput_bar_ene_tot_ray_temp)
 			calInput_pair_flag_tot_ray.append(calInput_pair_flag_tot_ray_temp)
 
+			del tbdata
 			filenamefits_cal_ray.close()
 
 		else:
@@ -1046,6 +1045,7 @@ while ifile <= n_fits:
 		rawData_child_id_ac.append(rawData_child_id_ac_temp)
 		rawData_proc_id_ac.append(rawData_proc_id_ac_temp)
 
+		del tbdata
 		filenamefits_raw_ac.close()
 
 		
@@ -1066,6 +1066,7 @@ while ifile <= n_fits:
 		acInput_energy_dep_tot.append(acInput_energy_dep_tot_temp)
 		acInput_pair_flag_tot.append(acInput_pair_flag_tot_temp)
 
+		del tbdata
 		filenamefits_ac.close()
 		
 
@@ -1088,6 +1089,7 @@ while ifile <= n_fits:
 			acInput_energy_dep_tot_compton.append(acInput_energy_dep_tot_compton_temp)
 			acInput_pair_flag_tot_compton.append(acInput_pair_flag_tot_compton_temp)
 
+			del tbdata
 			filenamefits_ac_compton.close()		
 		
 		else:
@@ -1113,6 +1115,7 @@ while ifile <= n_fits:
 			acInput_energy_dep_tot_pair.append(acInput_energy_dep_tot_pair_temp)
 			acInput_pair_flag_tot_pair.append(acInput_pair_flag_tot_pair_temp)
 
+			del tbdata
 			filenamefits_ac_pair.close()		
 
 		else:
@@ -1137,6 +1140,7 @@ while ifile <= n_fits:
 			acInput_energy_dep_tot_ray.append(acInput_energy_dep_tot_ray_temp)
 			acInput_pair_flag_tot_ray.append(acInput_pair_flag_tot_ray_temp)
 
+			del tbdata
 			filenamefits_ac_ray.close()		
 		
 		else:
