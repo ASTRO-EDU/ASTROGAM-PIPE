@@ -843,61 +843,60 @@ while ifile <= n_fits:
 
 
 	if cal_flag == 1:
+    tbdata = fits.getdata(filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
         
-        tbdata = fits.getdata(filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
-        
-		rawData_event_id_cal_temp = tbdata.field('EVT_ID')
-		rawData_vol_id_cal_temp = tbdata.field('VOL_ID')
-		rawData_moth_id_cal_temp = tbdata.field('MOTH_ID')
-		rawData_energy_dep_cal_temp = tbdata.field('E_DEP')
-		rawData_ent_x_cal_temp = tbdata.field('X_ENT')
-		rawData_ent_y_cal_temp = tbdata.field('Y_ENT')
-		rawData_ent_z_cal_temp = tbdata.field('Z_ENT')
-		rawData_exit_x_cal_temp = tbdata.field('X_EXIT')
-		rawData_exit_y_cal_temp = tbdata.field('Y_EXIT')
-		rawData_exit_z_cal_temp = tbdata.field('Z_EXIT')
-		rawData_part_id_cal_temp = tbdata.field('PART_ID')
-		rawData_trk_id_cal_temp = tbdata.field('TRK_ID')
-		rawData_child_id_cal_temp = tbdata.field('CHILD_ID')
-		rawData_proc_id_cal_temp = tbdata.field('PROC_ID')
-	
-		rawData_event_id_cal.append(rawData_event_id_cal_temp)
-		rawData_vol_id_cal.append(rawData_vol_id_cal_temp)
-		rawData_moth_id_cal.append(rawData_moth_id_cal_temp)
-		rawData_energy_dep_cal.append(rawData_energy_dep_cal_temp)
-		rawData_ent_x_cal.append(rawData_ent_x_cal_temp)
-		rawData_ent_y_cal.append(rawData_ent_y_cal_temp)
-		rawData_ent_z_cal.append(rawData_ent_z_cal_temp)
-		rawData_exit_x_cal.append(rawData_exit_x_cal_temp)
-		rawData_exit_y_cal.append(rawData_exit_y_cal_temp)
-		rawData_exit_z_cal.append(rawData_exit_z_cal_temp)
-		rawData_part_id_cal.append(rawData_part_id_cal_temp)
-		rawData_trk_id_cal.append(rawData_trk_id_cal_temp)
-		rawData_child_id_cal.append(rawData_child_id_cal_temp)
-		rawData_proc_id_cal.append(rawData_proc_id_cal_temp)
+        rawData_event_id_cal_temp = tbdata.field('EVT_ID')
+        rawData_vol_id_cal_temp = tbdata.field('VOL_ID')
+        rawData_moth_id_cal_temp = tbdata.field('MOTH_ID')
+        rawData_energy_dep_cal_temp = tbdata.field('E_DEP')
+        rawData_ent_x_cal_temp = tbdata.field('X_ENT')
+        rawData_ent_y_cal_temp = tbdata.field('Y_ENT')
+        rawData_ent_z_cal_temp = tbdata.field('Z_ENT')
+        rawData_exit_x_cal_temp = tbdata.field('X_EXIT')
+        rawData_exit_y_cal_temp = tbdata.field('Y_EXIT')
+        rawData_exit_z_cal_temp = tbdata.field('Z_EXIT')
+        rawData_part_id_cal_temp = tbdata.field('PART_ID')
+        rawData_trk_id_cal_temp = tbdata.field('TRK_ID')
+        rawData_child_id_cal_temp = tbdata.field('CHILD_ID')
+        rawData_proc_id_cal_temp = tbdata.field('PROC_ID')
 
-		#filenamefits_raw_cal.close()
+        rawData_event_id_cal.append(rawData_event_id_cal_temp)
+        rawData_vol_id_cal.append(rawData_vol_id_cal_temp)
+        rawData_moth_id_cal.append(rawData_moth_id_cal_temp)
+        rawData_energy_dep_cal.append(rawData_energy_dep_cal_temp)
+        rawData_ent_x_cal.append(rawData_ent_x_cal_temp)
+        rawData_ent_y_cal.append(rawData_ent_y_cal_temp)
+        rawData_ent_z_cal.append(rawData_ent_z_cal_temp)
+        rawData_exit_x_cal.append(rawData_exit_x_cal_temp)
+        rawData_exit_y_cal.append(rawData_exit_y_cal_temp)
+        rawData_exit_z_cal.append(rawData_exit_z_cal_temp)
+        rawData_part_id_cal.append(rawData_part_id_cal_temp)
+        rawData_trk_id_cal.append(rawData_trk_id_cal_temp)
+        rawData_child_id_cal.append(rawData_child_id_cal_temp)
+        rawData_proc_id_cal.append(rawData_proc_id_cal_temp)
 
-   
+        #filenamefits_raw_cal.close()
+
+
         tbdata = fits.getdata(filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
-		calInput_event_id_tot_temp = tbdata.field('EVT_ID')
-		calInput_bar_id_tot_temp = tbdata.field('BAR_ID')
-		calInput_bar_ene_tot_temp = tbdata.field('BAR_ENERGY')
-		calInput_pair_flag_tot_temp = tbdata.field('PAIR_FLAG')
+        calInput_event_id_tot_temp = tbdata.field('EVT_ID')
+        calInput_bar_id_tot_temp = tbdata.field('BAR_ID')
+        calInput_bar_ene_tot_temp = tbdata.field('BAR_ENERGY')
+        calInput_pair_flag_tot_temp = tbdata.field('PAIR_FLAG')
 
 
-		calInput_event_id_tot.append(calInput_event_id_tot_temp)
-		calInput_bar_id_tot.append(calInput_bar_id_tot_temp)
-		calInput_bar_ene_tot.append(calInput_bar_ene_tot_temp)
-		calInput_pair_flag_tot.append(calInput_pair_flag_tot_temp)
+        calInput_event_id_tot.append(calInput_event_id_tot_temp)
+        calInput_bar_id_tot.append(calInput_bar_id_tot_temp)
+        calInput_bar_ene_tot.append(calInput_bar_ene_tot_temp)
+        calInput_pair_flag_tot.append(calInput_pair_flag_tot_temp)
 
-		#filenamefits_cal.close()
-	
+        #filenamefits_cal.close()
 
-		
+
+
 		if os.path.exists(filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
-
+            
             tbdata = fits.getdata(filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 			calInput_event_id_tot_compton_temp = tbdata.field('EVT_ID')
