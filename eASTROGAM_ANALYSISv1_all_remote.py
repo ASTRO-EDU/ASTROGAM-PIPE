@@ -39,6 +39,9 @@ passive_flag = int(sys.argv[20])         # Is Passive present? [0 = false, 1 = t
 energy_thresh = int(sys.argv[21])        # Enter energy threshold [keV]:
 ifile = int(sys.argv[22])		 	  	 # Enter the initial number of FITS files:
 n_fits = int(sys.argv[23])               # Enter the final number of FITS files:
+sumcal = int(sys.argv[24])               # summing cal file:
+sumac = int(sys.argv[26])                # summing ac file:
+
 
 
 
@@ -1909,6 +1912,7 @@ if isStrip == 1:
 
 
 if cal_flag == 1:
+ if sumcal == 1:
 
 	col1 = fits.Column(name='EVT_ID', format='IJ', array=rawData_event_id_cal)	
 	col2 = fits.Column(name='E_DEP', format='1D', array=rawData_energy_dep_cal)
@@ -2098,6 +2102,7 @@ if cal_flag == 1:
 
 
 if ac_flag == 1:
+ if sumac == 1:
 
 	col1 = fits.Column(name='EVT_ID', format='I', array=rawData_event_id_ac)	
 	col2 = fits.Column(name='E_DEP', format='F20.5', array=rawData_energy_dep_ac)
