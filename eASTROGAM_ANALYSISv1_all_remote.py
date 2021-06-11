@@ -844,9 +844,7 @@ while ifile <= n_fits:
 
 	if cal_flag == 1:
 
-		filenamefits_raw_cal = fits.open(filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
-   
-		tbdata = filenamefits_raw_cal[1].data
+        tbdata = fits.getdata(filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 		rawData_event_id_cal_temp = tbdata.field('EVT_ID')
 		rawData_vol_id_cal_temp = tbdata.field('VOL_ID')
@@ -878,12 +876,10 @@ while ifile <= n_fits:
 		rawData_child_id_cal.append(rawData_child_id_cal_temp)
 		rawData_proc_id_cal.append(rawData_proc_id_cal_temp)
 
-		filenamefits_raw_cal.close()
+		#filenamefits_raw_cal.close()
 
-		
-		filenamefits_cal = fits.open(filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
-		tbdata = filenamefits_cal[1].data
+        tbdata = fits.getdata(filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 		calInput_event_id_tot_temp = tbdata.field('EVT_ID')
 		calInput_bar_id_tot_temp = tbdata.field('BAR_ID')
@@ -896,16 +892,13 @@ while ifile <= n_fits:
 		calInput_bar_ene_tot.append(calInput_bar_ene_tot_temp)
 		calInput_pair_flag_tot.append(calInput_pair_flag_tot_temp)
 
-		filenamefits_cal.close()
+		#filenamefits_cal.close()
 	
 
 		
 		if os.path.exists(filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
 
-
-			filenamefits_cal_compton = fits.open(filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
-   
-			tbdata = filenamefits_cal_compton[1].data
+            tbdata = fits.getdata(filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 			calInput_event_id_tot_compton_temp = tbdata.field('EVT_ID')
 			calInput_bar_id_tot_compton_temp = tbdata.field('BAR_ID')
@@ -918,7 +911,7 @@ while ifile <= n_fits:
 			calInput_bar_ene_tot_compton.append(calInput_bar_ene_tot_compton_temp)
 			calInput_pair_flag_tot_compton.append(calInput_pair_flag_tot_compton_temp)
 
-			filenamefits_cal_compton.close()
+			#filenamefits_cal_compton.close()
 
 		else:
 			pass
@@ -928,10 +921,7 @@ while ifile <= n_fits:
 
 		if os.path.exists(filepath+'G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
 
-
-			filenamefits_cal_pair = fits.open(filepath+'G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
-   
-			tbdata = filenamefits_cal_pair[1].data
+            tbdata = fits.getdata(filepath+'G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 			calInput_event_id_tot_pair_temp = tbdata.field('EVT_ID')
 			calInput_bar_id_tot_pair_temp = tbdata.field('BAR_ID')
@@ -944,18 +934,15 @@ while ifile <= n_fits:
 			calInput_bar_ene_tot_pair.append(calInput_bar_ene_tot_pair_temp)
 			calInput_pair_flag_tot_pair.append(calInput_pair_flag_tot_pair_temp)
 
-			filenamefits_cal_pair.close()
+			#filenamefits_cal_pair.close()
 
 		else:
 			pass
 
 		if os.path.exists(filepath+'G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
 
-
-			filenamefits_cal_ray = fits.open(filepath+'G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+            tbdata = fits.getdata(filepath+'G4.CAL.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
    
-			tbdata = filenamefits_cal_ray[1].data
-
 			calInput_event_id_tot_ray_temp = tbdata.field('EVT_ID')
 			calInput_bar_id_tot_ray_temp = tbdata.field('BAR_ID')
 			calInput_bar_ene_tot_ray_temp = tbdata.field('BAR_ENERGY')
@@ -967,14 +954,13 @@ while ifile <= n_fits:
 			calInput_bar_ene_tot_ray.append(calInput_bar_ene_tot_ray_temp)
 			calInput_pair_flag_tot_ray.append(calInput_pair_flag_tot_ray_temp)
 
-			filenamefits_cal_ray.close()
+			#filenamefits_cal_ray.close()
 
 		else:
 			pass
 
-		filenamefits_cal_sum = fits.open(filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
-   
-		tbdata = filenamefits_cal_sum[1].data
+
+        tbdata = fits.getdata(filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 		calInputSum_event_id_tot_temp = tbdata.field('EVT_ID')
 		calInputSum_bar_ene_tot_temp = tbdata.field('BAR_ENERGY')
@@ -982,7 +968,7 @@ while ifile <= n_fits:
 		calInputSum_event_id_tot.append(calInputSum_event_id_tot_temp)
 		calInputSum_bar_ene_tot.append(calInputSum_bar_ene_tot_temp)
 
-		filenamefits_cal_sum.close()
+		#filenamefits_cal_sum.close()
 		
 		
 		filenamedat_S1_cal = filepath+sim_tag+'_S1_'+str(N_in)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+str(theta_type)+'_'+str(phi_type)+'.'+pol_string+str(ifile)+'_CAL.dat'
@@ -1012,10 +998,8 @@ while ifile <= n_fits:
 
 
 	if ac_flag == 1:
-
-		filenamefits_raw_ac = fits.open(filepath+'G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
-		tbdata = filenamefits_raw_ac[1].data
+		tbdata = fits.getdata(filepath+'G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 		rawData_event_id_ac_temp = tbdata.field('EVT_ID')
 		rawData_vol_id_ac_temp = tbdata.field('VOL_ID')
@@ -1047,12 +1031,9 @@ while ifile <= n_fits:
 		rawData_child_id_ac.append(rawData_child_id_ac_temp)
 		rawData_proc_id_ac.append(rawData_proc_id_ac_temp)
 
-		filenamefits_raw_ac.close()
-
-		
-		filenamefits_ac = fits.open(filepath+'G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
+		#filenamefits_raw_ac.close()
    
-		tbdata = filenamefits_ac[1].data
+        tbdata = fits.getdata(filepath+'G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 		acInput_event_id_tot_temp = tbdata.field('EVT_ID')
 		acInput_AC_panel_temp = tbdata.field('AC_PANEL')
@@ -1067,14 +1048,13 @@ while ifile <= n_fits:
 		acInput_energy_dep_tot.append(acInput_energy_dep_tot_temp)
 		acInput_pair_flag_tot.append(acInput_pair_flag_tot_temp)
 
-		filenamefits_ac.close()
+		#filenamefits_ac.close()
 		
 
 		if os.path.exists(filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
-
-			filenamefits_ac_compton = fits.open(filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
-			tbdata = filenamefits_ac_compton[1].data
+			tbdata = fits.getdata(filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
+
 
 			acInput_event_id_tot_compton_temp = tbdata.field('EVT_ID')
 			acInput_AC_panel_compton_temp = tbdata.field('AC_PANEL')
@@ -1089,7 +1069,7 @@ while ifile <= n_fits:
 			acInput_energy_dep_tot_compton.append(acInput_energy_dep_tot_compton_temp)
 			acInput_pair_flag_tot_compton.append(acInput_pair_flag_tot_compton_temp)
 
-			filenamefits_ac_compton.close()		
+			#filenamefits_ac_compton.close()
 		
 		else:
 			pass
@@ -1097,9 +1077,7 @@ while ifile <= n_fits:
 
 		if os.path.exists(filepath+'G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
 
-			filenamefits_ac_pair = fits.open(filepath+'G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
-   
-			tbdata = filenamefits_ac_pair[1].data
+            tbdata = fits.getdata(filepath+'G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 			acInput_event_id_tot_pair_temp = tbdata.field('EVT_ID')
 			acInput_AC_panel_pair_temp = tbdata.field('AC_PANEL')
@@ -1114,16 +1092,14 @@ while ifile <= n_fits:
 			acInput_energy_dep_tot_pair.append(acInput_energy_dep_tot_pair_temp)
 			acInput_pair_flag_tot_pair.append(acInput_pair_flag_tot_pair_temp)
 
-			filenamefits_ac_pair.close()		
+			#filenamefits_ac_pair.close()
 
 		else:
 			pass
 			
 		if os.path.exists(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
-
-			filenamefits_ac_ray = fits.open(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
-			tbdata = filenamefits_ac_ray[1].data
+            tbdata = fits.getdata(filepath+'G4.AC.RAYLEIGH.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
 
 			acInput_event_id_tot_ray_temp = tbdata.field('EVT_ID')
 			acInput_AC_panel_ray_temp = tbdata.field('AC_PANEL')
@@ -1138,7 +1114,7 @@ while ifile <= n_fits:
 			acInput_energy_dep_tot_ray.append(acInput_energy_dep_tot_ray_temp)
 			acInput_pair_flag_tot_ray.append(acInput_pair_flag_tot_ray_temp)
 
-			filenamefits_ac_ray.close()		
+			#filenamefits_ac_ray.close()
 		
 		else:
 			pass
