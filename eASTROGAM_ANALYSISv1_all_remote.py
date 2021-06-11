@@ -373,6 +373,7 @@ else:
 
 
 if cal_flag == 1:
+ if sumcal == 0:
 	# G4.RAW.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
 	rawData_event_id_cal = []
 	rawData_vol_id_cal = []
@@ -428,6 +429,7 @@ if cal_flag == 1:
 
 
 if ac_flag == 1:
+ if sumac == 1:
 	# G4.RAW.AC.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
 	rawData_event_id_ac = []
 	rawData_vol_id_ac = []
@@ -1434,6 +1436,7 @@ if isStrip == 0:
 
 
 if cal_flag == 1:
+ if sumcal == 1: 
 
 	rawData_event_id_cal = np.ma.concatenate(rawData_event_id_cal)
 	rawData_energy_dep_cal = np.ma.concatenate(rawData_energy_dep_cal)
@@ -1535,6 +1538,7 @@ if cal_flag == 1:
 	S1_z_cal = np.array((S1_z_cal), dtype=np.float64)
 
 if ac_flag == 1:
+ if sumac == 1:
 
 	
 	rawData_event_id_ac = np.ma.concatenate(rawData_event_id_ac)
