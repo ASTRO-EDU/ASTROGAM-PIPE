@@ -845,7 +845,7 @@ while ifile <= n_fits:
 	if cal_flag == 1:
         
         tbdata = fits.getdata(filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits', ext=1)
-
+        
 		rawData_event_id_cal_temp = tbdata.field('EVT_ID')
 		rawData_vol_id_cal_temp = tbdata.field('VOL_ID')
 		rawData_moth_id_cal_temp = tbdata.field('MOTH_ID')
