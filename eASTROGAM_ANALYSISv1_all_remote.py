@@ -845,7 +845,7 @@ while ifile <= n_fits:
 	if cal_flag == 1:
 
 		filenamefits_raw_cal = fits.open(filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
-   
+
 		tbdata = filenamefits_raw_cal[1].data
 
 		rawData_event_id_cal_temp = tbdata.field('EVT_ID')
@@ -862,7 +862,7 @@ while ifile <= n_fits:
 		rawData_trk_id_cal_temp = tbdata.field('TRK_ID')
 		rawData_child_id_cal_temp = tbdata.field('CHILD_ID')
 		rawData_proc_id_cal_temp = tbdata.field('PROC_ID')
-	
+
 		rawData_event_id_cal.append(rawData_event_id_cal_temp)
 		rawData_vol_id_cal.append(rawData_vol_id_cal_temp)
 		rawData_moth_id_cal.append(rawData_moth_id_cal_temp)
@@ -879,9 +879,9 @@ while ifile <= n_fits:
 		rawData_proc_id_cal.append(rawData_proc_id_cal_temp)
 
 		del tbdata
-        filenamefits_raw_cal.close()
+		filenamefits_raw_cal.close()
 		filenamefits_cal = fits.open(filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
-   
+
 		tbdata = filenamefits_cal[1].data
 
 		calInput_event_id_tot_temp = tbdata.field('EVT_ID')
@@ -896,10 +896,7 @@ while ifile <= n_fits:
 		calInput_pair_flag_tot.append(calInput_pair_flag_tot_temp)
 
 		del tbdata
-        filenamefits_cal.close()
-        
-	
-
+		filenamefits_cal.close()
 		
 		if os.path.exists(filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits'):
 
