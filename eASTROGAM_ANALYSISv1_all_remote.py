@@ -846,6 +846,7 @@ while ifile <= n_fits:
 
 
 	if cal_flag == 1:
+	 if sumcal == 1:
 
 		filenamefits_raw_cal = fits.open(filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
 
@@ -1013,6 +1014,7 @@ while ifile <= n_fits:
 
 
 	if ac_flag == 1:
+	 if sumac == 1:
 
 		filenamefits_raw_ac = fits.open(filepath+'G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
