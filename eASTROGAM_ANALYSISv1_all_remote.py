@@ -1909,7 +1909,7 @@ if isStrip == 1:
 	fits.setval(filepath+'L0.5.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str	(phi_type)+'.'+pol_string+'all.fits', 'COMMENT', value='Energy unit = keV', ext=1)
 
 
-
+"""
 
 if cal_flag == 1:
  if sumcal == 1:
@@ -2402,4 +2402,4 @@ if isStrip == 1:
 		data.close()
 
 
-
+"""
