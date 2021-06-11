@@ -880,8 +880,7 @@ while ifile <= n_fits:
 
 		del tbdata
         filenamefits_raw_cal.close()
-
-		
+        
 		filenamefits_cal = fits.open(filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+str(N_in)+part_type+'.'+ene_type+'MeV.'+str(theta_type)+'.'+str(phi_type)+'.'+pol_string+str(ifile)+'.fits')
    
 		tbdata = filenamefits_cal[1].data
