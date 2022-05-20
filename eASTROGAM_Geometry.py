@@ -47,7 +47,7 @@ phi_deg_point = 225.
 theta_point = theta_deg_point*(math.pi/180.)
 phi_point = phi_deg_point*(math.pi/180.)
 
-theta_deg_plane = 80.0
+theta_deg_plane = 30.0
 phi_deg_plane = 0.
 theta_plane = theta_deg_plane*(math.pi/180.)
 phi_plane = phi_deg_plane*(math.pi/180.)
@@ -111,12 +111,20 @@ phi_pol_global = phi_pol_global*(math.pi/180.)
 # source height
 h_s = 150.  #cm
 
-# Global Geometry:
-N_tray = 56  
+# Global Geometry (V1.1):
+#N_tray = 56  
+#N_layer = 1
+#N_strip = 3840
+#pitch = 0.240   #mm
+#Tray_side = 921.6  #mm
+
+# Global Geometry (V10.0):
+N_tray = 60  
 N_layer = 1
-N_strip = 3840
-pitch = 0.240   #mm
-Tray_side = 921.6  #mm
+N_strip = 760
+pitch = 0.500   #mm
+Tray_side = 380.  #mm
+
 
 # Tracker geometry [mm]
 Si_t = 0.500
