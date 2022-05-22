@@ -40,7 +40,7 @@ outdir = './conf/'
 print('Configuration files path: '+ outdir)
 
 if not os.path.exists('./conf/'):
-	out_dir = os.makedirs(outdir,0777)
+	out_dir = os.makedirs(outdir)
 
 theta_deg_point = 30.
 phi_deg_point = 225.
@@ -119,16 +119,23 @@ h_s = 150.  #cm
 #Tray_side = 921.6  #mm
 
 # Global Geometry (V10.0):
-N_tray = 60  
+#N_tray = 60  
+#N_layer = 1
+#N_strip = 760
+#pitch = 0.500   #mm
+#Tray_side = 380.  #mm
+
+# Global Geometry (V10.0):
+N_tray = 65  
 N_layer = 1
-N_strip = 760
-pitch = 0.500   #mm
-Tray_side = 380.  #mm
+N_strip = 1152
+pitch = 0.480   #mm
+Tray_side = 552.96  #mm
 
 
 # Tracker geometry [mm]
 Si_t = 0.500
-tracker_pitch = 10.
+tracker_pitch = 75.
 Al_t = tracker_pitch - Si_t
 
 dist_tray = 0.   #mm
@@ -316,8 +323,8 @@ fits.setval(outdir+'ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS',
 
 print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 print('% Output FITS files with X and Y strip positions')
-print('% - ARCH.XSTRIP.TOP.ASTROGAM'+astrogam_version+'.TRACKER.FITS')
-print('% - ARCH.YSTRIP.TOP.ASTROGAM'+astrogam_version+'.TRACKER.FITS')
+print('% - ARCH.XSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS')
+print('% - ARCH.YSTRIP.TOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS')
 
 print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 print('% GPS Set-up for the point source position:')
