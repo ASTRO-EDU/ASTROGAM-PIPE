@@ -135,7 +135,7 @@ Tray_side = 552.96  #mm
 
 # Tracker geometry [mm]
 Si_t = 0.500
-tracker_pitch = 75.
+tracker_pitch = 7.5
 Al_t = tracker_pitch - Si_t
 
 dist_tray = 0.   #mm
