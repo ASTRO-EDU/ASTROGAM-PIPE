@@ -66,7 +66,7 @@ while ifile <= n_fits:
 	#%                             Processing the tracker                          %
 	#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V1.2' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
 
 		# From Tracker volume ID to strip and tray ID and conversion from tray ID (starting from bottom) to plane ID (starting from the top)
 
@@ -77,7 +77,7 @@ while ifile <= n_fits:
 	print('           Saving the Tracker raw hits (fits and .dat)      ')
 	print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
 
-	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V1.2' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
 		
 		dhseASTROGAM.writing_G4raw(N_in, part_type, theta_type, phi_type, ifile, astrogam_version)		
 
@@ -143,7 +143,7 @@ while ifile <= n_fits:
 			dhseASTROGAM.index_uniq()
 
 			
-	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
+	if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V1.2' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
 
 		if isStrip == 1:
 

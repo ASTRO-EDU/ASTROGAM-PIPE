@@ -86,6 +86,10 @@ if astrogam_version=='V1.1':
 	astrogam_tag = '11'
 	sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
 
+if astrogam_version=='V1.2':
+	astrogam_tag = '12'
+	sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2022'
+
 if astrogam_version=='V2.0':
     astrogam_tag = '20'
     sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
@@ -213,7 +217,7 @@ if passive_flag == 0:
 if passive_flag == 1:
 	dir_passive = '/WithPassive'
 
-if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
+if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V1.2' or astrogam_version == 'V2.0' or astrogam_version == 'V10.0':
 	if isStrip == 0:
 		stripDir = 'NoPixel/'
 	if isStrip == 1 and repli == 0:

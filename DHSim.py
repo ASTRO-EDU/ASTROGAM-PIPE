@@ -54,6 +54,10 @@ class DHSim:
 			astrogam_tag = '11'
 			sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
 
+        if astrogam_version=='V1.2':
+			astrogam_tag = '12'
+			sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2022'
+
         if astrogam_version=='V2.0':
             astrogam_tag = '20'
             sim_tag = 'eAST'+str(bogemms_tag)+str(astrogam_tag)+'2021'
@@ -177,7 +181,7 @@ class DHSim:
         if passive_flag == 1:
             dir_passive = '/WithPassive'
 
-        if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0' or astrogam_version=='V10.0':
+        if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V1.2' or astrogam_version == 'V2.0' or astrogam_version=='V10.0':
             if isStrip == 0:
                 stripDir = 'NoPixel/'
             if isStrip == 1 and repli == 0:
@@ -195,7 +199,7 @@ class DHSim:
 
 
 		# setting specific agile version variables
-        if astrogam_version=='V1.0' or astrogam_version=='V1.1' or astrogam_version=='V2.0' or astrogam_version=='V10.0':
+        if astrogam_version=='V1.0' or astrogam_version=='V1.1' or astrogam_version=='V1.2' or astrogam_version=='V2.0' or astrogam_version=='V10.0':
             # --------> volume ID
             tracker_top_vol_start = 1090000
             tracker_bottom_vol_start = 1000000
@@ -226,6 +230,16 @@ class DHSim:
                 tray_side = 92.16 #cm
                 strip_side = tray_side/N_strip
 
+            if astrogam_version=='V1.2':
+                cal_vol_start = 50000
+                cal_vol_end = 53135
+                # --------> design
+                N_tray = 56
+                N_plane = N_tray*1
+                N_strip = 1152
+                tray_side = 92.16 #cm
+                strip_side = tray_side/N_strip
+
             if astrogam_version=='V2.0':
                 cal_vol_start = 50000
                 cal_vol_end = 50783
@@ -233,7 +247,7 @@ class DHSim:
                 N_tray = 25
                 N_plane = N_tray*1
                 N_strip = 1152
-                tray_side = 27.648 #cm
+                tray_side = 55.296 #cm
                 strip_side = tray_side/N_strip
 
             if astrogam_version=='V10.0':
@@ -2400,39 +2414,67 @@ class DHSim:
 			plane_id_tot_list.append(plane_id_tot)
 			pair_flag_tot_list.append(pair_flag_tot)
 			
-			if (j == 0 and self.energy_dep_tot_temp[j] > 0.):
-				energy[j]=0.68*self.energy_dep_tot_temp[j]
-				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
-				energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
-			if (j == 1 and self.energy_dep_tot_temp[j] > 0.):
-				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
-				energy[j]=0.68*self.energy_dep_tot_temp[j]
-				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
-				energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
-			if (j > 1 and j < len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
-				energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
-				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
-				energy[j]=0.68*self.energy_dep_tot_temp[j]
-				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
-				energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
-			if (j == len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
-				energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
-				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
-				energy[j]=0.68*self.energy_dep_tot_temp[j]
-				energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
-			if (j == len(self.energy_dep_tot_temp)-1 and self.energy_dep_tot_temp[j] > 0.):
-				energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
-				energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
-				energy[j]=0.68*self.energy_dep_tot_temp[j]
+			if astrogam_version == 'V1.0' or astrogam_version == 'V1.1' or astrogam_version == 'V2.0' or astrogam_version=='V10.0':
+				if (j == 0 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j]=0.68*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+					energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
+				if (j == 1 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+					energy[j]=0.68*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+					energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
+				if (j > 1 and j < len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
+					energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+					energy[j]=0.68*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+					energy[j+2]=energy[j+2]+0.03*self.energy_dep_tot_temp[j]
+				if (j == len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
+					energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+					energy[j]=0.68*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.17*self.energy_dep_tot_temp[j]
+				if (j == len(self.energy_dep_tot_temp)-1 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-2]=energy[j-2]+0.03*self.energy_dep_tot_temp[j]
+					energy[j-1]=energy[j-1]+0.17*self.energy_dep_tot_temp[j]
+					energy[j]=0.68*self.energy_dep_tot_temp[j]
 				
-			else:
-				energy[j] = self.energy_dep_tot_temp[j]
+				else:
+					energy[j] = self.energy_dep_tot_temp[j]
 
-			if j == len(self.energy_dep_tot_temp)-1:
-				break
-			else:
-				j = j + 1
-		
+				if j == len(self.energy_dep_tot_temp)-1:
+					break
+				else:
+					j = j + 1
+					
+			if astrogam_version == 'V1.2':
+				if (j == 0 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j]=0.94*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.03*self.energy_dep_tot_temp[j]
+				if (j == 1 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-1]=energy[j-1]+0.03*self.energy_dep_tot_temp[j]
+					energy[j]=0.94*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.03*self.energy_dep_tot_temp[j]
+				if (j > 1 and j < len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-1]=energy[j-1]+0.03*self.energy_dep_tot_temp[j]
+					energy[j]=0.94*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.03*self.energy_dep_tot_temp[j]
+				if (j == len(self.energy_dep_tot_temp)-2 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-1]=energy[j-1]+0.03*self.energy_dep_tot_temp[j]
+					energy[j]=0.94*self.energy_dep_tot_temp[j]
+					energy[j+1]=energy[j+1]+0.03*self.energy_dep_tot_temp[j]
+				if (j == len(self.energy_dep_tot_temp)-1 and self.energy_dep_tot_temp[j] > 0.):
+					energy[j-1]=energy[j-1]+0.03*self.energy_dep_tot_temp[j]
+					energy[j]=0.94*self.energy_dep_tot_temp[j]
+				
+				else:
+					energy[j] = self.energy_dep_tot_temp[j]
+
+				if j == len(self.energy_dep_tot_temp)-1:
+					break
+				else:
+					j = j + 1		
 		event_id_tot_temp = np.array(event_id_tot_list)
 		vol_id_tot_temp = np.array(vol_id_tot_list)
 		moth_id_tot_temp = np.array(moth_id_tot_list)
