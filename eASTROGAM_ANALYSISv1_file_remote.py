@@ -118,7 +118,7 @@ while ifile <= n_fits:
 			# Accoppiamento Capacitivo
 			###################
 			
-			dhseASTROGAM.acap()
+			dhseASTROGAM.acap(astrogam_version)
 
 			##################
 			# Introducing the noise in every strip

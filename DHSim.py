@@ -2381,7 +2381,7 @@ class DHSim:
 		self.pair_flag_tot_temp = pair_flag_tot_temp
 
 
-    def acap(self):
+    def acap(self, astrogam_version):
 		event_id_tot_list = []
 		vol_id_tot_list = []
 		moth_id_tot_list = []
