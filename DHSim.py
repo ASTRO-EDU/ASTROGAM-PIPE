@@ -234,10 +234,10 @@ class DHSim:
                 cal_vol_start = 50000
                 cal_vol_end = 53135
                 # --------> design
-                N_tray = 56
+                N_tray = 65
                 N_plane = N_tray*1
                 N_strip = 1152
-                tray_side = 92.16 #cm
+                tray_side = 55.296 #cm
                 strip_side = tray_side/N_strip
 
             if astrogam_version=='V2.0':
@@ -247,7 +247,7 @@ class DHSim:
                 N_tray = 25
                 N_plane = N_tray*1
                 N_strip = 1152
-                tray_side = 55.296 #cm
+                tray_side = 27.648 #cm
                 strip_side = tray_side/N_strip
 
             if astrogam_version=='V10.0':
